@@ -38,6 +38,7 @@ schema/level_schema.json   JSON Schema của một màn (VS Code dùng nó để
 tools/check_levels.py      kiểm tra mọi file level_<n>.json
 tools/generate_sounds.py   tạo 6 file .wav tạm
 tools/check_assets.py      danh sách 27 hình thiết bị + nhập hình (--import); quy cách vẽ: ASSETS.md
+MAC_BUILD.md               quy trình build/test/chụp màn hình trên Mac; ảnh nằm trong screenshots/ (app/, art/)
 ```
 
 ## Màn chơi (mỗi màn = 1 file JSON)

@@ -23,6 +23,8 @@ struct LevelSelectView: View {
     @State private var justUnlocked: Set<Int> = []
     /// Levels whose unlock the player has already seen, persisted so the animation plays once per level.
     @AppStorage("levelSelect.seenUnlocked") private var seenUnlockedRaw = ""
+    /// DEBUG `-openLevel` handled already (see onAppear).
+    @State private var didOpenDebugLevel = false
 
     private let columns = [GridItem(.adaptive(minimum: 152), spacing: 14)]
 
@@ -74,7 +76,18 @@ struct LevelSelectView: View {
             }
         }
         .tint(Theme.accent)
-        .onAppear { detectNewUnlocks(animated: false) }
+        .onAppear {
+            detectNewUnlocks(animated: false)
+            #if DEBUG
+            // Screenshot helper (MAC_BUILD.md): launching with `-openLevel <id>` jumps straight into that level,
+            // ignoring the lock. Launch arguments land in UserDefaults' argument domain.
+            let debugLevel = UserDefaults.standard.integer(forKey: "openLevel")
+            if debugLevel > 0, !didOpenDebugLevel, levelManager.level(id: debugLevel) != nil {
+                didOpenDebugLevel = true   // only on launch, not every time the menu reappears
+                path = [LevelRoute(levelId: debugLevel)]
+            }
+            #endif
+        }
         // Back on the menu after playing: celebrate whatever got unlocked meanwhile.
         .onChange(of: path) { _, newPath in
             guard newPath.isEmpty else { return }

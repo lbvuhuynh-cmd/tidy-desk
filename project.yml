@@ -19,6 +19,8 @@ settings:
 fileGroups:
   - README.md
   - PROJECT_NOTES.md
+  - MAC_BUILD.md
+  - ASSETS.md
   - tools
   - schema
 

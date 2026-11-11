@@ -1,6 +1,7 @@
 # Tidy Desk: Tech & Setup — Hướng dẫn cho Claude
 
 Đọc `README.md` (build, cấu trúc, định dạng file màn) và `PROJECT_NOTES.md` (đã làm gì, lịch sử) trước khi sửa.
+Trên Mac, khi được nhờ "build & test": làm theo **`MAC_BUILD.md`** (build, test, ảnh từng hình, ảnh chụp app vào `screenshots/`, ghi chép, push).
 
 ## Bối cảnh
 - Game giải đố cozy: kéo thiết bị (bàn phím, chuột, màn hình…) từ ngăn kéo lên mặt bàn dạng lưới cho vừa khít; có món nằm sẵn sai chỗ cần dọn. SwiftUI + SwiftData, iOS 17+, project sinh bằng XcodeGen (`project.yml`). Giao diện và code bằng tiếng Anh.
