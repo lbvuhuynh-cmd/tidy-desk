@@ -13,7 +13,8 @@
         "row": 0,
         "col": 0
       },
-      "imageName": "display",
+      "imageName": "monitor",
+      "symbol": "display",
       "category": "display"
     },
     {
@@ -25,7 +26,8 @@
         "row": 3,
         "col": 1
       },
-      "imageName": "keyboard.fill",
+      "imageName": "keyboard_mechanical",
+      "symbol": "keyboard.fill",
       "category": "peripheral"
     },
     {
@@ -37,7 +39,8 @@
         "row": 1,
         "col": 3
       },
-      "imageName": "rectangle.fill",
+      "imageName": "desk_mat",
+      "symbol": "rectangle.fill",
       "category": "peripheral"
     },
     {
@@ -46,7 +49,8 @@
       "gridWidth": 1,
       "gridHeight": 1,
       "initialPosition": null,
-      "imageName": "leaf.fill",
+      "imageName": "plant",
+      "symbol": "leaf.fill",
       "category": "cozy"
     },
     {
@@ -55,7 +59,8 @@
       "gridWidth": 2,
       "gridHeight": 2,
       "initialPosition": null,
-      "imageName": "ipad.landscape",
+      "imageName": "tablet",
+      "symbol": "ipad.landscape",
       "category": "display"
     },
     {
@@ -64,7 +69,8 @@
       "gridWidth": 3,
       "gridHeight": 1,
       "initialPosition": null,
-      "imageName": "powerplug.fill",
+      "imageName": "power_strip",
+      "symbol": "powerplug.fill",
       "category": "power"
     },
     {
@@ -73,7 +79,8 @@
       "gridWidth": 1,
       "gridHeight": 2,
       "initialPosition": null,
-      "imageName": "iphone",
+      "imageName": "phone",
+      "symbol": "iphone",
       "category": "mobile"
     },
     {
@@ -82,7 +89,8 @@
       "gridWidth": 1,
       "gridHeight": 1,
       "initialPosition": null,
-      "imageName": "computermouse.fill",
+      "imageName": "mouse_wireless",
+      "symbol": "computermouse.fill",
       "category": "peripheral"
     },
     {
@@ -91,7 +99,8 @@
       "gridWidth": 1,
       "gridHeight": 2,
       "initialPosition": null,
-      "imageName": "hifispeaker.fill",
+      "imageName": "speaker",
+      "symbol": "hifispeaker.fill",
       "category": "audio"
     },
     {
@@ -100,7 +109,8 @@
       "gridWidth": 1,
       "gridHeight": 1,
       "initialPosition": null,
-      "imageName": "cup.and.saucer.fill",
+      "imageName": "coffee_mug",
+      "symbol": "cup.and.saucer.fill",
       "category": "cozy"
     },
     {
@@ -109,7 +119,8 @@
       "gridWidth": 1,
       "gridHeight": 2,
       "initialPosition": null,
-      "imageName": "lamp.desk.fill",
+      "imageName": "desk_lamp",
+      "symbol": "lamp.desk.fill",
       "category": "cozy"
     }
   ]

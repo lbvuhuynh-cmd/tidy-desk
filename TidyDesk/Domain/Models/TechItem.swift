@@ -9,6 +9,18 @@ enum ItemCategory: String, Codable, CaseIterable, Sendable {
     case mobile       // phone, webcam
     case power        // cables, power strip, charger
     case cozy         // mug, plant, lamp, notebook
+
+    /// Last-resort SF Symbol when an item has neither its asset nor its own `symbol`.
+    var defaultSymbol: String {
+        switch self {
+        case .peripheral: "keyboard.fill"
+        case .display: "display"
+        case .audio: "headphones"
+        case .mobile: "iphone"
+        case .power: "powerplug.fill"
+        case .cozy: "cup.and.saucer.fill"
+        }
+    }
 }
 
 /// One draggable desk object with a rectangular footprint.
@@ -27,9 +39,10 @@ struct TechItem: Identifiable, Hashable, Codable, Sendable {
     let heightInGrid: Int
     /// Top-left cell on the desk, or `nil` while the item sits in the accessory drawer.
     var currentPosition: GridPoint?
-    /// Asset-catalog image name. If no such asset exists the SF Symbol with this name is drawn instead,
-    /// so real artwork can be dropped into Assets.xcassets later without code changes.
+    /// Asset-catalog image name (top-down vector art, authored orientation), e.g. "keyboard_mechanical".
     var imageName: String
+    /// SF Symbol drawn while the asset is missing. `ItemArt` resolves asset → this → category symbol → plain tile.
+    var symbolName: String?
     var category: ItemCategory
     /// Turned 90° from its authored orientation (tap-to-rotate in the drawer).
     private(set) var isRotated: Bool = false
@@ -69,6 +82,7 @@ struct TechItem: Identifiable, Hashable, Codable, Sendable {
         heightInGrid: Int,
         currentPosition: GridPoint? = nil,
         imageName: String,
+        symbolName: String? = nil,
         category: ItemCategory,
         targetPosition: GridPoint? = nil
     ) {
@@ -81,6 +95,7 @@ struct TechItem: Identifiable, Hashable, Codable, Sendable {
         self.heightInGrid = heightInGrid
         self.currentPosition = currentPosition
         self.imageName = imageName
+        self.symbolName = symbolName
         self.category = category
     }
 }

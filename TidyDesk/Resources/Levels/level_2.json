@@ -13,7 +13,8 @@
         "row": 1,
         "col": 1
       },
-      "imageName": "cable.connector",
+      "imageName": "cable_bundle",
+      "symbol": "cable.connector",
       "category": "power"
     },
     {
@@ -23,6 +24,7 @@
       "gridHeight": 2,
       "initialPosition": null,
       "imageName": "headphones",
+      "symbol": "headphones",
       "category": "audio"
     },
     {
@@ -31,7 +33,8 @@
       "gridWidth": 1,
       "gridHeight": 3,
       "initialPosition": null,
-      "imageName": "hifispeaker.fill",
+      "imageName": "speaker_tower",
+      "symbol": "hifispeaker.fill",
       "category": "audio"
     },
     {
@@ -40,7 +43,8 @@
       "gridWidth": 1,
       "gridHeight": 3,
       "initialPosition": null,
-      "imageName": "lamp.desk.fill",
+      "imageName": "desk_lamp_tall",
+      "symbol": "lamp.desk.fill",
       "category": "cozy"
     }
   ]

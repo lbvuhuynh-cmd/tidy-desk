@@ -22,6 +22,9 @@ LEVEL_DIR = Path(__file__).resolve().parent.parent / "TidyDesk" / "Resources" / 
 CATEGORIES = {"peripheral", "display", "audio", "mobile", "power", "cozy"}
 LEVEL_KEYS = {"levelId": int, "levelName": str, "gridRows": int, "gridCols": int, "items": list}
 ITEM_KEYS = {"id": str, "name": str, "gridWidth": int, "gridHeight": int, "imageName": str}
+ASSET_NAME = re.compile(r"^[a-z0-9]+(_[a-z0-9]+)*$")
+# imageName -> (gridWidth, gridHeight, first file): one asset name must mean one footprint everywhere.
+ASSET_FOOTPRINTS = {}
 
 
 def count_tilings(rows, cols, sizes, fixed=None, limit=10_000, rotate=False):
@@ -110,6 +113,16 @@ def check_level(path, data, errors):
         if "category" in it and it["category"] not in CATEGORIES:
             errors.append(f"{tag}: {it.get('id')} has unknown category {it['category']}")
         w, h = it.get("gridWidth", 0), it.get("gridHeight", 0)
+        img = it.get("imageName", "")
+        if isinstance(img, str):
+            if not ASSET_NAME.match(img):
+                errors.append(f"{tag}: {it.get('id')} imageName '{img}' is not snake_case")
+            seen_fp = ASSET_FOOTPRINTS.setdefault(img, (w, h, tag))
+            if seen_fp[:2] != (w, h):
+                errors.append(f"{tag}: {it.get('id')} uses asset '{img}' as {w}x{h}, but {seen_fp[2]} uses it as "
+                              f"{seen_fp[0]}x{seen_fp[1]} (one asset name = one footprint)")
+        if "symbol" in it and not (isinstance(it["symbol"], str) and it["symbol"]):
+            errors.append(f"{tag}: {it.get('id')} 'symbol' must be a non-empty string")
         if not ((w <= cols and h <= rows) or (h <= cols and w <= rows)) or w < 1 or h < 1:
             errors.append(f"{tag}: {it.get('id')} ({w}x{h}) does not fit a {cols}x{rows} desk")
         sizes.append((w, h))

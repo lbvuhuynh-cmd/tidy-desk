@@ -60,12 +60,64 @@ final class BundledLevelsTests: XCTestCase {
         }
     }
 
-    func testSymbolsExist() {
+    /// Every item can be drawn today: either its vector asset is in the catalog, or its fallback SF Symbol exists.
+    func testEveryItemHasArtOrAValidFallbackSymbol() {
         for level in levels {
             for item in level.items {
-                XCTAssertTrue(UIImage(named: item.imageName) != nil || UIImage(systemName: item.imageName) != nil,
-                              "level \(level.levelId): no image or SF Symbol named \(item.imageName)")
+                let hasAsset = UIImage(named: item.imageName) != nil
+                let hasSymbol = item.symbol.map { UIImage(systemName: $0) != nil } ?? false
+                XCTAssertTrue(hasAsset || hasSymbol,
+                              "level \(level.levelId) '\(item.id)': no asset '\(item.imageName)' and no valid symbol")
             }
+        }
+    }
+
+    /// Asset names are snake_case, and one asset name always means the same footprint,
+    /// so the artist draws each picture for exactly one aspect ratio.
+    func testAssetNamesAreConsistent() {
+        var footprint: [String: GridSize] = [:]
+        for level in levels {
+            for item in level.items {
+                XCTAssertNotNil(item.imageName.range(of: #"^[a-z0-9]+(_[a-z0-9]+)*$"#, options: .regularExpression),
+                                "'\(item.imageName)' is not snake_case")
+                if let known = footprint[item.imageName] {
+                    XCTAssertEqual(known, item.size, "'\(item.imageName)' used with two different footprints")
+                } else {
+                    footprint[item.imageName] = item.size
+                }
+            }
+        }
+    }
+}
+
+@MainActor
+final class ItemArtTests: XCTestCase {
+    override func setUp() async throws { ItemArt.clearCache() }
+
+    func testFallbackChain() {
+        // No such asset -> the item's own symbol.
+        XCTAssertEqual(ItemArt.resolve(imageName: "keyboard_mechanical_missing", symbol: "keyboard.fill", category: .peripheral),
+                       .symbol("keyboard.fill"))
+        // Bad symbol too -> the category's default symbol.
+        XCTAssertEqual(ItemArt.resolve(imageName: "nope_nope", symbol: "not.a.real.symbol", category: .audio),
+                       .symbol(ItemCategory.audio.defaultSymbol))
+        // No symbol given -> category default.
+        XCTAssertEqual(ItemArt.resolve(imageName: "nope_nope", symbol: nil, category: .cozy),
+                       .symbol(ItemCategory.cozy.defaultSymbol))
+    }
+
+    func testEveryCategoryDefaultSymbolExists() {
+        for category in ItemCategory.allCases {
+            XCTAssertNotNil(UIImage(systemName: category.defaultSymbol), "\(category)")
+        }
+    }
+
+    func testAssetWinsWhenPresent() {
+        // AppIcon is a real image set in the catalog; stands in for a device asset.
+        let art = ItemArt.resolve(imageName: "AppIcon", symbol: "keyboard.fill", category: .peripheral,
+                                  bundle: Bundle(for: DeskDragViewModel.self))
+        if UIImage(named: "AppIcon", in: Bundle(for: DeskDragViewModel.self), with: nil) != nil {
+            XCTAssertEqual(art, .asset("AppIcon"))
         }
     }
 }

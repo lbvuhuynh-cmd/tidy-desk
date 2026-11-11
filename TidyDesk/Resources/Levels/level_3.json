@@ -13,7 +13,8 @@
         "row": 1,
         "col": 0
       },
-      "imageName": "keyboard.fill",
+      "imageName": "keyboard_mechanical",
+      "symbol": "keyboard.fill",
       "category": "peripheral"
     },
     {
@@ -22,7 +23,8 @@
       "gridWidth": 2,
       "gridHeight": 1,
       "initialPosition": null,
-      "imageName": "gamecontroller.fill",
+      "imageName": "game_controller",
+      "symbol": "gamecontroller.fill",
       "category": "peripheral"
     },
     {
@@ -31,7 +33,8 @@
       "gridWidth": 2,
       "gridHeight": 2,
       "initialPosition": null,
-      "imageName": "rectangle.fill",
+      "imageName": "desk_mat",
+      "symbol": "rectangle.fill",
       "category": "peripheral"
     },
     {
@@ -40,7 +43,8 @@
       "gridWidth": 1,
       "gridHeight": 3,
       "initialPosition": null,
-      "imageName": "hifispeaker.fill",
+      "imageName": "speaker_tower",
+      "symbol": "hifispeaker.fill",
       "category": "audio"
     },
     {
@@ -49,7 +53,8 @@
       "gridWidth": 1,
       "gridHeight": 3,
       "initialPosition": null,
-      "imageName": "mic.fill",
+      "imageName": "mic_boom",
+      "symbol": "mic.fill",
       "category": "audio"
     }
   ]

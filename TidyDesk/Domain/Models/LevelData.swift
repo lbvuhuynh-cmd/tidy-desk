@@ -30,12 +30,16 @@ struct LevelData: Identifiable, Codable, Hashable, Sendable {
         /// Optional fixed target. When present the level only clears once this item sits exactly here,
         /// in its authored orientation. Absent = "free fit" (anywhere that fits is fine).
         let correctPosition: GridPoint?
+        /// Asset name in Assets.xcassets, snake_case, e.g. "keyboard_mechanical". Drawn top-down in the authored
+        /// orientation (`gridWidth` × `gridHeight`). One asset name = one footprint across all levels.
         let imageName: String
+        /// Optional SF Symbol shown while the asset is not in the catalog yet (e.g. "keyboard.fill").
+        let symbol: String?
         /// Optional; drives the tile colour. Defaults to `.peripheral`.
         let category: ItemCategory?
 
         init(id: String, name: String, gridWidth: Int, gridHeight: Int, initialPosition: GridPoint? = nil,
-             correctPosition: GridPoint? = nil, imageName: String, category: ItemCategory? = nil) {
+             correctPosition: GridPoint? = nil, imageName: String, symbol: String? = nil, category: ItemCategory? = nil) {
             self.id = id
             self.name = name
             self.gridWidth = gridWidth
@@ -43,6 +47,7 @@ struct LevelData: Identifiable, Codable, Hashable, Sendable {
             self.initialPosition = initialPosition
             self.correctPosition = correctPosition
             self.imageName = imageName
+            self.symbol = symbol
             self.category = category
         }
 
@@ -68,8 +73,8 @@ struct LevelData: Identifiable, Codable, Hashable, Sendable {
         var grid = DeskGrid(rows: gridRows, columns: gridCols)
         let built = items.map { spec -> TechItem in
             var item = TechItem(key: spec.id, name: spec.name, widthInGrid: spec.gridWidth, heightInGrid: spec.gridHeight,
-                                imageName: spec.imageName, category: spec.category ?? .peripheral,
-                                targetPosition: spec.correctPosition)
+                                imageName: spec.imageName, symbolName: spec.symbol,
+                                category: spec.category ?? .peripheral, targetPosition: spec.correctPosition)
             if let start = spec.initialPosition, grid.place(item.id, size: item.size, at: start) {
                 item.currentPosition = start
             }

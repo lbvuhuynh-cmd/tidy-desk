@@ -4,20 +4,152 @@
   "gridRows": 6,
   "gridCols": 8,
   "items": [
-    { "id": "monitor", "name": "Ultrawide Monitor", "gridWidth": 4, "gridHeight": 2, "initialPosition": { "row": 1, "col": 1 }, "imageName": "display", "category": "display" },
-    { "id": "keyboard", "name": "Mechanical Keyboard", "gridWidth": 5, "gridHeight": 1, "initialPosition": { "row": 4, "col": 2 }, "imageName": "keyboard.fill", "category": "peripheral" },
-    { "id": "coffee-mug", "name": "Coffee Mug", "gridWidth": 1, "gridHeight": 1, "initialPosition": { "row": 0, "col": 7 }, "imageName": "cup.and.saucer.fill", "category": "cozy" },
-    { "id": "laptop", "name": "Gaming Laptop", "gridWidth": 2, "gridHeight": 2, "imageName": "laptopcomputer", "category": "display" },
-    { "id": "headphones", "name": "Headset", "gridWidth": 2, "gridHeight": 2, "imageName": "headphones", "category": "audio" },
-    { "id": "mouse-pad", "name": "Mouse Pad", "gridWidth": 2, "gridHeight": 2, "imageName": "rectangle.fill", "category": "peripheral" },
-    { "id": "speaker", "name": "Speaker", "gridWidth": 1, "gridHeight": 2, "imageName": "hifispeaker.fill", "category": "audio" },
-    { "id": "cable-bundle", "name": "Cable Bundle", "gridWidth": 2, "gridHeight": 1, "imageName": "cable.connector", "category": "power" },
-    { "id": "controller", "name": "Controller", "gridWidth": 2, "gridHeight": 1, "imageName": "gamecontroller.fill", "category": "peripheral" },
-    { "id": "mouse", "name": "Wireless Mouse", "gridWidth": 1, "gridHeight": 1, "imageName": "computermouse.fill", "category": "peripheral" },
-    { "id": "power-strip", "name": "Power Strip", "gridWidth": 3, "gridHeight": 1, "imageName": "powerplug.fill", "category": "power" },
-    { "id": "tablet", "name": "Tablet", "gridWidth": 2, "gridHeight": 2, "imageName": "ipad.landscape", "category": "display" },
-    { "id": "router", "name": "Wi-Fi Router", "gridWidth": 2, "gridHeight": 2, "imageName": "wifi.router.fill", "category": "power" },
-    { "id": "desk-lamp", "name": "LED Lamp", "gridWidth": 1, "gridHeight": 2, "imageName": "lamp.desk.fill", "category": "cozy" },
-    { "id": "cable-bundle-2", "name": "Charging Cables", "gridWidth": 2, "gridHeight": 1, "imageName": "cable.connector", "category": "power" }
+    {
+      "id": "monitor",
+      "name": "Ultrawide Monitor",
+      "gridWidth": 4,
+      "gridHeight": 2,
+      "initialPosition": {
+        "row": 1,
+        "col": 1
+      },
+      "imageName": "monitor_ultrawide",
+      "symbol": "display",
+      "category": "display"
+    },
+    {
+      "id": "keyboard",
+      "name": "Mechanical Keyboard",
+      "gridWidth": 5,
+      "gridHeight": 1,
+      "initialPosition": {
+        "row": 4,
+        "col": 2
+      },
+      "imageName": "keyboard_fullsize",
+      "symbol": "keyboard.fill",
+      "category": "peripheral"
+    },
+    {
+      "id": "coffee-mug",
+      "name": "Coffee Mug",
+      "gridWidth": 1,
+      "gridHeight": 1,
+      "initialPosition": {
+        "row": 0,
+        "col": 7
+      },
+      "imageName": "coffee_mug",
+      "symbol": "cup.and.saucer.fill",
+      "category": "cozy"
+    },
+    {
+      "id": "laptop",
+      "name": "Gaming Laptop",
+      "gridWidth": 2,
+      "gridHeight": 2,
+      "imageName": "laptop_gaming",
+      "symbol": "laptopcomputer",
+      "category": "display"
+    },
+    {
+      "id": "headphones",
+      "name": "Headset",
+      "gridWidth": 2,
+      "gridHeight": 2,
+      "imageName": "headphones",
+      "symbol": "headphones",
+      "category": "audio"
+    },
+    {
+      "id": "mouse-pad",
+      "name": "Mouse Pad",
+      "gridWidth": 2,
+      "gridHeight": 2,
+      "imageName": "desk_mat",
+      "symbol": "rectangle.fill",
+      "category": "peripheral"
+    },
+    {
+      "id": "speaker",
+      "name": "Speaker",
+      "gridWidth": 1,
+      "gridHeight": 2,
+      "imageName": "speaker",
+      "symbol": "hifispeaker.fill",
+      "category": "audio"
+    },
+    {
+      "id": "cable-bundle",
+      "name": "Cable Bundle",
+      "gridWidth": 2,
+      "gridHeight": 1,
+      "imageName": "cable_bundle",
+      "symbol": "cable.connector",
+      "category": "power"
+    },
+    {
+      "id": "controller",
+      "name": "Controller",
+      "gridWidth": 2,
+      "gridHeight": 1,
+      "imageName": "game_controller",
+      "symbol": "gamecontroller.fill",
+      "category": "peripheral"
+    },
+    {
+      "id": "mouse",
+      "name": "Wireless Mouse",
+      "gridWidth": 1,
+      "gridHeight": 1,
+      "imageName": "mouse_wireless",
+      "symbol": "computermouse.fill",
+      "category": "peripheral"
+    },
+    {
+      "id": "power-strip",
+      "name": "Power Strip",
+      "gridWidth": 3,
+      "gridHeight": 1,
+      "imageName": "power_strip",
+      "symbol": "powerplug.fill",
+      "category": "power"
+    },
+    {
+      "id": "tablet",
+      "name": "Tablet",
+      "gridWidth": 2,
+      "gridHeight": 2,
+      "imageName": "tablet",
+      "symbol": "ipad.landscape",
+      "category": "display"
+    },
+    {
+      "id": "router",
+      "name": "Wi-Fi Router",
+      "gridWidth": 2,
+      "gridHeight": 2,
+      "imageName": "wifi_router",
+      "symbol": "wifi.router.fill",
+      "category": "power"
+    },
+    {
+      "id": "desk-lamp",
+      "name": "LED Lamp",
+      "gridWidth": 1,
+      "gridHeight": 2,
+      "imageName": "desk_lamp",
+      "symbol": "lamp.desk.fill",
+      "category": "cozy"
+    },
+    {
+      "id": "cable-bundle-2",
+      "name": "Charging Cables",
+      "gridWidth": 2,
+      "gridHeight": 1,
+      "imageName": "cable_bundle",
+      "symbol": "cable.connector",
+      "category": "power"
+    }
   ]
 }

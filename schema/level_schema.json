@@ -55,7 +55,12 @@
           "oneOf": [{ "$ref": "#/$defs/cell" }, { "type": "null" }]
         },
         "imageName": {
-          "description": "Asset name in Assets.xcassets; if no such image exists, the SF Symbol with this name is drawn.",
+          "description": "Top-down vector asset in Assets.xcassets, snake_case (e.g. \"keyboard_mechanical\"). Drawn in the authored orientation (gridWidth x gridHeight). One asset name = one footprint across all levels. See ASSETS.md.",
+          "type": "string",
+          "pattern": "^[a-z0-9]+(_[a-z0-9]+)*$"
+        },
+        "symbol": {
+          "description": "Optional SF Symbol shown while the asset is not in the catalog yet (e.g. \"keyboard.fill\"). Missing or invalid -> the category's default symbol.",
           "type": "string",
           "minLength": 1
         },

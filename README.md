@@ -37,6 +37,7 @@ TidyDeskTests/         lưới, va chạm, solver, snap, drag engine, bàn bừa
 schema/level_schema.json   JSON Schema của một màn (VS Code dùng nó để gợi ý và báo lỗi khi viết màn)
 tools/check_levels.py      kiểm tra mọi file level_<n>.json
 tools/generate_sounds.py   tạo 6 file .wav tạm
+tools/check_assets.py      danh sách 27 hình thiết bị + nhập hình (--import); quy cách vẽ: ASSETS.md
 ```
 
 ## Màn chơi (mỗi màn = 1 file JSON)
@@ -72,5 +73,5 @@ Luật: tổng diện tích các món = `gridRows × gridCols`, và phải còn 
 Nếu một file bị lỗi, `LevelManager` bỏ qua file đó (game không bị crash) và ở bản Debug, lỗi được hiện ngay trên màn chọn bàn.
 
 ## Thay hình & âm thanh thật
-- **Hình:** thêm ảnh vào `Assets.xcassets` trùng tên `imageName` (ví dụ `keyboard.fill`, hoặc đổi tên trong JSON). Nếu không có ảnh, game vẽ SF Symbol cùng tên.
+- **Hình:** xem **[ASSETS.md](ASSETS.md)** (tên, kích thước canvas, cách vẽ top-down, SVG + Preserve Vector Data). Nhập hình: `python3 tools/check_assets.py --import <thư mục>`. Món chưa có hình thì hiện SF Symbol trong trường `symbol`.
 - **Âm thanh:** `TidyDesk/Resources/Sounds/` có sẵn 6 file tạm (`pickup`, `snap`, `error`, `complete`, `drop`, `rotate`.wav) do `python tools/generate_sounds.py` tạo ra. Muốn dùng âm thanh thật thì ghi đè file cùng tên (chấp nhận `.wav`/`.mp3`/`.caf`/`.m4a`; hoặc tạo Data Set cùng tên trong Assets.xcassets), rồi chạy lại `xcodegen generate`. Nếu thiếu file, `SoundManager` tự tổng hợp âm thanh thay thế nên game không bao giờ bị câm. File SFX nên ngắn (< 1 s) và để ở dạng `.wav`/`.caf` để phát không trễ.

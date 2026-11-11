@@ -13,7 +13,8 @@
         "row": 0,
         "col": 1
       },
-      "imageName": "cup.and.saucer.fill",
+      "imageName": "coffee_mug",
+      "symbol": "cup.and.saucer.fill",
       "category": "cozy"
     },
     {
@@ -22,7 +23,8 @@
       "gridWidth": 2,
       "gridHeight": 1,
       "initialPosition": null,
-      "imageName": "cable.connector",
+      "imageName": "cable_bundle",
+      "symbol": "cable.connector",
       "category": "power"
     },
     {
@@ -31,7 +33,8 @@
       "gridWidth": 3,
       "gridHeight": 1,
       "initialPosition": null,
-      "imageName": "keyboard.fill",
+      "imageName": "keyboard_compact",
+      "symbol": "keyboard.fill",
       "category": "peripheral"
     }
   ]

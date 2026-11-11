@@ -180,8 +180,9 @@ private struct ClearGlowEffect: ViewModifier {
     }
 }
 
-/// "Dock mark" for a fixed-target item: dashed outline in the item's colour with a faded icon,
-/// sized to the authored footprint. Hidden under the item once it sits there.
+/// "Dock mark" for a fixed-target item: dashed outline in the item's colour, sized to the authored footprint,
+/// with a ghost of the item: a faint grey silhouette of the real artwork, or a faded icon while there is no asset.
+/// Hidden under the item once it sits there.
 private struct TargetOutlineView: View {
     let item: TechItem
     let cellSize: CGFloat
@@ -189,7 +190,9 @@ private struct TargetOutlineView: View {
 
     var body: some View {
         let color = Theme.color(for: item.category)
+        let art = ItemArt.resolve(for: item)
         let side = min(item.widthInGrid, item.heightInGrid)
+        let inner = CGSize(width: CGFloat(item.widthInGrid) * cellSize * 0.88, height: CGFloat(item.heightInGrid) * cellSize * 0.88)
         RoundedRectangle(cornerRadius: cellSize * 0.22, style: .continuous)
             .fill(color.opacity(0.12))
             .overlay {
@@ -197,9 +200,16 @@ private struct TargetOutlineView: View {
                     .strokeBorder(color.opacity(0.6), style: StrokeStyle(lineWidth: 1.5, dash: [5, 4]))
             }
             .overlay {
-                ItemArtwork(imageName: item.imageName, tint: color.opacity(0.5))
-                    .opacity(0.8)
-                    .frame(width: CGFloat(side) * cellSize * 0.45, height: CGFloat(side) * cellSize * 0.45)
+                if art.isAsset {
+                    ItemArtworkView(art: art)
+                        .frame(width: inner.width, height: inner.height)
+                        .grayscale(1)
+                        .opacity(0.22)
+                } else {
+                    ItemArtworkView(art: art, symbolTint: color.opacity(0.5))
+                        .opacity(0.8)
+                        .frame(width: CGFloat(side) * cellSize * 0.45, height: CGFloat(side) * cellSize * 0.45)
+                }
             }
             .padding(max(2, cellSize * 0.06))
             .frame(width: CGFloat(item.widthInGrid) * cellSize, height: CGFloat(item.heightInGrid) * cellSize)
