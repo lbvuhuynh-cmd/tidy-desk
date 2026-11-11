@@ -60,7 +60,7 @@ Số nước = số lần đặt thành công (đặt món mới, hoặc dời m
 
 ## 5b. TestFlight (bản thử, mượn team RETALIX USA, INC)
 - App trên App Store Connect: **Test Tidy Desk** (Apple ID 6833522226, SKU `testtidydesk`), bundle ID **`com.powervh.tidydesk.beta`**, team `62SFVG2ZD8` (tài khoản Xcode `vu.huynh@ncr.com`). Bundle ID thật `com.powervh.tidydesk` để dành cho tài khoản riêng (đừng tạo app ASC với nó trong Retalix).
-- `project.yml` **không** chứa team/bundle ID beta: truyền qua dòng lệnh khi archive. Tăng build number mỗi lần upload. **Build đã upload gần nhất: 1** → lần sau dùng 2.
+- `project.yml` **không** chứa team/bundle ID beta: truyền qua dòng lệnh khi archive. Tăng build number mỗi lần upload. **Build đã upload gần nhất: 2** → lần sau dùng 3.
 ```
 xcodebuild -project TidyDesk.xcodeproj -scheme TidyDesk -configuration Release -destination 'generic/platform=iOS' \
   -archivePath <tmp>/TidyDesk.xcarchive -allowProvisioningUpdates \
@@ -72,6 +72,7 @@ xcodebuild -exportArchive -archivePath <tmp>/TidyDesk.xcarchive -exportOptionsPl
 - Icon hiện là icon tạm do `tools/generate_icon.py` vẽ (1024×1024, không alpha). Thay icon thật: ghi đè `Assets.xcassets/AppIcon.appiconset/AppIcon.png`.
 
 ## Lịch sử
+- 2026-11-11 (TestFlight): upload build **1.0 (2)** = commit `a168522` (hình vector đầu tiên, header 2 dòng) lên "Test Tidy Desk".
 - 2026-11-11 (Header + ảnh nhẹ hơn): tên màn trong header xuống tối đa 2 dòng thay vì bị cắt; pill đồng hồ / số nước không bị bóp. Tấm tổng hợp ảnh hình render 1x. Build + 62/63 pass + 1 skip; chụp lại `screenshots/app/`.
 - 2026-11-11 (Build Mac `f5a9d2c`): build OK, 62/63 pass + 1 skip. Sửa `ArtPreviewTests` (thiếu `self.` trong closure; tấm tổng hợp chia 2 cột vì 1 cột vượt giới hạn texture → ảnh trắng). Commit ảnh `screenshots/art/` + `screenshots/app/` theo `MAC_BUILD.md`.
 - 2026-11-11 (Quy trình Mac, **chưa build**): thêm `MAC_BUILD.md` (build → test → `check_levels`/`check_assets` → ảnh từng hình → ảnh chụp app → ghi chép → push). Thêm `ArtPreviewTests` (mặc định skip; chạy với `TEST_RUNNER_TIDY_SNAPSHOTS=1`, dùng `ImageRenderer` vẽ `ItemTileView` của mọi món ở 3 trạng thái nằm yên / nhấc / xoay, trên nền gỗ sáng và tối, xuất ra `screenshots/art/`). Thêm cờ chỉ có ở bản Debug `-openLevel <id>` ở `LevelSelectView` để `simctl` mở thẳng một màn khi chụp `screenshots/app/`.
