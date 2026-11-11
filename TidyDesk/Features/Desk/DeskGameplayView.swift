@@ -110,11 +110,15 @@ struct DeskGameplayView: View {
                 Text("Level \(levelManager.displayNumber(of: vm.level.levelId))")
                     .font(.caption.weight(.semibold))
                     .foregroundStyle(.secondary)
+                // Long names ("Streamer Corner", "Gaming Battlestation") wrap to a second line
+                // instead of truncating next to the clock / moves / menu pills.
                 Text(vm.level.levelName)
                     .font(.headline)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.8)
+                    .lineLimit(2)
+                    .minimumScaleFactor(0.85)
+                    .fixedSize(horizontal: false, vertical: true)
             }
+            .layoutPriority(1)
 
             Spacer()
 
@@ -125,6 +129,7 @@ struct DeskGameplayView: View {
                     .padding(.horizontal, 10)
                     .padding(.vertical, 8)
                     .background(Capsule().fill(Theme.card))
+                    .fixedSize()  // never squeezed by the (higher-priority) title
             }
             .accessibilityLabel(Text("Time"))
 
@@ -135,6 +140,7 @@ struct DeskGameplayView: View {
                 .padding(.horizontal, 10)
                 .padding(.vertical, 8)
                 .background(Capsule().fill(Theme.card))
+                .fixedSize()
                 .accessibilityLabel(Text("\(vm.moves) moves"))
 
             Menu {

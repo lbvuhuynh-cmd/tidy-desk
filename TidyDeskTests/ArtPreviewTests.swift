@@ -32,7 +32,7 @@ final class ArtPreviewTests: XCTestCase {
         }
         for scheme in [ColorScheme.light, .dark] {
             // Two columns: a single column of every item is ~9500 px tall at 2x, past the renderer's
-            // texture limit (~8192 px), and comes out blank.
+            // texture limit (~8192 px), and comes out blank. Two columns also keep the sheet compact.
             let half = (items.count + 1) / 2
             let columns = [Array(items[..<half]), Array(items[half...])]
             let sheet = HStack(alignment: .top, spacing: 24) {
@@ -45,7 +45,9 @@ final class ArtPreviewTests: XCTestCase {
             .padding(16)
             .background(Theme.background)
             .environment(\.colorScheme, scheme)
-            try write(sheet, to: outDir.appendingPathComponent(scheme == .light ? "_all_light.png" : "_all_dark.png"))
+            // Contact sheets at 1x: they are for an overview (the per-item files stay 2x for detail)
+            // and are committed on every Mac build, so keep them small.
+            try write(sheet, to: outDir.appendingPathComponent(scheme == .light ? "_all_light.png" : "_all_dark.png"), scale: 1)
         }
         print("ArtPreviewTests: wrote \(items.count) previews to \(outDir.path)")
     }
@@ -99,9 +101,9 @@ final class ArtPreviewTests: XCTestCase {
         .background(Theme.desk, in: RoundedRectangle(cornerRadius: 10))
     }
 
-    private func write(_ view: some View, to url: URL) throws {
+    private func write(_ view: some View, to url: URL, scale: CGFloat = 2) throws {
         let renderer = ImageRenderer(content: view)
-        renderer.scale = 2
+        renderer.scale = scale
         let image = try XCTUnwrap(renderer.uiImage, "ImageRenderer returned nil for \(url.lastPathComponent)")
         try XCTUnwrap(image.pngData()).write(to: url)
     }

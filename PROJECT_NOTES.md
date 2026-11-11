@@ -49,10 +49,11 @@ Số nước = số lần đặt thành công (đặt món mới, hoặc dời m
 - **Dữ liệu:** `check_levels.py` 8/8 OK. `check_assets.py`: 2/27 hình; `keyboard_compact` WARN (tỉ lệ 2.21:1 so với ô 3:1, hình chỉ phủ ~74% chiều ngang), `mouse_wireless` WARN (0.68:1 so với 1:1, ~68%).
 - **File phải sửa:** chỉ `TidyDeskTests/ArtPreviewTests.swift`:
   1. Lỗi biên dịch "implicit use of 'self' in closure" ở `ForEach(...) { previewRow($0) }` → đổi thành `self.previewRow($0)`.
-  2. Tấm tổng hợp `_all_light/_all_dark.png` một cột cao ~9560 px ở 2x, vượt giới hạn texture (~8192 px) nên `ImageRenderer` ra ảnh **trắng**, `pngData()` lỗi zlib → test fail. Chia tấm thành **2 cột** (3768×5316 px). Ảnh từng món không đổi.
+  2. (Sau đó) tấm tổng hợp render ở **1x** (ảnh từng món vẫn 2x) để `screenshots/` nhẹ hơn: `art/` từ ~10.6 MB xuống ~6.3 MB.
+  3. Tấm tổng hợp `_all_light/_all_dark.png` một cột cao ~9560 px ở 2x, vượt giới hạn texture (~8192 px) nên `ImageRenderer` ra ảnh **trắng**, `pngData()` lỗi zlib → test fail. Chia tấm thành **2 cột** (3768×5316 px). Ảnh từng món không đổi.
 - **Ảnh từng hình (`screenshots/art/`):** 27 file + 2 tấm tổng hợp, sáng/tối khác nhau đúng. Hai hình thật rõ nét, không nhòe, không méo; bóng đổ khi nhấc (1.08×) và xoay 90° đúng. Nhưng cả hai **nhỏ trong ô** đúng như WARN: bàn phím chừa trống hai bên, chuột chỉ ~2/3 ô. Nên vẽ lại đúng tỉ lệ ô (384×128, 128×128) như `ASSETS.md`. Món dùng hình thật có nền "dấu chân" xám nhạt, khác hẳn kiểu ô màu của các món SF Symbol. Khi chỉ có 2/27 hình thật thì nhìn hơi lệch tông, nhưng sẽ ổn khi đủ hình.
 - **Ảnh app (`screenshots/app/`):** `menu_light`, `level1_light` (có `keyboard_compact` trong ngăn kéo), `level5_light`, `level5_dark` (có `mouse_wireless`). `-openLevel` chạy đúng. Nhận xét:
-  - Header màn 5 bị cắt tên ("Streamer Cor…") vì đồng hồ + số nước + menu chiếm chỗ. Có thể cho tên xuống dòng / thu nhỏ chữ.
+  - ~~Header cắt tên màn ("Streamer Cor…")~~ → **đã sửa** (`DeskGameplayView`): tên màn tối đa 2 dòng, ưu tiên chỗ (`layoutPriority`), pill đồng hồ / số nước `fixedSize`. Đã kiểm tra màn 5 "Streamer Corner" và màn 8 "Gaming Battlestation": hiện đủ 2 dòng.
   - Trong ngăn kéo, hình thật (bàn phím, chuột) nhỏ hơn hẳn các ô màu bên cạnh, vì ô ngăn kéo nhỏ cộng với hình chưa phủ hết ô.
   - Ảnh menu: simulator đang có tiến độ (qua màn 1–2) nên menu tự cuộn tới màn 3; phần đầu (tiêu đề, ô tổng kết) nằm dưới thanh trạng thái. Đúng thiết kế "cuộn tới màn đang chơi", không phải lỗi.
   - Chế độ tối: huy hiệu xoay ↻ trên ô màu hơi chìm nhưng vẫn đọc được.
@@ -71,6 +72,7 @@ xcodebuild -exportArchive -archivePath <tmp>/TidyDesk.xcarchive -exportOptionsPl
 - Icon hiện là icon tạm do `tools/generate_icon.py` vẽ (1024×1024, không alpha). Thay icon thật: ghi đè `Assets.xcassets/AppIcon.appiconset/AppIcon.png`.
 
 ## Lịch sử
+- 2026-11-11 (Header + ảnh nhẹ hơn): tên màn trong header xuống tối đa 2 dòng thay vì bị cắt; pill đồng hồ / số nước không bị bóp. Tấm tổng hợp ảnh hình render 1x. Build + 62/63 pass + 1 skip; chụp lại `screenshots/app/`.
 - 2026-11-11 (Build Mac `f5a9d2c`): build OK, 62/63 pass + 1 skip. Sửa `ArtPreviewTests` (thiếu `self.` trong closure; tấm tổng hợp chia 2 cột vì 1 cột vượt giới hạn texture → ảnh trắng). Commit ảnh `screenshots/art/` + `screenshots/app/` theo `MAC_BUILD.md`.
 - 2026-11-11 (Quy trình Mac, **chưa build**): thêm `MAC_BUILD.md` (build → test → `check_levels`/`check_assets` → ảnh từng hình → ảnh chụp app → ghi chép → push). Thêm `ArtPreviewTests` (mặc định skip; chạy với `TEST_RUNNER_TIDY_SNAPSHOTS=1`, dùng `ImageRenderer` vẽ `ItemTileView` của mọi món ở 3 trạng thái nằm yên / nhấc / xoay, trên nền gỗ sáng và tối, xuất ra `screenshots/art/`). Thêm cờ chỉ có ở bản Debug `-openLevel <id>` ở `LevelSelectView` để `simctl` mở thẳng một màn khi chụp `screenshots/app/`.
 - 2026-11-11 (Hình thứ hai): nhập `mouse_wireless.svg` (Recraft, tỉ lệ 0.68:1 trong ô 1×1, chấp nhận được với chuột; có thể thay bằng mẫu khác). `check_assets.py --import` nhận cả file có đuôi lặp `.svg.svg` (Windows ẩn đuôi file) và luôn lưu file trong imageset theo đúng tên asset.
