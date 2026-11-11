@@ -43,9 +43,10 @@ final class FeedbackEngine: GameFeedback {
     private let haptics: HapticManager
     private let sounds: SoundManager
 
-    init(haptics: HapticManager = .shared, sounds: SoundManager = .shared) {
-        self.haptics = haptics
-        self.sounds = sounds
+    /// `nil` = the shared managers (resolved here, on the main actor; default arguments are nonisolated).
+    init(haptics: HapticManager? = nil, sounds: SoundManager? = nil) {
+        self.haptics = haptics ?? .shared
+        self.sounds = sounds ?? .shared
     }
 
     func pickUp() {

@@ -95,6 +95,12 @@ final class DeskDragViewModel {
     /// Non-nil while the drop animation runs; new drags are ignored meanwhile.
     private(set) var settle: SettleKind?
     var isSettling: Bool { settle != nil }
+    /// Runs a drop animation (landing / bounce-back) and calls `completion` when it settles.
+    /// Injectable for tests: outside a view hierarchy SwiftUI calls the completion immediately,
+    /// so tests swap this to hold the completion and inspect the in-flight state.
+    @ObservationIgnored var animateSettle: (Animation, () -> Void, @escaping () -> Void) -> Void = { animation, body, completion in
+        withAnimation(animation, body, completion: completion)
+    }
 
     // MARK: Layout (set by the view)
     var cellSize: CGFloat = 56
@@ -235,14 +241,14 @@ final class DeskDragViewModel {
             feedback.snapped()
             let target = SnapMath.center(of: origin, size: item.size, boardOrigin: board.origin, cellSize: cellSize)
             // "Falls and grips": quick, slightly bouncy spring into the cell while the shadow collapses.
-            withAnimation(.spring(response: 0.22, dampingFraction: 0.68)) {
+            animateSettle(.spring(response: 0.22, dampingFraction: 0.68), {
                 floatingCenter = target
                 floatingScale = 1 / Self.liftScale // land at exactly cell size
-            } completion: { [weak self] in
+            }, { [weak self] in
                 guard let self else { return }
                 self.place(itemID, at: origin)
                 self.finish()
-            }
+            })
 
         case .returnedToDrawer:
             withAnimation(.spring(response: 0.3, dampingFraction: 0.75)) {
@@ -350,12 +356,12 @@ final class DeskDragViewModel {
         }
         settle = .bouncingBack
         // Bouncier spring than the landing, so a rejected drop reads as "boing, not there".
-        withAnimation(.spring(response: 0.36, dampingFraction: 0.58)) {
+        animateSettle(.spring(response: 0.36, dampingFraction: 0.58), {
             floatingCenter = target
             floatingScale = scale
-        } completion: { [weak self] in
+        }, { [weak self] in
             self?.finish()
-        }
+        })
     }
 
     private func finish() {

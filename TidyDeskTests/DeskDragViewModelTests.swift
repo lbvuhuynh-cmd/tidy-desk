@@ -24,10 +24,23 @@ final class DeskDragViewModelTests: XCTestCase {
 
     private var feedback: RecordingFeedback!
     private var vm: DeskDragViewModel!
+    /// Completions of drop animations, held so tests can inspect the in-flight state and then settle.
+    private var pendingSettles: [() -> Void] = []
 
     override func setUp() async throws {
         feedback = RecordingFeedback()
         vm = DeskDragViewModel(level: level, feedback: feedback)
+        pendingSettles = []
+        vm.animateSettle = { [unowned self] _, body, completion in
+            body()
+            self.pendingSettles.append(completion)
+        }
+    }
+
+    private func finishSettleAnimations() {
+        let completions = pendingSettles
+        pendingSettles = []
+        completions.forEach { $0() }
     }
 
     private var keyboard: TechItem { vm.items[0] }
@@ -196,6 +209,12 @@ final class DeskDragViewModelTests: XCTestCase {
         vm.dragEnded(itemID: mug.id)
         XCTAssertEqual(feedback.events, ["pickUp", "cellCrossed", "cellCrossed", "snapped"])
         XCTAssertEqual(vm.settle, .landing)
+
+        // Landing animation done: the mug is committed to the hovered cell and the drag is over.
+        finishSettleAnimations()
+        XCTAssertEqual(mug.currentPosition, GridPoint(row: 0, column: 2))
+        XCTAssertNil(vm.settle)
+        XCTAssertNil(vm.session)
     }
 
     func testInvalidDropOverDeskPlaysError() {
@@ -209,6 +228,10 @@ final class DeskDragViewModelTests: XCTestCase {
         XCTAssertEqual(feedback.events.last, "rejected")
         XCTAssertEqual(vm.settle, .bouncingBack)
         XCTAssertFalse(feedback.events.contains("snapped"))
+
+        finishSettleAnimations()
+        XCTAssertFalse(mug.isPlaced)
+        XCTAssertNil(vm.settle)
     }
 
     func testHoverOverOccupiedCellIsInvalidAndBounces() {

@@ -1,6 +1,6 @@
 # Tidy Desk: Tech & Setup — Ghi chú dự án
 
-> Cập nhật: 2026-11-11 · Trạng thái: **MVP + polish + âm thanh + level JSON đã viết xong, CHƯA build** (viết trên Windows, chưa có Mac/Xcode). `tools/check_levels.py`: 8/8 file màn OK.
+> Cập nhật: 2026-11-11 · Trạng thái: **MVP + polish + âm thanh + level JSON, đã build và chạy test trên Mac** (Xcode 26.5): build OK, 58/58 test pass. `tools/check_levels.py`: 8/8 file màn OK.
 
 ## 1. App này là gì
 Game giải đố "dọn dẹp" (Cozy Tidy / Organization Puzzle) cho iOS 17+, chủ đề **bàn làm việc / góc setup công nghệ**. Mỗi màn bắt đầu với một bàn bừa bộn: vài món đã nằm sẵn sai chỗ trên bàn, các món còn lại ở **ngăn kéo phụ kiện** (Accessory Drawer) phía dưới. Người chơi kéo thả để mọi thứ vừa khít mặt bàn, không đè nhau, không tràn viền. Xếp đủ là qua màn ("Setup Complete!"). Giao diện tiếng Anh, nhắm thị trường toàn cầu.
@@ -25,7 +25,7 @@ Game giải đố "dọn dẹp" (Cozy Tidy / Organization Puzzle) cho iOS 17+, c
 Số nước = số lần đặt thành công (đặt món mới, hoặc dời món sang ô khác). Số nước ≤ tổng số món → 3 sao. Thêm tối đa `max(2, số món / 3)` nước → 2 sao. Nhiều hơn → 1 sao.
 
 ## 4. Việc tiếp theo (gợi ý)
-1. **Build trên Mac** (`xcodegen generate`, chạy test), sửa lỗi biên dịch nếu có, rồi ghi kết quả vào mục 5.
+1. ~~Build trên Mac~~: xong 2026-11-11, xem mục 5.
 2. Thử cảm giác trên máy thật: độ rung, độ nhấc khi kéo từ ngăn kéo (`lift` trong `beginDrag`), lò xo khi đặt.
 3. **"Vị trí tối ưu"**: luật theo `category`, ví dụ chuột cạnh bàn phím, cốc không cạnh laptop, đèn ở góc. Mỗi luật đúng được thưởng sao.
 4. Dây cáp: món dạng đường nối 2 thiết bị (cable management), làm điểm nhấn riêng của chủ đề.
@@ -34,9 +34,17 @@ Số nước = số lần đặt thành công (đặt món mới, hoặc dời m
 7. Ảnh thật cho thiết bị; thay 6 file WAV tạm bằng âm thanh thu thật (cùng tên, xem README). Thêm Localizable.xcstrings.
 
 ## 5. Kết quả build/test trên Mac
-Chưa chạy.
+- **Ngày:** 2026-11-11 · **Commit gốc:** `ccb2525` (bản sửa nằm ở commit ngay sau) · **Xcode:** 26.5 (17F42), iOS Simulator 26.5, iPhone 17 · XcodeGen (Homebrew).
+- **Build:** thành công ngay lần đầu, **không có lỗi biên dịch**. Có 2 warning Swift 6 (đã sửa, xem dưới); hiện không còn warning nào trong code dự án.
+- **Test:** 58 test. Lần chạy đầu 56 pass / 2 fail; sau khi sửa **58/58 pass**.
+- **File phải sửa:**
+  - `Features/Desk/DeskDragViewModel.swift` + `TidyDeskTests/DeskDragViewModelTests.swift`: test `testDraggingFromDrawerSnapsToNearestValidCell` và `testInvalidDropOverDeskPlaysError` mong `settle == .landing / .bouncingBack` ngay sau `dragEnded`, nhưng lại nhận `nil`. Nguyên nhân: khi không có view nào hiển thị, `withAnimation(...) { } completion:` gọi completion **ngay lập tức**, nên `finish()` đã reset `settle` trước khi test kiểm tra. Đây là vấn đề của môi trường test, logic game không sai. Cách sửa: animation thả (landing / bounce-back) chạy qua `animateSettle`, có thể inject (giống `now`), mặc định vẫn là `withAnimation(_:_:completion:)` nên app chạy y như cũ. Trong test, `setUp` inject một runner giữ completion lại. Giá trị mong đợi không đổi; thêm assert sau khi animation xong (món đã được `place` vào đúng ô, `settle`/`session` về nil).
+  - `Services/Feedback/GameFeedback.swift`: `FeedbackEngine.init(haptics: = .shared, sounds: = .shared)`. Default argument được đánh giá ở ngữ cảnh nonisolated, trong khi `.shared` thuộc MainActor (sẽ thành lỗi ở Swift 6). Đã đổi sang tham số optional `nil`, gán `.shared` bên trong `init`. Hành vi không đổi.
+- **Chạy app trên simulator:** màn chọn màn hiển thị đúng: 0/8 desks, 0/24 sao, nút Continue → Level 1, chỉ Level 1 mở. Bấm thẻ khoá thì hiện "Finish Level 1 to unlock". Màn chơi Level 1 hiển thị đúng: bàn 3×2, cốc bừa bộn ở ô giữa hàng trên, ngăn kéo có cáp + bàn phím kèm huy hiệu xoay, header có đồng hồ / số nước / menu. Không thấy lỗi giao diện rõ ràng. Chưa thử kéo thả bằng tay (simctl không giả lập được cử chỉ kéo).
+- Log lúc chạy có lỗi CoreData "Failed to stat ... default.store". Đây là thông báo thường gặp ở lần chạy đầu của SwiftData (thư mục store chưa tồn tại, sau đó được tạo), không ảnh hưởng.
 
 ## Lịch sử
+- 2026-11-11 (Build Mac lần đầu): Xcode 26.5, build OK không lỗi biên dịch; 58/58 test pass sau khi cho phép inject animation thả trong `DeskDragViewModel` (`animateSettle`) để test kiểm tra được trạng thái `settle`, và sửa warning MainActor ở `FeedbackEngine.init`. Thêm `CLAUDE.md`.
 - 2026-11-11 (Màn chọn màn): `LevelSelectView` làm lại, có thẻ ghi "Level N", tên màn, bàn thu nhỏ (hiện món bừa bộn theo màu nhóm), 3 trạng thái: khóa (bàn mờ, ổ khóa), chưa chơi (nhãn PLAY / NEW), đã qua (dấu tích + sao tốt nhất + thời gian tốt nhất). Ô tổng kết "x / y bàn, sao / tối đa" kèm thanh tiến độ. Nút **Continue** nhảy tới màn kế cần chơi (Replay khi đã xong hết). Bấm thẻ khóa: thẻ lắc + rung Warning + thông báo "Finish Level N to unlock". Màn **vừa mở khóa** chạy hiệu ứng ổ khóa bật ra một lần khi quay về menu (đánh dấu đã xem trong `@AppStorage`). `NavigationStack(path:)`, cuộn sẵn tới màn đang chơi. Nút Back trong game hỏi xác nhận nếu đang chơi dở. `LevelManager`: `status(of:)` → `.locked / .unlocked / .completed(stars:)`, `continueLevelId`, `prerequisite(of:)`, `maxStars` (có test).
 - 2026-11-11 (Level JSON): bỏ `Levels.json` + `LevelCatalog`, thay bằng **mỗi màn một file** `Resources/Levels/level_<n>.json` theo schema mới (`levelId`, `levelName`, `gridRows`, `gridCols`, items với `id`, `gridWidth`, `gridHeight`, `initialPosition`, `correctPosition`, `imageName`, `category` không bắt buộc). Thêm `schema/level_schema.json` (JSON Schema), `LevelValidator` (kiểm tra cấu trúc lúc nạp; file lỗi bị bỏ qua và báo lại, không crash) và `LevelManager` (@Observable, đưa vào environment: `availableLevels`, `loadIssues`, `loadLevel(id:)`, `nextLevel(after:)`, `isUnlocked` đọc tiến độ từ SwiftData). `LevelProgress` đổi khóa sang `levelId: Int`. Hỗ trợ `correctPosition`: thắng chỉ khi đúng vị trí + đúng hướng, bàn hiện viền mờ chỗ đích. Thêm màn 7 "Minimalist WFH Setup" (dùng correctPosition) và màn 8 "Gaming Battlestation" (8×6, 15 món, 3 món bừa bộn bắt buộc phải dời). `check_levels.py` viết lại cho định dạng mới. Test: `BundledLevelsTests`, `LevelManagerTests` (giải mã schema, file hỏng / thiếu khóa / sai số / trùng id, luật mở khóa).
 - 2026-11-11 (Tối ưu va chạm & snap): `DeskGrid` chuyển từ dictionary sang ma trận phẳng + footprints; thêm `PlacementCheck` / `canPlaceItem`; `TechItem` có `gridWidth`/`gridHeight` theo góc xoay (kích thước gốc không đổi); snap có chống rung giật + nam châm; preview tô từng ô. Thêm test: ma trận, chẩn đoán từng ô, footprint khi xoay, `SnapOriginTests` (làm tròn, nam châm, tầm hút, mép bàn, chống rung giật), VM hút cạnh vật cản.
