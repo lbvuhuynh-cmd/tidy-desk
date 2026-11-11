@@ -31,8 +31,16 @@ final class ArtPreviewTests: XCTestCase {
             try write(row, to: outDir.appendingPathComponent("\(item.imageName).png"))
         }
         for scheme in [ColorScheme.light, .dark] {
-            let sheet = VStack(alignment: .leading, spacing: 10) {
-                ForEach(items, id: \.imageName) { previewRow($0) }
+            // Two columns: a single column of every item is ~9500 px tall at 2x, past the renderer's
+            // texture limit (~8192 px), and comes out blank.
+            let half = (items.count + 1) / 2
+            let columns = [Array(items[..<half]), Array(items[half...])]
+            let sheet = HStack(alignment: .top, spacing: 24) {
+                ForEach(columns.indices, id: \.self) { c in
+                    VStack(alignment: .leading, spacing: 10) {
+                        ForEach(columns[c], id: \.imageName) { self.previewRow($0) }
+                    }
+                }
             }
             .padding(16)
             .background(Theme.background)

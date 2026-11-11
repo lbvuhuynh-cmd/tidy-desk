@@ -1,6 +1,6 @@
 # Tidy Desk: Tech & Setup — Ghi chú dự án
 
-> Cập nhật: 2026-11-11 · Trạng thái: build OK + 58/58 test trên Mac ở commit `f175db4`. **Thay đổi sau đó (chuẩn bị bộ hình vector, xem Lịch sử) chưa build lại.** `tools/check_levels.py`: 8/8 OK · `tools/check_assets.py`: 2/27 hình thiết bị (`keyboard_compact`, `mouse_wireless`, cả hai WARN tỉ lệ; còn lại dùng SF Symbol dự phòng).
+> Cập nhật: 2026-11-11 · Trạng thái: build OK + 62/63 test pass, 1 skip (ArtPreviewTests, đúng thiết kế) trên Mac ở commit `f5a9d2c` (bộ hình vector + MAC_BUILD). `tools/check_levels.py`: 8/8 OK · `tools/check_assets.py`: 2/27 hình thiết bị (`keyboard_compact`, `mouse_wireless`, cả hai WARN tỉ lệ; còn lại dùng SF Symbol dự phòng). Ảnh: `screenshots/`.
 
 ## 1. App này là gì
 Game giải đố "dọn dẹp" (Cozy Tidy / Organization Puzzle) cho iOS 17+, chủ đề **bàn làm việc / góc setup công nghệ**. Mỗi màn bắt đầu với một bàn bừa bộn: vài món đã nằm sẵn sai chỗ trên bàn, các món còn lại ở **ngăn kéo phụ kiện** (Accessory Drawer) phía dưới. Người chơi kéo thả để mọi thứ vừa khít mặt bàn, không đè nhau, không tràn viền. Xếp đủ là qua màn ("Setup Complete!"). Giao diện tiếng Anh, nhắm thị trường toàn cầu.
@@ -43,14 +43,19 @@ Số nước = số lần đặt thành công (đặt món mới, hoặc dời m
 7. Ảnh thật cho thiết bị; thay 6 file WAV tạm bằng âm thanh thu thật (cùng tên, xem README). Thêm Localizable.xcstrings.
 
 ## 5. Kết quả build/test trên Mac
-- **Ngày:** 2026-11-11 · **Commit gốc:** `ccb2525` (bản sửa nằm ở commit ngay sau) · **Xcode:** 26.5 (17F42), iOS Simulator 26.5, iPhone 17 · XcodeGen (Homebrew).
-- **Build:** thành công ngay lần đầu, **không có lỗi biên dịch**. Có 2 warning Swift 6 (đã sửa, xem dưới); hiện không còn warning nào trong code dự án.
-- **Test:** 58 test. Lần chạy đầu 56 pass / 2 fail; sau khi sửa **58/58 pass**.
-- **File phải sửa:**
-  - `Features/Desk/DeskDragViewModel.swift` + `TidyDeskTests/DeskDragViewModelTests.swift`: test `testDraggingFromDrawerSnapsToNearestValidCell` và `testInvalidDropOverDeskPlaysError` mong `settle == .landing / .bouncingBack` ngay sau `dragEnded`, nhưng lại nhận `nil`. Nguyên nhân: khi không có view nào hiển thị, `withAnimation(...) { } completion:` gọi completion **ngay lập tức**, nên `finish()` đã reset `settle` trước khi test kiểm tra. Đây là vấn đề của môi trường test, logic game không sai. Cách sửa: animation thả (landing / bounce-back) chạy qua `animateSettle`, có thể inject (giống `now`), mặc định vẫn là `withAnimation(_:_:completion:)` nên app chạy y như cũ. Trong test, `setUp` inject một runner giữ completion lại. Giá trị mong đợi không đổi; thêm assert sau khi animation xong (món đã được `place` vào đúng ô, `settle`/`session` về nil).
-  - `Services/Feedback/GameFeedback.swift`: `FeedbackEngine.init(haptics: = .shared, sounds: = .shared)`. Default argument được đánh giá ở ngữ cảnh nonisolated, trong khi `.shared` thuộc MainActor (sẽ thành lỗi ở Swift 6). Đã đổi sang tham số optional `nil`, gán `.shared` bên trong `init`. Hành vi không đổi.
-- **Chạy app trên simulator:** màn chọn màn hiển thị đúng: 0/8 desks, 0/24 sao, nút Continue → Level 1, chỉ Level 1 mở. Bấm thẻ khoá thì hiện "Finish Level 1 to unlock". Màn chơi Level 1 hiển thị đúng: bàn 3×2, cốc bừa bộn ở ô giữa hàng trên, ngăn kéo có cáp + bàn phím kèm huy hiệu xoay, header có đồng hồ / số nước / menu. Không thấy lỗi giao diện rõ ràng. Chưa thử kéo thả bằng tay (simctl không giả lập được cử chỉ kéo).
-- Log lúc chạy có lỗi CoreData "Failed to stat ... default.store". Đây là thông báo thường gặp ở lần chạy đầu của SwiftData (thư mục store chưa tồn tại, sau đó được tạo), không ảnh hưởng.
+- **Ngày:** 2026-11-11 · **Commit đã build:** `f5a9d2c` (sửa nằm ở commit ngay sau) · **Xcode:** 26.5 (17F42), iOS Simulator 26.5, iPhone 17. Làm theo `MAC_BUILD.md`.
+- **Build app:** OK, không lỗi, không warning trong code dự án; asset catalog (gồm 2 file `.svg`) không có warning nào.
+- **Test:** 63 test: **62 pass, 0 fail, 1 skip** (`ArtPreviewTests`, chỉ chạy khi bật `TEST_RUNNER_TIDY_SNAPSHOTS=1`). Dòng log "level_7.json: duplicate levelId 1, file skipped" là do `LevelManagerTests` cố tình tạo file hỏng, không phải dữ liệu thật.
+- **Dữ liệu:** `check_levels.py` 8/8 OK. `check_assets.py`: 2/27 hình; `keyboard_compact` WARN (tỉ lệ 2.21:1 so với ô 3:1, hình chỉ phủ ~74% chiều ngang), `mouse_wireless` WARN (0.68:1 so với 1:1, ~68%).
+- **File phải sửa:** chỉ `TidyDeskTests/ArtPreviewTests.swift`:
+  1. Lỗi biên dịch "implicit use of 'self' in closure" ở `ForEach(...) { previewRow($0) }` → đổi thành `self.previewRow($0)`.
+  2. Tấm tổng hợp `_all_light/_all_dark.png` một cột cao ~9560 px ở 2x, vượt giới hạn texture (~8192 px) nên `ImageRenderer` ra ảnh **trắng**, `pngData()` lỗi zlib → test fail. Chia tấm thành **2 cột** (3768×5316 px). Ảnh từng món không đổi.
+- **Ảnh từng hình (`screenshots/art/`):** 27 file + 2 tấm tổng hợp, sáng/tối khác nhau đúng. Hai hình thật rõ nét, không nhòe, không méo; bóng đổ khi nhấc (1.08×) và xoay 90° đúng. Nhưng cả hai **nhỏ trong ô** đúng như WARN: bàn phím chừa trống hai bên, chuột chỉ ~2/3 ô. Nên vẽ lại đúng tỉ lệ ô (384×128, 128×128) như `ASSETS.md`. Món dùng hình thật có nền "dấu chân" xám nhạt, khác hẳn kiểu ô màu của các món SF Symbol. Khi chỉ có 2/27 hình thật thì nhìn hơi lệch tông, nhưng sẽ ổn khi đủ hình.
+- **Ảnh app (`screenshots/app/`):** `menu_light`, `level1_light` (có `keyboard_compact` trong ngăn kéo), `level5_light`, `level5_dark` (có `mouse_wireless`). `-openLevel` chạy đúng. Nhận xét:
+  - Header màn 5 bị cắt tên ("Streamer Cor…") vì đồng hồ + số nước + menu chiếm chỗ. Có thể cho tên xuống dòng / thu nhỏ chữ.
+  - Trong ngăn kéo, hình thật (bàn phím, chuột) nhỏ hơn hẳn các ô màu bên cạnh, vì ô ngăn kéo nhỏ cộng với hình chưa phủ hết ô.
+  - Ảnh menu: simulator đang có tiến độ (qua màn 1–2) nên menu tự cuộn tới màn 3; phần đầu (tiêu đề, ô tổng kết) nằm dưới thanh trạng thái. Đúng thiết kế "cuộn tới màn đang chơi", không phải lỗi.
+  - Chế độ tối: huy hiệu xoay ↻ trên ô màu hơi chìm nhưng vẫn đọc được.
 
 ## 5b. TestFlight (bản thử, mượn team RETALIX USA, INC)
 - App trên App Store Connect: **Test Tidy Desk** (Apple ID 6833522226, SKU `testtidydesk`), bundle ID **`com.powervh.tidydesk.beta`**, team `62SFVG2ZD8` (tài khoản Xcode `vu.huynh@ncr.com`). Bundle ID thật `com.powervh.tidydesk` để dành cho tài khoản riêng (đừng tạo app ASC với nó trong Retalix).
@@ -66,6 +71,7 @@ xcodebuild -exportArchive -archivePath <tmp>/TidyDesk.xcarchive -exportOptionsPl
 - Icon hiện là icon tạm do `tools/generate_icon.py` vẽ (1024×1024, không alpha). Thay icon thật: ghi đè `Assets.xcassets/AppIcon.appiconset/AppIcon.png`.
 
 ## Lịch sử
+- 2026-11-11 (Build Mac `f5a9d2c`): build OK, 62/63 pass + 1 skip. Sửa `ArtPreviewTests` (thiếu `self.` trong closure; tấm tổng hợp chia 2 cột vì 1 cột vượt giới hạn texture → ảnh trắng). Commit ảnh `screenshots/art/` + `screenshots/app/` theo `MAC_BUILD.md`.
 - 2026-11-11 (Quy trình Mac, **chưa build**): thêm `MAC_BUILD.md` (build → test → `check_levels`/`check_assets` → ảnh từng hình → ảnh chụp app → ghi chép → push). Thêm `ArtPreviewTests` (mặc định skip; chạy với `TEST_RUNNER_TIDY_SNAPSHOTS=1`, dùng `ImageRenderer` vẽ `ItemTileView` của mọi món ở 3 trạng thái nằm yên / nhấc / xoay, trên nền gỗ sáng và tối, xuất ra `screenshots/art/`). Thêm cờ chỉ có ở bản Debug `-openLevel <id>` ở `LevelSelectView` để `simctl` mở thẳng một màn khi chụp `screenshots/app/`.
 - 2026-11-11 (Hình thứ hai): nhập `mouse_wireless.svg` (Recraft, tỉ lệ 0.68:1 trong ô 1×1, chấp nhận được với chuột; có thể thay bằng mẫu khác). `check_assets.py --import` nhận cả file có đuôi lặp `.svg.svg` (Windows ẩn đuôi file) và luôn lưu file trong imageset theo đúng tên asset.
 - 2026-11-11 (Hình đầu tiên, **chưa build trên Mac**): nhập `keyboard_compact.svg` (bàn phím 75%, vẽ bằng Recraft AI). File gốc có canvas vuông 1024×1024 và nền trắng đục, nên `check_assets.py --import` giờ tự sửa SVG: bỏ hình nền phủ kín canvas, cắt viewBox sát hình vẽ, và cảnh báo khi tỉ lệ hình lệch nhiều so với kích thước ô (bảng tình trạng cũng báo WARN). Hình bàn phím này có tỉ lệ 2.21:1 trong khi ô 3×1 là 3:1, nên chỉ phủ khoảng 74% chiều ngang; tạm dùng được, nên vẽ lại đúng 384×128.
