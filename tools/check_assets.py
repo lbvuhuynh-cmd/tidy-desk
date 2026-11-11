@@ -14,6 +14,10 @@ Usage:
   python tools/check_assets.py --strict             # exit 1 if anything is MISSING or WARN (use before release)
   python tools/check_assets.py --import <folder>    # copy <name>.svg/.pdf/.png from a folder into the catalog
                                                     # as correctly configured image sets, then report
+
+On import, SVGs from AI/icon generators (square 1024x1024 canvas, opaque background) are cleaned up:
+the full-canvas background shape is removed and the viewBox is cropped to the drawing, so the art fills
+its tile. The script then warns if the drawing's aspect ratio doesn't match the item's footprint.
 """
 import json
 import re
@@ -65,6 +69,87 @@ def inspect(imageset: Path):
     return "OK", f"{kind}: {', '.join(files)}"
 
 
+NUM = r"-?\d*\.?\d+(?:[eE][-+]?\d+)?"
+
+
+def svg_viewbox(text):
+    m = re.search(r'<svg[^>]*\bviewBox="([^"]+)"', text)
+    if not m:
+        return None
+    vals = [float(v) for v in re.split(r"[\s,]+", m.group(1).strip())]
+    return vals if len(vals) == 4 else None
+
+
+def clean_svg(text):
+    """Remove a full-canvas background and crop the viewBox to the drawing. Returns (text, notes)."""
+    notes = []
+    box = svg_viewbox(text)
+    if not box:
+        return text, ["no viewBox, left as is"]
+    x, y, w, h = box
+
+    # 1. A first shape covering the whole canvas is a background, not part of the device.
+    first = re.search(r"<(path|rect)\b[^>]*/>", text)
+    if first:
+        tag, full = first.group(0), False
+        if first.group(1) == "path":
+            d = re.search(r'\bd="([^"]*)"', tag)
+            nums = [float(n) for n in re.findall(NUM, d.group(1))] if d else []
+            full = (0 < len(nums) <= 12 and min(nums[0::2]) <= x and max(nums[0::2]) >= x + w
+                    and min(nums[1::2]) <= y and max(nums[1::2]) >= y + h)
+        else:
+            rw = re.search(r'\bwidth="([\d.]+)"', tag)
+            rh = re.search(r'\bheight="([\d.]+)"', tag)
+            full = bool(rw and rh and float(rw.group(1)) >= w and float(rh.group(1)) >= h)
+        if full:
+            text = text.replace(tag, "", 1)
+            notes.append("removed opaque background")
+
+    # 2. Crop to the drawing, only when every shape is a path with absolute M/L/C/Q/Z and nothing is transformed.
+    if "transform=" in text or re.search(r"<(rect|circle|ellipse|polygon|polyline|line|image|use|text)\b", text):
+        notes.append("not cropped (transforms or non-path shapes): crop the artboard in the editor")
+        return text, notes
+    paths = re.findall(r'<path\b[^>]*\bd="([^"]*)"', text)
+    if not paths or any(re.search(r"[A-DF-Za-df-z]", re.sub(r"[MLCQZ]", "", p)) for p in paths):
+        notes.append("not cropped (relative/arc path commands): crop the artboard in the editor")
+        return text, notes
+    xs, ys = [], []
+    for p in paths:
+        nums = [float(n) for n in re.findall(NUM, p)]
+        xs += nums[0::2]
+        ys += nums[1::2]
+    pad = 0.005 * max(w, h)
+    x0, y0, x1, y1 = min(xs) - pad, min(ys) - pad, max(xs) + pad, max(ys) + pad
+    nw, nh = x1 - x0, y1 - y0
+    if nw < 0.97 * w or nh < 0.97 * h:
+        head = re.search(r"<svg\b[^>]*>", text).group(0)
+        new_head = re.sub(r'\s(width|height|viewBox)="[^"]*"', "", head)
+        new_head = new_head[:-1].rstrip("/").rstrip() + \
+            f' width="{nw:.0f}" height="{nh:.0f}" viewBox="{x0:.1f} {y0:.1f} {nw:.1f} {nh:.1f}">'
+        text = text.replace(head, new_head, 1)
+        notes.append(f"cropped canvas {w:.0f}x{h:.0f} -> {nw:.0f}x{nh:.0f}")
+    return text, notes
+
+
+def aspect_note(text, size):
+    """Warning text if the SVG's aspect ratio is far from the footprint's, else None."""
+    box = svg_viewbox(text)
+    if not box:
+        return None
+    art, cells = box[2] / box[3], size[0] / size[1]
+    ratio = art / cells
+    if 0.85 <= ratio <= 1.18:
+        return None
+    return (f"aspect {art:.2f}:1 vs footprint {size[0]}x{size[1]} ({cells:.2f}:1): art fills only "
+            f"~{min(ratio, 1 / ratio):.0%} of the tile; redraw at {size[0] * POINTS_PER_CELL}x{size[1] * POINTS_PER_CELL}")
+
+
+def aspect_issue(imageset: Path, size):
+    for svg in imageset.glob("*.svg"):
+        return aspect_note(svg.read_text(encoding="utf-8"), size)
+    return None
+
+
 def import_folder(folder: Path, assets):
     """<name>.svg / .pdf / .png -> Assets.xcassets/<name>.imageset (single scale, vector data preserved)."""
     if not folder.is_dir():
@@ -83,13 +168,21 @@ def import_folder(folder: Path, assets):
         if target.exists():
             shutil.rmtree(target)
         target.mkdir(parents=True)
-        shutil.copy2(src, target / src.name)
+        notes = []
+        if src.suffix.lower() == ".svg":
+            text, notes = clean_svg(src.read_text(encoding="utf-8"))
+            (target / src.name).write_text(text, encoding="utf-8", newline="\n")
+            aspect = aspect_note(text, assets[name]["size"])
+            if aspect:
+                notes.append("WARNING " + aspect)
+        else:
+            shutil.copy2(src, target / src.name)
         contents = {"images": [{"filename": src.name, "idiom": "universal"}],
                     "info": {"author": "xcode", "version": 1}}
         if src.suffix.lower() in (".svg", ".pdf"):
             contents["properties"] = {"preserves-vector-representation": True}
         (target / "Contents.json").write_text(json.dumps(contents, indent=2) + "\n", encoding="utf-8", newline="\n")
-        print(f"added {name}.imageset  <- {src.name}")
+        print(f"added {name}.imageset  <- {src.name}" + "".join(f"\n      {n}" for n in notes))
     print()
 
 
@@ -112,6 +205,9 @@ def main():
         board = f"{w * POINTS_PER_CELL}x{h * POINTS_PER_CELL}"
         if name in sets:
             status, detail = inspect(sets[name])
+            issue = aspect_issue(sets[name], (w, h)) if status == "OK" else None
+            if issue:
+                status, detail = "WARN", issue
         else:
             status, detail = "MISSING", f"fallback SF Symbol: {info['symbol'] or '(category default)'}"
         if status != "OK":
