@@ -45,5 +45,6 @@ Thay một hình: ghi đè file trong `<tên>.imageset/`, hoặc chạy lại `-
 
 ## Hình từ công cụ AI (Recraft, …)
 - Đổi tên file thành đúng tên asset trước khi import (ví dụ `flat-2d-vector-icon-of-a-mechanical-keyboard--top-.svg` → `keyboard_compact.svg`).
-- Các công cụ này thường xuất canvas vuông 1024×1024 có nền trắng đục. `--import` tự **bỏ nền** và **cắt canvas sát hình**, rồi in ra những gì đã sửa.
+- Các công cụ này thường xuất canvas vuông 1024×1024 có nền trắng đục. `--import` tự **bỏ nền** và **cắt canvas sát hình**, rồi in ra những gì đã sửa. Áp dụng cho cả SVG và PNG (với PNG cần cài Pillow: `pip install pillow`).
+- Mảng cùng màu nền nằm **bên trong** món đồ (ví dụ lõi giữa cuộn dây) thì được giữ lại, vì bên dưới thường là lớp viền tô đặc.
 - Nhưng script không kéo giãn hình: nếu hình bàn phím có tỉ lệ 2:1 mà ô là 4:1 thì hình chỉ phủ khoảng một nửa ô. Script sẽ báo `WARNING aspect …`. Khi tạo hình, ghi rõ tỉ lệ trong prompt (ví dụ *"wide 4:1 horizontal composition, top-down, transparent background"*) hoặc chỉnh khung trong trình vẽ.

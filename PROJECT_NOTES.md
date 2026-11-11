@@ -1,6 +1,6 @@
 # Tidy Desk: Tech & Setup — Ghi chú dự án
 
-> Cập nhật: 2026-11-11 · Trạng thái: build OK + 62/63 test pass, 1 skip (ArtPreviewTests, đúng thiết kế) trên Mac ở commit `f5a9d2c` (bộ hình vector + MAC_BUILD). `tools/check_levels.py`: 8/8 OK · `tools/check_assets.py`: 2/27 hình thiết bị (`keyboard_compact`, `mouse_wireless`, cả hai WARN tỉ lệ; còn lại dùng SF Symbol dự phòng). Ảnh: `screenshots/`.
+> Cập nhật: 2026-11-11 · Trạng thái: build OK + 62/63 test pass, 1 skip (ArtPreviewTests, đúng thiết kế) trên Mac ở commit `f5a9d2c` (bộ hình vector + MAC_BUILD). `tools/check_levels.py`: 8/8 OK · `tools/check_assets.py`: 6/27 hình thiết bị (`keyboard_mechanical` OK; `keyboard_compact`, `keyboard_fullsize`, `mouse_wireless`, `coffee_mug`, `cable_bundle` WARN tỉ lệ; còn lại dùng SF Symbol dự phòng). Hình mới sau `11804bc` chưa build. Ảnh: `screenshots/`.
 
 ## 1. App này là gì
 Game giải đố "dọn dẹp" (Cozy Tidy / Organization Puzzle) cho iOS 17+, chủ đề **bàn làm việc / góc setup công nghệ**. Mỗi màn bắt đầu với một bàn bừa bộn: vài món đã nằm sẵn sai chỗ trên bàn, các món còn lại ở **ngăn kéo phụ kiện** (Accessory Drawer) phía dưới. Người chơi kéo thả để mọi thứ vừa khít mặt bàn, không đè nhau, không tràn viền. Xếp đủ là qua màn ("Setup Complete!"). Giao diện tiếng Anh, nhắm thị trường toàn cầu.
@@ -72,6 +72,7 @@ xcodebuild -exportArchive -archivePath <tmp>/TidyDesk.xcarchive -exportOptionsPl
 - Icon hiện là icon tạm do `tools/generate_icon.py` vẽ (1024×1024, không alpha). Thay icon thật: ghi đè `Assets.xcassets/AppIcon.appiconset/AppIcon.png`.
 
 ## Lịch sử
+- 2026-11-11 (Thêm 4 hình, **chưa build**): `coffee_mug` (SVG, ly nhìn từ trên), `cable_bundle` (SVG, cuộn dây tròn, chỉ phủ khoảng 45% ô 2×1, nên vẽ lại dạng nằm ngang), `keyboard_mechanical` và `keyboard_fullsize` (cùng một PNG bàn phím full 1656×438, tỉ lệ 3.78:1: khít ô 4×1; ô 5×1 phủ khoảng 76%). `check_assets.py --import` giờ xử lý cả PNG (cần Pillow): bỏ nền đục bằng flood fill từ mép ảnh, làm mềm viền, cắt sát hình, cảnh báo tỉ lệ và độ phân giải thấp; bảng tình trạng kiểm tra tỉ lệ cả với PNG.
 - 2026-11-11 (TestFlight): upload build **1.0 (2)** = commit `a168522` (hình vector đầu tiên, header 2 dòng) lên "Test Tidy Desk".
 - 2026-11-11 (Header + ảnh nhẹ hơn): tên màn trong header xuống tối đa 2 dòng thay vì bị cắt; pill đồng hồ / số nước không bị bóp. Tấm tổng hợp ảnh hình render 1x. Build + 62/63 pass + 1 skip; chụp lại `screenshots/app/`.
 - 2026-11-11 (Build Mac `f5a9d2c`): build OK, 62/63 pass + 1 skip. Sửa `ArtPreviewTests` (thiếu `self.` trong closure; tấm tổng hợp chia 2 cột vì 1 cột vượt giới hạn texture → ảnh trắng). Commit ảnh `screenshots/art/` + `screenshots/app/` theo `MAC_BUILD.md`.

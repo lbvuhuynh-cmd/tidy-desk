@@ -131,12 +131,75 @@ def clean_svg(text):
     return text, notes
 
 
+def png_size(path: Path):
+    """(width, height) from the PNG header, no imaging library needed."""
+    head = path.read_bytes()[:24]
+    if head[:8] != b"\x89PNG\r\n\x1a\n":
+        return None
+    return int.from_bytes(head[16:20], "big"), int.from_bytes(head[20:24], "big")
+
+
+def clean_png(src: Path, dst: Path):
+    """Make a flat opaque background transparent (flood fill from the edges) and crop to the drawing.
+    Needs Pillow (pip install pillow); without it the PNG is copied unchanged. Returns notes."""
+    try:
+        from PIL import Image
+    except ImportError:
+        shutil.copy2(src, dst)
+        return ["copied as is (install Pillow to auto-remove a PNG background)"]
+    from collections import deque
+    im = Image.open(src).convert("RGBA")
+    w, h = im.size
+    px = im.load()
+    notes = []
+    corners = [px[0, 0], px[w - 1, 0], px[0, h - 1], px[w - 1, h - 1]]
+    bg = corners[0]
+    dist = lambda c: max(abs(c[i] - bg[i]) for i in range(3))  # noqa: E731
+    if bg[3] == 255 and all(c[3] == 255 and dist(c) <= 12 for c in corners):
+        tol = 22
+        seen = bytearray(w * h)
+        queue = deque([(x, 0) for x in range(w)] + [(x, h - 1) for x in range(w)]
+                      + [(0, y) for y in range(h)] + [(w - 1, y) for y in range(h)])
+        while queue:
+            x, y = queue.popleft()
+            if seen[y * w + x]:
+                continue
+            seen[y * w + x] = 1
+            if dist(px[x, y]) > tol:
+                continue
+            px[x, y] = (0, 0, 0, 0)
+            for nx, ny in ((x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)):
+                if 0 <= nx < w and 0 <= ny < h and not seen[ny * w + nx]:
+                    queue.append((nx, ny))
+        # Soften the fringe so the cut edge isn't jagged.
+        for y in range(1, h - 1):
+            for x in range(1, w - 1):
+                r, g, b, a = px[x, y]
+                if a and any(px[x + dx, y + dy][3] == 0 for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1))):
+                    d = dist((r, g, b))
+                    if d < 60:
+                        px[x, y] = (r, g, b, int(255 * d / 60))
+        notes.append("removed opaque background")
+    box = im.getbbox()
+    if box and (box[2] - box[0] < 0.97 * w or box[3] - box[1] < 0.97 * h):
+        pad = max(2, int(0.005 * max(w, h)))
+        box = (max(0, box[0] - pad), max(0, box[1] - pad), min(w, box[2] + pad), min(h, box[3] + pad))
+        im = im.crop(box)
+        notes.append(f"cropped {w}x{h} -> {im.size[0]}x{im.size[1]}")
+    im.save(dst)
+    return notes
+
+
 def aspect_note(text, size):
     """Warning text if the SVG's aspect ratio is far from the footprint's, else None."""
     box = svg_viewbox(text)
     if not box:
         return None
-    art, cells = box[2] / box[3], size[0] / size[1]
+    return ratio_note(box[2] / box[3], size)
+
+
+def ratio_note(art, size):
+    cells = size[0] / size[1]
     ratio = art / cells
     if 0.85 <= ratio <= 1.18:
         return None
@@ -147,6 +210,9 @@ def aspect_note(text, size):
 def aspect_issue(imageset: Path, size):
     for svg in imageset.glob("*.svg"):
         return aspect_note(svg.read_text(encoding="utf-8"), size)
+    for png in imageset.glob("*.png"):
+        dims = png_size(png)
+        return ratio_note(dims[0] / dims[1], size) if dims else None
     return None
 
 
@@ -179,6 +245,15 @@ def import_folder(folder: Path, assets):
             aspect = aspect_note(text, assets[name]["size"])
             if aspect:
                 notes.append("WARNING " + aspect)
+        elif src.suffix.lower() == ".png":
+            notes = clean_png(src, target / out)
+            dims = png_size(target / out)
+            aspect = ratio_note(dims[0] / dims[1], assets[name]["size"]) if dims else None
+            if aspect:
+                notes.append("WARNING " + aspect)
+            if dims and dims[0] < assets[name]["size"][0] * 192:
+                notes.append(f"WARNING only {dims[0]} px wide: may look soft on 3x screens "
+                             f"(aim for {assets[name]['size'][0] * 256} px)")
         else:
             shutil.copy2(src, target / out)
         contents = {"images": [{"filename": out, "idiom": "universal"}],
