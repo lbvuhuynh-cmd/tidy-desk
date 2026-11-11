@@ -158,8 +158,11 @@ def import_folder(folder: Path, assets):
     chosen = {}
     for f in folder.iterdir():
         ext = f.suffix.lower()
-        if ext in preference and (f.stem not in chosen or preference[ext] < preference[chosen[f.stem].suffix.lower()]):
-            chosen[f.stem] = f
+        stem = f.stem
+        while Path(stem).suffix.lower() in preference:  # "mouse.svg.svg" (Windows hides the real extension)
+            stem = Path(stem).stem
+        if ext in preference and (stem not in chosen or preference[ext] < preference[chosen[stem].suffix.lower()]):
+            chosen[stem] = f
     for name, src in sorted(chosen.items()):
         if name not in assets:
             print(f"skip  {src.name}: no level uses an asset called '{name}' (check the spelling in ASSETS.md)")
@@ -168,16 +171,17 @@ def import_folder(folder: Path, assets):
         if target.exists():
             shutil.rmtree(target)
         target.mkdir(parents=True)
+        out = name + src.suffix.lower()
         notes = []
         if src.suffix.lower() == ".svg":
             text, notes = clean_svg(src.read_text(encoding="utf-8"))
-            (target / src.name).write_text(text, encoding="utf-8", newline="\n")
+            (target / out).write_text(text, encoding="utf-8", newline="\n")
             aspect = aspect_note(text, assets[name]["size"])
             if aspect:
                 notes.append("WARNING " + aspect)
         else:
-            shutil.copy2(src, target / src.name)
-        contents = {"images": [{"filename": src.name, "idiom": "universal"}],
+            shutil.copy2(src, target / out)
+        contents = {"images": [{"filename": out, "idiom": "universal"}],
                     "info": {"author": "xcode", "version": 1}}
         if src.suffix.lower() in (".svg", ".pdf"):
             contents["properties"] = {"preserves-vector-representation": True}
