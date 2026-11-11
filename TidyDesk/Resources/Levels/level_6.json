@@ -1,0 +1,116 @@
+{
+  "levelId": 6,
+  "levelName": "Dream Setup",
+  "gridRows": 5,
+  "gridCols": 6,
+  "items": [
+    {
+      "id": "monitor",
+      "name": "Monitor",
+      "gridWidth": 3,
+      "gridHeight": 2,
+      "initialPosition": {
+        "row": 0,
+        "col": 0
+      },
+      "imageName": "display",
+      "category": "display"
+    },
+    {
+      "id": "keyboard",
+      "name": "Keyboard",
+      "gridWidth": 4,
+      "gridHeight": 1,
+      "initialPosition": {
+        "row": 3,
+        "col": 1
+      },
+      "imageName": "keyboard.fill",
+      "category": "peripheral"
+    },
+    {
+      "id": "mouse-pad",
+      "name": "Mouse Pad",
+      "gridWidth": 2,
+      "gridHeight": 2,
+      "initialPosition": {
+        "row": 1,
+        "col": 3
+      },
+      "imageName": "rectangle.fill",
+      "category": "peripheral"
+    },
+    {
+      "id": "plant",
+      "name": "Plant",
+      "gridWidth": 1,
+      "gridHeight": 1,
+      "initialPosition": null,
+      "imageName": "leaf.fill",
+      "category": "cozy"
+    },
+    {
+      "id": "tablet",
+      "name": "Tablet",
+      "gridWidth": 2,
+      "gridHeight": 2,
+      "initialPosition": null,
+      "imageName": "ipad.landscape",
+      "category": "display"
+    },
+    {
+      "id": "power-strip",
+      "name": "Power Strip",
+      "gridWidth": 3,
+      "gridHeight": 1,
+      "initialPosition": null,
+      "imageName": "powerplug.fill",
+      "category": "power"
+    },
+    {
+      "id": "phone",
+      "name": "Phone",
+      "gridWidth": 1,
+      "gridHeight": 2,
+      "initialPosition": null,
+      "imageName": "iphone",
+      "category": "mobile"
+    },
+    {
+      "id": "mouse",
+      "name": "Mouse",
+      "gridWidth": 1,
+      "gridHeight": 1,
+      "initialPosition": null,
+      "imageName": "computermouse.fill",
+      "category": "peripheral"
+    },
+    {
+      "id": "speaker",
+      "name": "Speaker",
+      "gridWidth": 1,
+      "gridHeight": 2,
+      "initialPosition": null,
+      "imageName": "hifispeaker.fill",
+      "category": "audio"
+    },
+    {
+      "id": "coffee-mug",
+      "name": "Coffee Mug",
+      "gridWidth": 1,
+      "gridHeight": 1,
+      "initialPosition": null,
+      "imageName": "cup.and.saucer.fill",
+      "category": "cozy"
+    },
+    {
+      "id": "desk-lamp",
+      "name": "Desk Lamp",
+      "gridWidth": 1,
+      "gridHeight": 2,
+      "initialPosition": null,
+      "imageName": "lamp.desk.fill",
+      "category": "cozy"
+    }
+  ]
+}

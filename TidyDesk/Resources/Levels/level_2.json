@@ -1,0 +1,47 @@
+{
+  "levelId": 2,
+  "levelName": "Music Break",
+  "gridRows": 3,
+  "gridCols": 4,
+  "items": [
+    {
+      "id": "cable-bundle",
+      "name": "Cable Bundle",
+      "gridWidth": 2,
+      "gridHeight": 1,
+      "initialPosition": {
+        "row": 1,
+        "col": 1
+      },
+      "imageName": "cable.connector",
+      "category": "power"
+    },
+    {
+      "id": "headphones",
+      "name": "Headphones",
+      "gridWidth": 2,
+      "gridHeight": 2,
+      "initialPosition": null,
+      "imageName": "headphones",
+      "category": "audio"
+    },
+    {
+      "id": "tower-speaker",
+      "name": "Tower Speaker",
+      "gridWidth": 1,
+      "gridHeight": 3,
+      "initialPosition": null,
+      "imageName": "hifispeaker.fill",
+      "category": "audio"
+    },
+    {
+      "id": "desk-lamp",
+      "name": "Desk Lamp",
+      "gridWidth": 1,
+      "gridHeight": 3,
+      "initialPosition": null,
+      "imageName": "lamp.desk.fill",
+      "category": "cozy"
+    }
+  ]
+}

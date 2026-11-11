@@ -1,0 +1,77 @@
+{
+  "levelId": 4,
+  "levelName": "Home Office",
+  "gridRows": 4,
+  "gridCols": 5,
+  "items": [
+    {
+      "id": "monitor",
+      "name": "Monitor",
+      "gridWidth": 3,
+      "gridHeight": 2,
+      "initialPosition": {
+        "row": 1,
+        "col": 0
+      },
+      "imageName": "display",
+      "category": "display"
+    },
+    {
+      "id": "keyboard",
+      "name": "Keyboard",
+      "gridWidth": 4,
+      "gridHeight": 1,
+      "initialPosition": {
+        "row": 3,
+        "col": 1
+      },
+      "imageName": "keyboard.fill",
+      "category": "peripheral"
+    },
+    {
+      "id": "phone",
+      "name": "Phone",
+      "gridWidth": 1,
+      "gridHeight": 2,
+      "initialPosition": null,
+      "imageName": "iphone",
+      "category": "mobile"
+    },
+    {
+      "id": "cable-bundle",
+      "name": "Cable Bundle",
+      "gridWidth": 2,
+      "gridHeight": 1,
+      "initialPosition": null,
+      "imageName": "cable.connector",
+      "category": "power"
+    },
+    {
+      "id": "speaker",
+      "name": "Speaker",
+      "gridWidth": 1,
+      "gridHeight": 2,
+      "initialPosition": null,
+      "imageName": "hifispeaker.fill",
+      "category": "audio"
+    },
+    {
+      "id": "controller",
+      "name": "Controller",
+      "gridWidth": 2,
+      "gridHeight": 1,
+      "initialPosition": null,
+      "imageName": "gamecontroller.fill",
+      "category": "peripheral"
+    },
+    {
+      "id": "notebook",
+      "name": "Notebook",
+      "gridWidth": 1,
+      "gridHeight": 2,
+      "initialPosition": null,
+      "imageName": "book.closed.fill",
+      "category": "cozy"
+    }
+  ]
+}

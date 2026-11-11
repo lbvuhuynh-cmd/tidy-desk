@@ -1,0 +1,95 @@
+{
+  "levelId": 5,
+  "levelName": "Streamer Corner",
+  "gridRows": 5,
+  "gridCols": 5,
+  "items": [
+    {
+      "id": "laptop",
+      "name": "Laptop",
+      "gridWidth": 3,
+      "gridHeight": 2,
+      "initialPosition": {
+        "row": 0,
+        "col": 1
+      },
+      "imageName": "laptopcomputer",
+      "category": "display"
+    },
+    {
+      "id": "keyboard",
+      "name": "Keyboard",
+      "gridWidth": 4,
+      "gridHeight": 1,
+      "initialPosition": {
+        "row": 3,
+        "col": 1
+      },
+      "imageName": "keyboard.fill",
+      "category": "peripheral"
+    },
+    {
+      "id": "webcam",
+      "name": "Webcam",
+      "gridWidth": 1,
+      "gridHeight": 1,
+      "initialPosition": null,
+      "imageName": "web.camera.fill",
+      "category": "mobile"
+    },
+    {
+      "id": "headphones",
+      "name": "Headphones",
+      "gridWidth": 2,
+      "gridHeight": 2,
+      "initialPosition": null,
+      "imageName": "headphones",
+      "category": "audio"
+    },
+    {
+      "id": "mouse",
+      "name": "Mouse",
+      "gridWidth": 1,
+      "gridHeight": 1,
+      "initialPosition": null,
+      "imageName": "computermouse.fill",
+      "category": "peripheral"
+    },
+    {
+      "id": "microphone",
+      "name": "Microphone",
+      "gridWidth": 1,
+      "gridHeight": 2,
+      "initialPosition": null,
+      "imageName": "mic.fill",
+      "category": "audio"
+    },
+    {
+      "id": "cable-bundle",
+      "name": "Cable Bundle",
+      "gridWidth": 2,
+      "gridHeight": 1,
+      "initialPosition": null,
+      "imageName": "cable.connector",
+      "category": "power"
+    },
+    {
+      "id": "mouse-pad",
+      "name": "Mouse Pad",
+      "gridWidth": 2,
+      "gridHeight": 2,
+      "initialPosition": null,
+      "imageName": "rectangle.fill",
+      "category": "peripheral"
+    },
+    {
+      "id": "coffee-mug",
+      "name": "Coffee Mug",
+      "gridWidth": 1,
+      "gridHeight": 1,
+      "initialPosition": null,
+      "imageName": "cup.and.saucer.fill",
+      "category": "cozy"
+    }
+  ]
+}

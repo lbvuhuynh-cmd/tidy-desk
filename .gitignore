@@ -1,0 +1,7 @@
+*.xcodeproj/
+DerivedData/
+.build/
+xcuserdata/
+__pycache__/
+.DS_Store
+build/

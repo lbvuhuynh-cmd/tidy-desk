@@ -1,0 +1,38 @@
+{
+  "levelId": 1,
+  "levelName": "Morning Coffee",
+  "gridRows": 2,
+  "gridCols": 3,
+  "items": [
+    {
+      "id": "coffee-mug",
+      "name": "Coffee Mug",
+      "gridWidth": 1,
+      "gridHeight": 1,
+      "initialPosition": {
+        "row": 0,
+        "col": 1
+      },
+      "imageName": "cup.and.saucer.fill",
+      "category": "cozy"
+    },
+    {
+      "id": "cable-bundle",
+      "name": "Cable Bundle",
+      "gridWidth": 2,
+      "gridHeight": 1,
+      "initialPosition": null,
+      "imageName": "cable.connector",
+      "category": "power"
+    },
+    {
+      "id": "compact-keyboard",
+      "name": "Compact Keyboard",
+      "gridWidth": 3,
+      "gridHeight": 1,
+      "initialPosition": null,
+      "imageName": "keyboard.fill",
+      "category": "peripheral"
+    }
+  ]
+}
