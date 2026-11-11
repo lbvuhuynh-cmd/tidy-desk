@@ -17,20 +17,29 @@ Game giải đố "dọn dẹp" (Cozy Tidy / Organization Puzzle) cho iOS 17+, c
 | Xoay (tap-to-rotate) | Chạm nhẹ món trong ngăn kéo → xoay 90° (đổi rộng/cao, hình xoay theo), hiệu ứng quay 1/4 vòng có lò xo. Kéo chỉ bắt đầu sau 6pt nên chạm không bị nhầm thành kéo. Món trên bàn không xoay được (cất vào ngăn kéo trước). Món dài có huy hiệu ↻. Xoay không tính là nước. VoiceOver: hành động "Rotate" |
 | Qua màn | Viền bàn đổi thành dải LED gradient phát sáng, ô lưới mờ đi, bàn nảy nhẹ. **Từng thiết bị lóe viền LED theo làn sóng** từ góc trên-trái xuống góc dưới-phải rồi giữ ánh sáng dịu (`ClearGlowEffect`). Sau 0.9s: confetti nhẹ màu LED (tắt khi Reduce Motion) + popup "Setup Complete!": 3 sao, **thời gian, số nước, điểm (đếm tăng dần)**, huy hiệu "New best!". Rung success + arpeggio |
 | Đồng hồ & điểm | Đồng hồ chạy từ lần chạm đầu tiên (không tính lúc đọc màn), dừng khi xong, hiện ở header. Điểm = 100/món + 5 × số giây nhanh hơn chuẩn (6s/món + 10s) − 25 × mỗi nước thừa, tối thiểu 25/món. Lưu `bestTime`, `bestScore` trong `LevelProgress` |
-| Giao diện | Phong cách modern tech setup tối giản: bàn gỗ sồi trên nền xám ấm (sáng), gỗ óc chó + xám than (tối). Món có màu dịu theo nhóm (slate, graphite, lavender, sage, clay, honey). Ngăn kéo có tay nắm. `LevelSelectView` (lưới bàn, sao, mở khóa lần lượt). Header: số nước, menu Reset desk / Sound / Haptics |
+| Giao diện | Phong cách modern tech setup tối giản: bàn gỗ sồi trên nền xám ấm (sáng), gỗ óc chó + xám than (tối). Món có màu dịu theo nhóm (slate, graphite, lavender, sage, clay, honey). Ngăn kéo có tay nắm. `LevelSelectView`: thẻ "Level N" (khóa / PLAY / NEW / đã qua + sao + thời gian tốt nhất), ô tổng kết tiến độ, nút Continue, thẻ khóa lắc khi bấm, hiệu ứng mở khóa. Header màn chơi: nút Back (hỏi xác nhận nếu đang chơi dở), "Level N" + tên, đồng hồ, số nước, menu Reset desk / Sound / Haptics |
 | Màn chơi | 8 file: Morning Coffee 3×2 → Dream Setup 6×5, Minimalist WFH Setup 5×4 (có correctPosition), Gaming Battlestation 8×6 (15 món). Đồ: bàn phím, chuột, lót chuột, tay cầm, màn hình, laptop, tablet, tai nghe, loa, mic, điện thoại, webcam, bó cáp, ổ điện, cốc, cây, đèn, sổ. Hình tạm = SF Symbols |
-| Unit test | `DeskGridTests`, `TilingSolverTests`, `LevelCatalogTests` (diện tích, giải được, món bừa bộn bắt buộc phải dời, symbol tồn tại), `DeskDragViewModelTests` (luật, bàn bừa bộn, xoay, đồng hồ + điểm, rung khi qua ranh giới ô, engine cử chỉ với khung giả), `ScoreCalculatorTests`, solver có xoay, `SnapMathTests`, `FeedbackTests` (file WAV có trong bundle và phát được, thiếu file thì dùng âm tổng hợp, preload, công tắc Sound/Haptics, snap phát ngay ở onEnded, thả sai → error) |
+| Unit test (58, tất cả pass trên Mac) | `DeskGridTests.swift` (22): `DeskGridTests` (ma trận, chẩn đoán từng ô, footprint khi xoay), `TilingSolverTests` (có xoay, ghim món), `SnapOriginTests` (làm tròn, nam châm, tầm hút, mép bàn, chống rung giật), `ScoreCalculatorTests`. `DeskDragViewModelTests.swift` (20): luật, bàn bừa bộn, correctPosition, xoay, đồng hồ + điểm, rung khi qua ranh giới ô, hút cạnh vật cản, engine cử chỉ với khung giả (animation thả được inject qua `animateSettle`), `SnapMathTests`. `LevelManagerTests.swift` (9): `BundledLevelsTests` (8 file màn nạp sạch, giải được, món bừa bộn bắt buộc phải dời, vị trí đích phủ kín bàn, symbol tồn tại), `LevelManagerTests` (giải mã schema, file hỏng / thiếu khóa / sai số / trùng id, mở khóa, trạng thái thẻ, Continue). `FeedbackTests.swift` (7): WAV có trong bundle và phát được, thiếu file thì dùng âm tổng hợp, preload, công tắc Sound/Haptics |
 
 ## 3. Cách tính sao
 Số nước = số lần đặt thành công (đặt món mới, hoặc dời món sang ô khác). Số nước ≤ tổng số món → 3 sao. Thêm tối đa `max(2, số món / 3)` nước → 2 sao. Nhiều hơn → 1 sao.
 
 ## 4. Việc tiếp theo (gợi ý)
 1. ~~Build trên Mac~~: xong 2026-11-11, xem mục 5.
-2. Thử cảm giác trên máy thật: độ rung, độ nhấc khi kéo từ ngăn kéo (`lift` trong `beginDrag`), lò xo khi đặt.
+2. **Thử cảm giác trên iPhone thật (TestFlight build 1)** rồi chỉnh các thông số:
+   | Cảm giác | Thông số | File |
+   |---|---|---|
+   | Món nhấc lên to / mờ bao nhiêu | `liftScale = 1.08`, `liftOpacity = 0.9` | `DeskDragViewModel.swift` |
+   | Món nổi cao hơn ngón tay khi kéo từ ngăn kéo | `lift = min(cao/2, 1 ô) + 12` trong `beginDrag` | `DeskDragViewModel.swift` |
+   | Chạm bao xa thì thành kéo (chạm để xoay) | `dragThreshold = 6` pt | `DeskDragViewModel.swift` |
+   | Lò xo khi thả đúng / bật về | `spring(response: 0.22, damping 0.68)` / `(0.36, 0.58)` | `DeskDragViewModel.swift` |
+   | Độ đậm bóng khi nhấc | `0.34 * elevation`, bán kính `4 + 16 * elevation` | `ItemTileView.swift` |
+   | Tầm hút nam châm / chống rung giật | `maxReach = 0.75`, `hysteresis = 0.15` (ô) | `SnapMath.swift` |
+   | Âm lượng từng âm | `Sound.volume` | `SoundManager.swift` |
 3. **"Vị trí tối ưu"**: luật theo `category`, ví dụ chuột cạnh bàn phím, cốc không cạnh laptop, đèn ở góc. Mỗi luật đúng được thưởng sao.
 4. Dây cáp: món dạng đường nối 2 thiết bị (cable management), làm điểm nhấn riêng của chủ đề.
 5. Món hình chữ L, nút gợi ý (`TilingSolver.solvePlacements(fixed:allowRotation:)` đã hỗ trợ ghim các món đã đặt và xoay).
-6. Hiện thời gian / điểm tốt nhất trên thẻ màn ở `LevelSelectView`.
+6. ~~Hiện thời gian tốt nhất trên thẻ màn~~: xong (thẻ đã qua hiện sao + thời gian). Có thể thêm điểm tốt nhất.
 7. Ảnh thật cho thiết bị; thay 6 file WAV tạm bằng âm thanh thu thật (cùng tên, xem README). Thêm Localizable.xcstrings.
 
 ## 5. Kết quả build/test trên Mac
@@ -57,6 +66,7 @@ xcodebuild -exportArchive -archivePath <tmp>/TidyDesk.xcarchive -exportOptionsPl
 - Icon hiện là icon tạm do `tools/generate_icon.py` vẽ (1024×1024, không alpha). Thay icon thật: ghi đè `Assets.xcassets/AppIcon.appiconset/AppIcon.png`.
 
 ## Lịch sử
+- 2026-11-11 (Ghi chú): cập nhật PROJECT_NOTES khớp code hiện tại: danh sách 58 test theo file, mô tả màn chọn màn + header, bảng thông số chỉnh cảm giác cho đợt thử TestFlight.
 - 2026-11-11 (TestFlight): thêm icon tạm (`tools/generate_icon.py`). Upload TestFlight build **1.0 (1)** (commit `ae56659`) lên app "Test Tidy Desk", bundle `com.powervh.tidydesk.beta`, team Retalix. Xem mục 5b.
 - 2026-11-11 (Build Mac lần đầu): Xcode 26.5, build OK không lỗi biên dịch; 58/58 test pass sau khi cho phép inject animation thả trong `DeskDragViewModel` (`animateSettle`) để test kiểm tra được trạng thái `settle`, và sửa warning MainActor ở `FeedbackEngine.init`. Thêm `CLAUDE.md`.
 - 2026-11-11 (Màn chọn màn): `LevelSelectView` làm lại, có thẻ ghi "Level N", tên màn, bàn thu nhỏ (hiện món bừa bộn theo màu nhóm), 3 trạng thái: khóa (bàn mờ, ổ khóa), chưa chơi (nhãn PLAY / NEW), đã qua (dấu tích + sao tốt nhất + thời gian tốt nhất). Ô tổng kết "x / y bàn, sao / tối đa" kèm thanh tiến độ. Nút **Continue** nhảy tới màn kế cần chơi (Replay khi đã xong hết). Bấm thẻ khóa: thẻ lắc + rung Warning + thông báo "Finish Level N to unlock". Màn **vừa mở khóa** chạy hiệu ứng ổ khóa bật ra một lần khi quay về menu (đánh dấu đã xem trong `@AppStorage`). `NavigationStack(path:)`, cuộn sẵn tới màn đang chơi. Nút Back trong game hỏi xác nhận nếu đang chơi dở. `LevelManager`: `status(of:)` → `.locked / .unlocked / .completed(stars:)`, `continueLevelId`, `prerequisite(of:)`, `maxStars` (có test).
