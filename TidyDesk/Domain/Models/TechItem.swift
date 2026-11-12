@@ -9,6 +9,7 @@ enum ItemCategory: String, Codable, CaseIterable, Sendable {
     case mobile       // phone, webcam
     case power        // cables, power strip, charger
     case cozy         // mug, plant, lamp, notebook
+    case garden       // watering can, pots, seed packets, garden tools
 
     /// Last-resort SF Symbol when an item has neither its asset nor its own `symbol`.
     var defaultSymbol: String {
@@ -19,6 +20,7 @@ enum ItemCategory: String, Codable, CaseIterable, Sendable {
         case .mobile: "iphone"
         case .power: "powerplug.fill"
         case .cozy: "cup.and.saucer.fill"
+        case .garden: "leaf.fill"
         }
     }
 }

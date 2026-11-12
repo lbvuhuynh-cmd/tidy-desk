@@ -1,0 +1,98 @@
+{
+  "levelId": 13,
+  "levelName": "Video Call Ready",
+  "chapter": "Office Hours",
+  "gridRows": 4,
+  "gridCols": 6,
+  "items": [
+    {
+      "id": "mouse-on-mat",
+      "name": "Mouse on Mat",
+      "gridWidth": 2,
+      "gridHeight": 1,
+      "initialPosition": {
+        "row": 2,
+        "col": 0
+      },
+      "imageName": "mouse_on_mat",
+      "symbol": "computermouse.fill",
+      "category": "peripheral"
+    },
+    {
+      "id": "cable-bundle",
+      "name": "Cable Bundle",
+      "gridWidth": 2,
+      "gridHeight": 1,
+      "initialPosition": {
+        "row": 0,
+        "col": 4
+      },
+      "imageName": "cable_bundle",
+      "symbol": "cable.connector",
+      "category": "power"
+    },
+    {
+      "id": "keyboard-compact",
+      "name": "Compact Keyboard",
+      "gridWidth": 3,
+      "gridHeight": 1,
+      "imageName": "keyboard_compact",
+      "symbol": "keyboard.fill",
+      "category": "peripheral"
+    },
+    {
+      "id": "desk-lamp-tall",
+      "name": "Tall Desk Lamp",
+      "gridWidth": 1,
+      "gridHeight": 3,
+      "imageName": "desk_lamp_tall",
+      "symbol": "lamp.desk.fill",
+      "category": "cozy"
+    },
+    {
+      "id": "phone",
+      "name": "Phone",
+      "gridWidth": 1,
+      "gridHeight": 2,
+      "imageName": "phone",
+      "symbol": "iphone",
+      "category": "mobile"
+    },
+    {
+      "id": "power-strip",
+      "name": "Power Strip",
+      "gridWidth": 3,
+      "gridHeight": 1,
+      "imageName": "power_strip",
+      "symbol": "powerplug.fill",
+      "category": "power"
+    },
+    {
+      "id": "desk-lamp-tall-2",
+      "name": "Tall Desk Lamp",
+      "gridWidth": 1,
+      "gridHeight": 3,
+      "imageName": "desk_lamp_tall",
+      "symbol": "lamp.desk.fill",
+      "category": "cozy"
+    },
+    {
+      "id": "power-strip-2",
+      "name": "Power Strip",
+      "gridWidth": 3,
+      "gridHeight": 1,
+      "imageName": "power_strip",
+      "symbol": "powerplug.fill",
+      "category": "power"
+    },
+    {
+      "id": "keyboard-compact-2",
+      "name": "Compact Keyboard",
+      "gridWidth": 3,
+      "gridHeight": 1,
+      "imageName": "keyboard_compact",
+      "symbol": "keyboard.fill",
+      "category": "peripheral"
+    }
+  ]
+}

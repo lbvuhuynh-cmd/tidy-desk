@@ -1,0 +1,80 @@
+{
+  "levelId": 12,
+  "levelName": "Spreadsheet Day",
+  "chapter": "Office Hours",
+  "gridRows": 4,
+  "gridCols": 5,
+  "items": [
+    {
+      "id": "desk-lamp-tall",
+      "name": "Tall Desk Lamp",
+      "gridWidth": 1,
+      "gridHeight": 3,
+      "initialPosition": {
+        "row": 1,
+        "col": 1
+      },
+      "imageName": "desk_lamp_tall",
+      "symbol": "lamp.desk.fill",
+      "category": "cozy"
+    },
+    {
+      "id": "phone",
+      "name": "Phone",
+      "gridWidth": 1,
+      "gridHeight": 2,
+      "initialPosition": {
+        "row": 1,
+        "col": 4
+      },
+      "imageName": "phone",
+      "symbol": "iphone",
+      "category": "mobile"
+    },
+    {
+      "id": "desk-lamp-tall-2",
+      "name": "Tall Desk Lamp",
+      "gridWidth": 1,
+      "gridHeight": 3,
+      "imageName": "desk_lamp_tall",
+      "symbol": "lamp.desk.fill",
+      "category": "cozy"
+    },
+    {
+      "id": "keyboard-compact",
+      "name": "Compact Keyboard",
+      "gridWidth": 3,
+      "gridHeight": 1,
+      "imageName": "keyboard_compact",
+      "symbol": "keyboard.fill",
+      "category": "peripheral"
+    },
+    {
+      "id": "power-strip",
+      "name": "Power Strip",
+      "gridWidth": 3,
+      "gridHeight": 1,
+      "imageName": "power_strip",
+      "symbol": "powerplug.fill",
+      "category": "power"
+    },
+    {
+      "id": "keyboard-compact-2",
+      "name": "Compact Keyboard",
+      "gridWidth": 3,
+      "gridHeight": 1,
+      "imageName": "keyboard_compact",
+      "symbol": "keyboard.fill",
+      "category": "peripheral"
+    },
+    {
+      "id": "power-strip-2",
+      "name": "Power Strip",
+      "gridWidth": 3,
+      "gridHeight": 1,
+      "imageName": "power_strip",
+      "symbol": "powerplug.fill",
+      "category": "power"
+    }
+  ]
+}

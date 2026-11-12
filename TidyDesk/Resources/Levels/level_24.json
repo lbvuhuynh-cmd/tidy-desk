@@ -1,0 +1,98 @@
+{
+  "levelId": 24,
+  "levelName": "LAN Party",
+  "chapter": "Gaming Den",
+  "gridRows": 5,
+  "gridCols": 5,
+  "items": [
+    {
+      "id": "desk-lamp",
+      "name": "Desk Lamp",
+      "gridWidth": 1,
+      "gridHeight": 2,
+      "initialPosition": {
+        "row": 3,
+        "col": 1
+      },
+      "imageName": "desk_lamp",
+      "symbol": "lamp.desk.fill",
+      "category": "cozy"
+    },
+    {
+      "id": "speaker-tower",
+      "name": "Tower Speaker",
+      "gridWidth": 1,
+      "gridHeight": 3,
+      "initialPosition": {
+        "row": 1,
+        "col": 0
+      },
+      "imageName": "speaker_tower",
+      "symbol": "hifispeaker.fill",
+      "category": "audio"
+    },
+    {
+      "id": "speaker",
+      "name": "Speaker",
+      "gridWidth": 1,
+      "gridHeight": 2,
+      "imageName": "speaker",
+      "symbol": "hifispeaker.fill",
+      "category": "audio"
+    },
+    {
+      "id": "power-strip",
+      "name": "Power Strip",
+      "gridWidth": 3,
+      "gridHeight": 1,
+      "imageName": "power_strip",
+      "symbol": "powerplug.fill",
+      "category": "power"
+    },
+    {
+      "id": "mic-boom",
+      "name": "Boom Mic",
+      "gridWidth": 1,
+      "gridHeight": 3,
+      "imageName": "mic_boom",
+      "symbol": "mic.fill",
+      "category": "audio"
+    },
+    {
+      "id": "headphones",
+      "name": "Headphones",
+      "gridWidth": 2,
+      "gridHeight": 2,
+      "imageName": "headphones",
+      "symbol": "headphones",
+      "category": "audio"
+    },
+    {
+      "id": "mouse-on-mat",
+      "name": "Mouse on Mat",
+      "gridWidth": 2,
+      "gridHeight": 1,
+      "imageName": "mouse_on_mat",
+      "symbol": "computermouse.fill",
+      "category": "peripheral"
+    },
+    {
+      "id": "mic-boom-2",
+      "name": "Boom Mic",
+      "gridWidth": 1,
+      "gridHeight": 3,
+      "imageName": "mic_boom",
+      "symbol": "mic.fill",
+      "category": "audio"
+    },
+    {
+      "id": "power-strip-2",
+      "name": "Power Strip",
+      "gridWidth": 3,
+      "gridHeight": 1,
+      "imageName": "power_strip",
+      "symbol": "powerplug.fill",
+      "category": "power"
+    }
+  ]
+}

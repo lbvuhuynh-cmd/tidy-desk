@@ -1,0 +1,80 @@
+{
+  "levelId": 22,
+  "levelName": "Headset On",
+  "chapter": "Gaming Den",
+  "gridRows": 4,
+  "gridCols": 5,
+  "items": [
+    {
+      "id": "speaker",
+      "name": "Speaker",
+      "gridWidth": 1,
+      "gridHeight": 2,
+      "initialPosition": {
+        "row": 2,
+        "col": 0
+      },
+      "imageName": "speaker",
+      "symbol": "hifispeaker.fill",
+      "category": "audio"
+    },
+    {
+      "id": "speaker-tower",
+      "name": "Tower Speaker",
+      "gridWidth": 1,
+      "gridHeight": 3,
+      "initialPosition": {
+        "row": 0,
+        "col": 3
+      },
+      "imageName": "speaker_tower",
+      "symbol": "hifispeaker.fill",
+      "category": "audio"
+    },
+    {
+      "id": "speaker-tower-2",
+      "name": "Tower Speaker",
+      "gridWidth": 1,
+      "gridHeight": 3,
+      "imageName": "speaker_tower",
+      "symbol": "hifispeaker.fill",
+      "category": "audio"
+    },
+    {
+      "id": "mic-boom",
+      "name": "Boom Mic",
+      "gridWidth": 1,
+      "gridHeight": 3,
+      "imageName": "mic_boom",
+      "symbol": "mic.fill",
+      "category": "audio"
+    },
+    {
+      "id": "keyboard-compact",
+      "name": "Compact Keyboard",
+      "gridWidth": 3,
+      "gridHeight": 1,
+      "imageName": "keyboard_compact",
+      "symbol": "keyboard.fill",
+      "category": "peripheral"
+    },
+    {
+      "id": "keyboard-compact-2",
+      "name": "Compact Keyboard",
+      "gridWidth": 3,
+      "gridHeight": 1,
+      "imageName": "keyboard_compact",
+      "symbol": "keyboard.fill",
+      "category": "peripheral"
+    },
+    {
+      "id": "mic-boom-2",
+      "name": "Boom Mic",
+      "gridWidth": 1,
+      "gridHeight": 3,
+      "imageName": "mic_boom",
+      "symbol": "mic.fill",
+      "category": "audio"
+    }
+  ]
+}

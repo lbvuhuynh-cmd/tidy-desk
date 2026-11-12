@@ -58,7 +58,13 @@ struct ItemTraits: Equatable, Sendable {
         if has("headphone") { return .init(material: .soft, life: .none) }
         if has("mic") { return .init(material: .device, life: .statusLED) }
         if has("mug", "coffee", "cup", "tea") { return .init(material: .ceramic, life: .steam) }
-        if has("plant", "succulent", "cactus") { return .init(material: .ceramic, life: .sway) }
+        // Garden: paper / fabric / sacks land soft; tools clink; anything growing sways.
+        if has("seed_packet", "gloves", "soil", "basket") { return .init(material: .soft, life: .none) }
+        if has("watering") { return .init(material: .ceramic, life: .none) }
+        if has("shears", "trowel", "birdhouse") { return .init(material: .device, life: .none) }
+        if has("plant", "succulent", "cactus", "flower", "herb", "seedling", "monstera") {
+            return .init(material: .ceramic, life: .sway)
+        }
         if has("lamp", "light") { return .init(material: .device, life: .warmLight) }
         if has("monitor", "laptop", "tablet", "phone", "display", "screen") {
             return .init(material: .device, life: .screenGlow)
@@ -76,7 +82,7 @@ struct ItemTraits: Equatable, Sendable {
         case .display: return .init(material: .device, life: .screenGlow)
         case .audio: return .init(material: .device, life: .none)
         case .power: return .init(material: .cable, life: .none)
-        case .cozy: return .init(material: .soft, life: .none)
+        case .cozy, .garden: return .init(material: .soft, life: .none)
         }
     }
 }

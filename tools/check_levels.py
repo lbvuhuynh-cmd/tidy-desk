@@ -19,7 +19,7 @@ import sys
 from pathlib import Path
 
 LEVEL_DIR = Path(__file__).resolve().parent.parent / "TidyDesk" / "Resources" / "Levels"
-CATEGORIES = {"peripheral", "display", "audio", "mobile", "power", "cozy"}
+CATEGORIES = {"peripheral", "display", "audio", "mobile", "power", "cozy", "garden"}
 LEVEL_KEYS = {"levelId": int, "levelName": str, "gridRows": int, "gridCols": int, "items": list}
 ITEM_KEYS = {"id": str, "name": str, "gridWidth": int, "gridHeight": int, "imageName": str}
 ASSET_NAME = re.compile(r"^[a-z0-9]+(_[a-z0-9]+)*$")

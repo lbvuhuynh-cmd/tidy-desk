@@ -21,6 +21,21 @@ final class BundledLevelsTests: XCTestCase {
         XCTAssertTrue(levels.contains(where: \.hasFixedTargets), "a fixed-target level ships")
     }
 
+    /// Every shipped level belongs to a chapter, and each chapter is one unbroken run of levels.
+    func testLevelsAreGroupedIntoChapters() {
+        XCTAssertTrue(levels.allSatisfy { $0.chapter?.isEmpty == false }, "every level has a chapter")
+        var finished: Set<String> = []
+        var current: String?
+        for level in levels {
+            guard let chapter = level.chapter, chapter != current else { continue }
+            XCTAssertFalse(finished.contains(chapter), "chapter '\(chapter)' is split (level \(level.levelId))")
+            if let current { finished.insert(current) }
+            current = chapter
+        }
+        XCTAssertTrue(levels.contains { $0.chapter == "Garden Corner" }, "the garden chapter ships")
+        XCTAssertGreaterThanOrEqual(levels.count, 38)
+    }
+
     func testEveryLevelIsSolvable() {
         for level in levels {
             let sizes = level.items.map(\.size)
@@ -162,6 +177,7 @@ final class LevelManagerTests: XCTestCase {
         XCTAssertNil(level.items[1].initialPosition, "absent = drawer")
         XCTAssertNil(level.items[0].category, "category is optional")
         XCTAssertEqual(level.items[1].category, .cozy)
+        XCTAssertNil(level.chapter, "chapter is optional")
         XCTAssertEqual(LevelValidator.problems(in: level), [])
 
         let board = level.makeBoard()

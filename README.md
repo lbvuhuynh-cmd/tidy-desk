@@ -35,10 +35,11 @@ TidyDesk/
   Services/Haptics/    HapticManager (singleton: light / selection / rigid / soft / warning / success)
   Services/Feedback/   GameFeedback + BabyFeedback (protocol) + FeedbackEngine (nối mỗi khoảnh khắc chơi → 1 haptic + 1 âm thanh)
   Shared/              Theme (sáng/tối, màu theo nhóm đồ, dải LED), FramePreferenceKey, FlowLayout
-  Resources/           Levels/level_1.json … level_8.json, Assets.xcassets, Sounds/*.wav
+  Resources/           Levels/level_1.json … level_38.json (4 chương), Assets.xcassets, Sounds/*.wav
 TidyDeskTests/         lưới, va chạm, solver, snap, drag engine, bàn bừa bộn ban đầu, LevelManager, âm thanh, Baby Corner
 schema/level_schema.json   JSON Schema của một màn (VS Code dùng nó để gợi ý và báo lỗi khi viết màn)
 tools/check_levels.py      kiểm tra mọi file level_<n>.json
+tools/generate_levels.py   sinh màn 9–38 theo chương (seed cố định; màn nào cũng giải được và buộc phải dọn)
 tools/generate_sounds.py   tạo 16 file .wav tạm
 tools/check_assets.py      danh sách 27 hình thiết bị + nhập hình (--import); quy cách vẽ: ASSETS.md
 MAC_BUILD.md               quy trình build/test/chụp màn hình trên Mac; ảnh nằm trong screenshots/ (app/, art/)
@@ -65,13 +66,14 @@ Thêm màn mới: tạo `TidyDesk/Resources/Levels/level_<n>.json` (n = `levelId
 |---|---|
 | `levelId` | Số thứ tự màn (1, 2, 3…), phải trùng số trong tên file. Thứ tự mở khóa đi theo số này |
 | `levelName` | Tên hiển thị |
+| `chapter` | Không bắt buộc. Tên chương ("Garden Corner"…); các màn liền nhau cùng chương được gom thành một nhóm trên menu |
 | `gridRows`, `gridCols` | Kích thước bàn (tối đa khoảng 8 cột trên iPhone) |
 | `items[].id` | Mã duy nhất trong màn |
 | `gridWidth`, `gridHeight` | Số ô chiếm (theo hướng gốc; người chơi có thể chạm để xoay) |
 | `initialPosition` | Ô trên-trái nếu món **nằm sẵn trên bàn** (bừa bộn); `null` hoặc bỏ trống = nằm trong ngăn kéo |
 | `correctPosition` | Không bắt buộc. Nếu có: màn chỉ qua khi món nằm **đúng ô này, đúng hướng gốc**, và bàn hiện viền mờ chỗ đích. Không có = đặt đâu vừa cũng được |
 | `imageName` | Tên ảnh trong Assets; nếu không có ảnh thì dùng SF Symbol cùng tên |
-| `category` | Không bắt buộc (mặc định `peripheral`): `peripheral`, `display`, `audio`, `mobile`, `power`, `cozy` |
+| `category` | Không bắt buộc (mặc định `peripheral`): `peripheral`, `display`, `audio`, `mobile`, `power`, `cozy`, `garden` |
 
 Luật: tổng diện tích các món = `gridRows × gridCols`, và phải còn ít nhất 1 món trong ngăn kéo. Với màn tự do có món bừa bộn, script còn kiểm tra rằng **để nguyên các món đó thì không thể xếp xong** (kể cả khi xoay đồ).
 Nếu một file bị lỗi, `LevelManager` bỏ qua file đó (game không bị crash) và ở bản Debug, lỗi được hiện ngay trên màn chọn bàn.

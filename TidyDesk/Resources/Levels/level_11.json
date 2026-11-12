@@ -1,0 +1,67 @@
+{
+  "levelId": 11,
+  "levelName": "Quiet Corner",
+  "chapter": "Office Hours",
+  "gridRows": 4,
+  "gridCols": 4,
+  "items": [
+    {
+      "id": "phone",
+      "name": "Phone",
+      "gridWidth": 1,
+      "gridHeight": 2,
+      "initialPosition": {
+        "row": 2,
+        "col": 2
+      },
+      "imageName": "phone",
+      "symbol": "iphone",
+      "category": "mobile"
+    },
+    {
+      "id": "keyboard-compact",
+      "name": "Compact Keyboard",
+      "gridWidth": 3,
+      "gridHeight": 1,
+      "imageName": "keyboard_compact",
+      "symbol": "keyboard.fill",
+      "category": "peripheral"
+    },
+    {
+      "id": "desk-lamp-tall",
+      "name": "Tall Desk Lamp",
+      "gridWidth": 1,
+      "gridHeight": 3,
+      "imageName": "desk_lamp_tall",
+      "symbol": "lamp.desk.fill",
+      "category": "cozy"
+    },
+    {
+      "id": "keyboard-compact-2",
+      "name": "Compact Keyboard",
+      "gridWidth": 3,
+      "gridHeight": 1,
+      "imageName": "keyboard_compact",
+      "symbol": "keyboard.fill",
+      "category": "peripheral"
+    },
+    {
+      "id": "speaker",
+      "name": "Speaker",
+      "gridWidth": 1,
+      "gridHeight": 2,
+      "imageName": "speaker",
+      "symbol": "hifispeaker.fill",
+      "category": "audio"
+    },
+    {
+      "id": "desk-lamp-tall-2",
+      "name": "Tall Desk Lamp",
+      "gridWidth": 1,
+      "gridHeight": 3,
+      "imageName": "desk_lamp_tall",
+      "symbol": "lamp.desk.fill",
+      "category": "cozy"
+    }
+  ]
+}

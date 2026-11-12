@@ -19,6 +19,20 @@ Danh sách đầy đủ, tình trạng từng hình, kích thước canvas: ch�
 | `monitor_ultrawide` | 4×2 | 512×256 |
 | `keyboard_fullsize` | 5×1 | 640×128 |
 
+**Góc làm vườn (chương 4, chưa có hình, đang dùng SF Symbol):**
+
+| Tên | Ô (rộng × cao) | Canvas gợi ý (pt) |
+|---|---|---|
+| `seed_packet`, `succulent_pot`, `birdhouse` | 1×1 | 128×128 |
+| `flower_pot`, `pruning_shears`, `garden_gloves` | 1×2 | 128×256 |
+| `grow_light` | 1×3 | 128×384 |
+| `seedling_tray` | 2×1 | 256×128 |
+| `watering_can`, `monstera_pot` | 2×2 | 256×256 |
+| `herb_planter` | 3×1 | 384×128 |
+| `garden_basket` | 3×2 | 384×256 |
+| `flower_box` | 4×1 | 512×128 |
+| `soil_bag` | 2×3 | 256×384 |
+
 ## Cách vẽ
 - **Nhìn thẳng từ trên xuống**, nền **trong suốt**, vẽ theo **hướng gốc** (`gridWidth × gridHeight`; ví dụ bàn phím nằm ngang). Khi người chơi xoay, game tự xoay cả hình 90° theo chiều kim đồng hồ, nên không cần vẽ bản xoay.
 - **Canvas đúng tỉ lệ ô**: 128 pt cho mỗi ô, theo bảng trên. Vẽ **sát mép canvas**, không chừa lề: game tự thêm khoảng đệm (khoảng 6% mỗi bên cộng phần cách giữa các ô).

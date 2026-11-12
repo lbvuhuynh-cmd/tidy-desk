@@ -161,24 +161,62 @@ struct LevelSelectView: View {
         }
     }
 
-    private var grid: some View {
-        LazyVGrid(columns: columns, spacing: 14) {
-            ForEach(Array(levelManager.availableLevels.enumerated()), id: \.element.levelId) { index, level in
-                let status = levelManager.status(of: level.levelId, progress: progress)
-                Button {
-                    status.isPlayable ? open(level) : rejectLocked(level)
-                } label: {
-                    LevelCard(number: index + 1,
-                              level: level,
-                              status: status,
-                              bestTime: progress.first { $0.levelId == level.levelId }?.bestTime,
-                              isJustUnlocked: justUnlocked.contains(level.levelId))
-                }
-                .buttonStyle(PressableCardStyle())
-                .modifier(ShakeEffect(shakes: CGFloat(shakes[level.levelId, default: 0])))
-                .id(level.levelId)
+    /// Consecutive levels sharing a `chapter` (level JSON) form one section; numbering stays global (Level 1…N).
+    private struct ChapterSection: Identifiable {
+        struct Entry {
+            let number: Int
+            let level: LevelData
+        }
+        let title: String?
+        var entries: [Entry]
+        var id: Int { entries.first?.level.levelId ?? 0 }
+    }
+
+    private var sections: [ChapterSection] {
+        var result: [ChapterSection] = []
+        for (index, level) in levelManager.availableLevels.enumerated() {
+            if let last = result.last, last.title == level.chapter {
+                result[result.count - 1].entries.append(.init(number: index + 1, level: level))
+            } else {
+                result.append(ChapterSection(title: level.chapter, entries: [.init(number: index + 1, level: level)]))
             }
         }
+        return result
+    }
+
+    private var grid: some View {
+        VStack(alignment: .leading, spacing: 22) {
+            ForEach(Array(sections.enumerated()), id: \.element.id) { chapterIndex, section in
+                VStack(alignment: .leading, spacing: 12) {
+                    if let title = section.title {
+                        ChapterHeader(number: chapterIndex + 1, title: title,
+                                      cleared: section.entries.filter { completedIds.contains($0.level.levelId) }.count,
+                                      total: section.entries.count)
+                    }
+                    LazyVGrid(columns: columns, spacing: 14) {
+                        ForEach(section.entries, id: \.level.levelId) { entry in
+                            levelButton(number: entry.number, level: entry.level)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private func levelButton(number: Int, level: LevelData) -> some View {
+        let status = levelManager.status(of: level.levelId, progress: progress)
+        return Button {
+            status.isPlayable ? open(level) : rejectLocked(level)
+        } label: {
+            LevelCard(number: number,
+                      level: level,
+                      status: status,
+                      bestTime: progress.first { $0.levelId == level.levelId }?.bestTime,
+                      isJustUnlocked: justUnlocked.contains(level.levelId))
+        }
+        .buttonStyle(PressableCardStyle())
+        .modifier(ShakeEffect(shakes: CGFloat(shakes[level.levelId, default: 0])))
+        .id(level.levelId)
     }
 
     @ViewBuilder
@@ -250,6 +288,52 @@ struct LevelSelectView: View {
 }
 
 // MARK: - Cards
+
+/// Section title above a chapter's cards: "Chapter 4 · Garden Corner" with a small icon and "3/10".
+private struct ChapterHeader: View {
+    let number: Int
+    let title: String
+    let cleared: Int
+    let total: Int
+
+    /// Icon by chapter title keyword; unknown titles get a generic one (chapters live in the level JSON).
+    private var icon: String {
+        let t = title.lowercased()
+        if t.contains("garden") || t.contains("plant") { return "leaf.fill" }
+        if t.contains("gaming") || t.contains("game") { return "gamecontroller.fill" }
+        if t.contains("office") || t.contains("work") { return "briefcase.fill" }
+        if t.contains("first") || t.contains("start") { return "sparkles" }
+        return "square.grid.2x2.fill"
+    }
+
+    var body: some View {
+        HStack(spacing: 10) {
+            Image(systemName: icon)
+                .font(.subheadline.weight(.semibold))
+                .foregroundStyle(Theme.accent)
+                .frame(width: 32, height: 32)
+                .background(Circle().fill(Theme.accent.opacity(0.14)))
+            VStack(alignment: .leading, spacing: 0) {
+                Text("Chapter \(number)")
+                    .font(.caption.weight(.bold))
+                    .foregroundStyle(.secondary)
+                    .textCase(.uppercase)
+                Text(title)
+                    .font(.title3.bold())
+            }
+            Spacer()
+            Text("\(cleared)/\(total)")
+                .font(.subheadline.weight(.semibold).monospacedDigit())
+                .foregroundStyle(cleared == total ? Theme.accent : .secondary)
+            if cleared == total {
+                Image(systemName: "checkmark.seal.fill").foregroundStyle(Theme.accent)
+            }
+        }
+        .padding(.top, 4)
+        .accessibilityElement(children: .combine)
+        .accessibilityAddTraits(.isHeader)
+    }
+}
 
 private struct LevelCard: View {
     let number: Int

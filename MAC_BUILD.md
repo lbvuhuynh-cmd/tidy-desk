@@ -59,6 +59,8 @@ shoot menu_light       light
 shoot level1_light     light 1    # có keyboard_compact
 shoot level5_light     light 5    # có mouse_wireless
 shoot level5_dark      dark  5
+shoot level29_light    light 29   # chương 4 Garden Corner (màn đầu)
+shoot level38_light    light 38   # màn vườn lớn nhất 8x6
 shoot nursery_light    light nursery   # Baby Corner (phòng bé)
 shoot nursery_dark     dark  nursery
 xcrun simctl ui booted appearance light

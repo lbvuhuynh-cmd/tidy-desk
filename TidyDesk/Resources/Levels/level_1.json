@@ -1,6 +1,7 @@
 {
   "levelId": 1,
   "levelName": "Morning Coffee",
+  "chapter": "First Desks",
   "gridRows": 2,
   "gridCols": 3,
   "items": [

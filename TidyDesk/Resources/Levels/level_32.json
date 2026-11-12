@@ -1,0 +1,89 @@
+{
+  "levelId": 32,
+  "levelName": "Potting Bench",
+  "chapter": "Garden Corner",
+  "gridRows": 4,
+  "gridCols": 5,
+  "items": [
+    {
+      "id": "herb-planter",
+      "name": "Herb Planter",
+      "gridWidth": 3,
+      "gridHeight": 1,
+      "initialPosition": {
+        "row": 3,
+        "col": 2
+      },
+      "imageName": "herb_planter",
+      "symbol": "leaf.fill",
+      "category": "garden"
+    },
+    {
+      "id": "herb-planter-2",
+      "name": "Herb Planter",
+      "gridWidth": 3,
+      "gridHeight": 1,
+      "initialPosition": {
+        "row": 0,
+        "col": 1
+      },
+      "imageName": "herb_planter",
+      "symbol": "leaf.fill",
+      "category": "garden"
+    },
+    {
+      "id": "flower-pot",
+      "name": "Flower Pot",
+      "gridWidth": 1,
+      "gridHeight": 2,
+      "imageName": "flower_pot",
+      "symbol": "camera.macro",
+      "category": "garden"
+    },
+    {
+      "id": "monstera-pot",
+      "name": "Monstera",
+      "gridWidth": 2,
+      "gridHeight": 2,
+      "imageName": "monstera_pot",
+      "symbol": "tree.fill",
+      "category": "garden"
+    },
+    {
+      "id": "seedling-tray",
+      "name": "Seedling Tray",
+      "gridWidth": 2,
+      "gridHeight": 1,
+      "imageName": "seedling_tray",
+      "symbol": "leaf.arrow.triangle.circlepath",
+      "category": "garden"
+    },
+    {
+      "id": "seedling-tray-2",
+      "name": "Seedling Tray",
+      "gridWidth": 2,
+      "gridHeight": 1,
+      "imageName": "seedling_tray",
+      "symbol": "leaf.arrow.triangle.circlepath",
+      "category": "garden"
+    },
+    {
+      "id": "flower-pot-2",
+      "name": "Flower Pot",
+      "gridWidth": 1,
+      "gridHeight": 2,
+      "imageName": "flower_pot",
+      "symbol": "camera.macro",
+      "category": "garden"
+    },
+    {
+      "id": "notebook",
+      "name": "Notebook",
+      "gridWidth": 1,
+      "gridHeight": 2,
+      "imageName": "notebook",
+      "symbol": "book.closed.fill",
+      "category": "cozy"
+    }
+  ]
+}

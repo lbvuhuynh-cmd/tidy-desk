@@ -1,0 +1,67 @@
+{
+  "levelId": 10,
+  "levelName": "Morning Standup",
+  "chapter": "Office Hours",
+  "gridRows": 3,
+  "gridCols": 5,
+  "items": [
+    {
+      "id": "keyboard-compact",
+      "name": "Compact Keyboard",
+      "gridWidth": 3,
+      "gridHeight": 1,
+      "initialPosition": {
+        "row": 1,
+        "col": 1
+      },
+      "imageName": "keyboard_compact",
+      "symbol": "keyboard.fill",
+      "category": "peripheral"
+    },
+    {
+      "id": "notebook",
+      "name": "Notebook",
+      "gridWidth": 1,
+      "gridHeight": 2,
+      "imageName": "notebook",
+      "symbol": "book.closed.fill",
+      "category": "cozy"
+    },
+    {
+      "id": "power-strip",
+      "name": "Power Strip",
+      "gridWidth": 3,
+      "gridHeight": 1,
+      "imageName": "power_strip",
+      "symbol": "powerplug.fill",
+      "category": "power"
+    },
+    {
+      "id": "plant",
+      "name": "Plant",
+      "gridWidth": 1,
+      "gridHeight": 1,
+      "imageName": "plant",
+      "symbol": "leaf.fill",
+      "category": "cozy"
+    },
+    {
+      "id": "desk-mat",
+      "name": "Mouse Pad",
+      "gridWidth": 2,
+      "gridHeight": 2,
+      "imageName": "desk_mat",
+      "symbol": "rectangle.fill",
+      "category": "peripheral"
+    },
+    {
+      "id": "phone",
+      "name": "Phone",
+      "gridWidth": 1,
+      "gridHeight": 2,
+      "imageName": "phone",
+      "symbol": "iphone",
+      "category": "mobile"
+    }
+  ]
+}

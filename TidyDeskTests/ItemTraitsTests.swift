@@ -20,6 +20,19 @@ final class ItemTraitsTests: XCTestCase {
         XCTAssertEqual(traits("mouse_wireless"), ItemTraits(material: .device, life: .none))
     }
 
+    func testGardenItemsHaveFittingPersonalities() {
+        XCTAssertEqual(traits("flower_pot", .garden), ItemTraits(material: .ceramic, life: .sway))
+        XCTAssertEqual(traits("herb_planter", .garden).life, .sway)
+        XCTAssertEqual(traits("monstera_pot", .garden).life, .sway)
+        XCTAssertEqual(traits("seedling_tray", .garden).life, .sway)
+        XCTAssertEqual(traits("grow_light", .garden).life, .warmLight)
+        XCTAssertEqual(traits("seed_packet", .garden), ItemTraits(material: .soft, life: .none))
+        XCTAssertEqual(traits("soil_bag", .garden).material, .soft)
+        XCTAssertEqual(traits("watering_can", .garden), ItemTraits(material: .ceramic, life: .none))
+        XCTAssertEqual(traits("pruning_shears", .garden).material, .device)
+        XCTAssertEqual(traits("mystery_seed_thing", .garden).life, .none)
+    }
+
     /// "headphones" and "microphone" contain "phone" but must not light up like a phone screen.
     func testPhoneLookalikesAreNotScreens() {
         XCTAssertEqual(traits("headphones", .audio), ItemTraits(material: .soft, life: .none))

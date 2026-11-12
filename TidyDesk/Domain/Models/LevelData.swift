@@ -60,6 +60,9 @@ struct LevelData: Identifiable, Codable, Hashable, Sendable {
     let gridCols: Int
     /// Drawer order = array order.
     let items: [Item]
+    /// Optional chapter title (e.g. "Garden Corner"). Consecutive levels with the same chapter form one section
+    /// on the level menu. Absent = no section header.
+    var chapter: String? = nil
 
     var id: Int { levelId }
     var totalItemArea: Int { items.reduce(0) { $0 + $1.size.area } }

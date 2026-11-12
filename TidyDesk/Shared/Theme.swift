@@ -33,6 +33,7 @@ enum Theme {
         case .mobile: Color(red: 0.45, green: 0.62, blue: 0.54)      // sage
         case .power: Color(red: 0.77, green: 0.53, blue: 0.42)       // clay
         case .cozy: Color(red: 0.80, green: 0.65, blue: 0.43)        // honey
+        case .garden: Color(red: 0.48, green: 0.64, blue: 0.40)      // leaf green
         }
     }
 

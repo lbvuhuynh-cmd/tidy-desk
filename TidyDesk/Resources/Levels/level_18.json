@@ -1,0 +1,147 @@
+{
+  "levelId": 18,
+  "levelName": "Friday Wrap-Up",
+  "chapter": "Office Hours",
+  "gridRows": 6,
+  "gridCols": 8,
+  "items": [
+    {
+      "id": "desk-mat",
+      "name": "Mouse Pad",
+      "gridWidth": 2,
+      "gridHeight": 2,
+      "initialPosition": {
+        "row": 1,
+        "col": 6
+      },
+      "imageName": "desk_mat",
+      "symbol": "rectangle.fill",
+      "category": "peripheral"
+    },
+    {
+      "id": "wifi-router",
+      "name": "Wi-Fi Router",
+      "gridWidth": 2,
+      "gridHeight": 2,
+      "initialPosition": {
+        "row": 4,
+        "col": 1
+      },
+      "imageName": "wifi_router",
+      "symbol": "wifi.router.fill",
+      "category": "power"
+    },
+    {
+      "id": "tablet",
+      "name": "Tablet",
+      "gridWidth": 2,
+      "gridHeight": 2,
+      "initialPosition": {
+        "row": 2,
+        "col": 0
+      },
+      "imageName": "tablet",
+      "symbol": "ipad.landscape",
+      "category": "display"
+    },
+    {
+      "id": "power-strip",
+      "name": "Power Strip",
+      "gridWidth": 3,
+      "gridHeight": 1,
+      "imageName": "power_strip",
+      "symbol": "powerplug.fill",
+      "category": "power"
+    },
+    {
+      "id": "desk-lamp-tall",
+      "name": "Tall Desk Lamp",
+      "gridWidth": 1,
+      "gridHeight": 3,
+      "imageName": "desk_lamp_tall",
+      "symbol": "lamp.desk.fill",
+      "category": "cozy"
+    },
+    {
+      "id": "keyboard-mechanical",
+      "name": "Mechanical Keyboard",
+      "gridWidth": 4,
+      "gridHeight": 1,
+      "imageName": "keyboard_mechanical",
+      "symbol": "keyboard.fill",
+      "category": "peripheral"
+    },
+    {
+      "id": "tablet-2",
+      "name": "Tablet",
+      "gridWidth": 2,
+      "gridHeight": 2,
+      "imageName": "tablet",
+      "symbol": "ipad.landscape",
+      "category": "display"
+    },
+    {
+      "id": "keyboard-compact",
+      "name": "Compact Keyboard",
+      "gridWidth": 3,
+      "gridHeight": 1,
+      "imageName": "keyboard_compact",
+      "symbol": "keyboard.fill",
+      "category": "peripheral"
+    },
+    {
+      "id": "power-strip-2",
+      "name": "Power Strip",
+      "gridWidth": 3,
+      "gridHeight": 1,
+      "imageName": "power_strip",
+      "symbol": "powerplug.fill",
+      "category": "power"
+    },
+    {
+      "id": "keyboard-mechanical-2",
+      "name": "Mechanical Keyboard",
+      "gridWidth": 4,
+      "gridHeight": 1,
+      "imageName": "keyboard_mechanical",
+      "symbol": "keyboard.fill",
+      "category": "peripheral"
+    },
+    {
+      "id": "coffee-mug",
+      "name": "Coffee Mug",
+      "gridWidth": 1,
+      "gridHeight": 1,
+      "imageName": "coffee_mug",
+      "symbol": "cup.and.saucer.fill",
+      "category": "cozy"
+    },
+    {
+      "id": "keyboard-compact-2",
+      "name": "Compact Keyboard",
+      "gridWidth": 3,
+      "gridHeight": 1,
+      "imageName": "keyboard_compact",
+      "symbol": "keyboard.fill",
+      "category": "peripheral"
+    },
+    {
+      "id": "wifi-router-2",
+      "name": "Wi-Fi Router",
+      "gridWidth": 2,
+      "gridHeight": 2,
+      "imageName": "wifi_router",
+      "symbol": "wifi.router.fill",
+      "category": "power"
+    },
+    {
+      "id": "desk-mat-2",
+      "name": "Mouse Pad",
+      "gridWidth": 2,
+      "gridHeight": 2,
+      "imageName": "desk_mat",
+      "symbol": "rectangle.fill",
+      "category": "peripheral"
+    }
+  ]
+}

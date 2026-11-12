@@ -1,6 +1,7 @@
 {
   "levelId": 3,
   "levelName": "Game Night",
+  "chapter": "First Desks",
   "gridRows": 4,
   "gridCols": 4,
   "items": [

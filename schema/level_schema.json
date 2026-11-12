@@ -18,6 +18,11 @@
       "type": "string",
       "minLength": 1
     },
+    "chapter": {
+      "description": "Optional chapter title, e.g. \"Garden Corner\". Consecutive levels with the same chapter are grouped on the level menu.",
+      "type": "string",
+      "minLength": 1
+    },
     "gridRows": { "description": "Desk height in cells.", "type": "integer", "minimum": 1, "maximum": 10 },
     "gridCols": { "description": "Desk width in cells (8 is about the limit on an iPhone).", "type": "integer", "minimum": 1, "maximum": 8 },
     "items": {
@@ -66,7 +71,7 @@
         },
         "category": {
           "description": "Tile colour family. Optional, default peripheral.",
-          "enum": ["peripheral", "display", "audio", "mobile", "power", "cozy"]
+          "enum": ["peripheral", "display", "audio", "mobile", "power", "cozy", "garden"]
         }
       }
     }
