@@ -107,6 +107,13 @@ struct LevelSelectView: View {
             Text("Tech & Setup")
                 .font(.title3)
                 .foregroundStyle(.secondary)
+            if levelManager.unlockAll {
+                // TestFlight reminder: BetaConfig.unlockAllLevels is on.
+                Label("Test build · all levels unlocked", systemImage: "lock.open.fill")
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(Theme.accent)
+                    .padding(.top, 2)
+            }
         }
         .padding(.top, 16)
         .accessibilityElement(children: .combine)

@@ -26,6 +26,9 @@ final class LevelManager {
     private(set) var currentLevel: LevelData?
 
     @ObservationIgnored private let bundle: Bundle
+    /// Testing override: every level counts as unlocked (set from `BetaConfig.unlockAllLevels` by the app;
+    /// off by default so the unlock rules stay testable).
+    var unlockAll = false
 
     init(bundle: Bundle = .main) {
         self.bundle = bundle
@@ -174,7 +177,7 @@ final class LevelManager {
     /// Pure rule, given the completed level ids.
     func isUnlocked(_ id: Int, completedIds: Set<Int>) -> Bool {
         guard let index = availableLevels.firstIndex(where: { $0.levelId == id }) else { return false }
-        return index == 0 || completedIds.contains(availableLevels[index - 1].levelId)
+        return unlockAll || index == 0 || completedIds.contains(availableLevels[index - 1].levelId)
     }
 
     /// Convenience for views that already hold `@Query var progress: [LevelProgress]`.

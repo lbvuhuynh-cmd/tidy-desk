@@ -4,7 +4,11 @@ import SwiftData
 @main
 struct TidyDeskApp: App {
     /// Scans and validates every bundled `level_<n>.json` once at launch; shared through the environment.
-    @State private var levelManager = LevelManager()
+    @State private var levelManager: LevelManager = {
+        let manager = LevelManager()
+        manager.unlockAll = BetaConfig.unlockAllLevels
+        return manager
+    }()
 
     var body: some Scene {
         WindowGroup {
