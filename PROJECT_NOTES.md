@@ -1,6 +1,6 @@
 # Tidy Desk: Tech & Setup — Ghi chú dự án
 
-> Cập nhật: 2026-11-12 · Trạng thái: build OK + 89/90 test pass, 1 skip (ArtPreviewTests, đúng thiết kế) trên Mac ở commit `549c465` (Baby Corner MVP). `tools/check_levels.py`: 8/8 OK · `tools/check_assets.py`: 8/27 hình thiết bị (4 OK, 4 WARN tỉ lệ; còn lại dùng SF Symbol dự phòng). TestFlight gần nhất: build 4 (`fb81c85`). Ảnh: `screenshots/`.
+> Cập nhật: 2026-11-12 · Trạng thái: build OK + 89/90 test pass, 1 skip (ArtPreviewTests, đúng thiết kế) trên Mac ở commit `549c465` (Baby Corner MVP). `tools/check_levels.py`: 8/8 OK · `tools/check_assets.py`: 8/27 hình thiết bị (4 OK, 4 WARN tỉ lệ; còn lại dùng SF Symbol dự phòng). TestFlight gần nhất: build 5 (`549c465`). Ảnh: `screenshots/`.
 
 ## 1. App này là gì
 Game giải đố "dọn dẹp" (Cozy Tidy / Organization Puzzle) cho iOS 17+, chủ đề **bàn làm việc / góc setup công nghệ**. Mỗi màn bắt đầu với một bàn bừa bộn: vài món đã nằm sẵn sai chỗ trên bàn, các món còn lại ở **ngăn kéo phụ kiện** (Accessory Drawer) phía dưới. Người chơi kéo thả để mọi thứ vừa khít mặt bàn, không đè nhau, không tràn viền. Xếp đủ là qua màn ("Setup Complete!"). Giao diện tiếng Anh, nhắm thị trường toàn cầu.
@@ -59,7 +59,7 @@ Số nước = số lần đặt thành công (đặt món mới, hoặc dời m
 
 ## 5b. TestFlight (bản thử, mượn team RETALIX USA, INC)
 - App trên App Store Connect: **Test Tidy Desk** (Apple ID 6833522226, SKU `testtidydesk`), bundle ID **`com.powervh.tidydesk.beta`**, team `62SFVG2ZD8` (tài khoản Xcode `vu.huynh@ncr.com`). Bundle ID thật `com.powervh.tidydesk` để dành cho tài khoản riêng (đừng tạo app ASC với nó trong Retalix).
-- `project.yml` **không** chứa team/bundle ID beta: truyền qua dòng lệnh khi archive. Tăng build number mỗi lần upload. **Build đã upload gần nhất: 4** → lần sau dùng 5.
+- `project.yml` **không** chứa team/bundle ID beta: truyền qua dòng lệnh khi archive. Tăng build number mỗi lần upload. **Build đã upload gần nhất: 5** → lần sau dùng 6.
 ```
 xcodebuild -project TidyDesk.xcodeproj -scheme TidyDesk -configuration Release -destination 'generic/platform=iOS' \
   -archivePath <tmp>/TidyDesk.xcarchive -allowProvisioningUpdates \
@@ -71,6 +71,7 @@ xcodebuild -exportArchive -archivePath <tmp>/TidyDesk.xcarchive -exportOptionsPl
 - Icon hiện là icon tạm do `tools/generate_icon.py` vẽ (1024×1024, không alpha). Thay icon thật: ghi đè `Assets.xcassets/AppIcon.appiconset/AppIcon.png`.
 
 ## Lịch sử
+- 2026-11-12 (TestFlight): upload build **1.0 (5)** = commit `549c465` (Baby Corner MVP) lên "Test Tidy Desk". Lần upload đầu kẹt lỗi 401 (phiên đăng nhập hết hạn giữa chừng) → dừng và upload lại thì thành công.
 - 2026-11-12 (Build Mac `549c465`): Baby Corner build OK không cần sửa gì, 89/90 pass + 1 skip. Chụp lại `screenshots/` (thêm `nursery_light/dark`).
 - 2026-11-12 (Baby Corner, **chưa build**): thêm tính năng chăm bé (MVP). Mới: `Domain/Baby/` (`BabyStage`, `BabyCatalog`, `BabyState`), `BabyProfile` (@Model, thêm vào modelContainer) + `BabyStore`, `Features/Baby/` (`BabyNurseryView`, `BabyAvatarView`, `BabyBannerView`), protocol `BabyFeedback` (FeedbackEngine + SilentFeedback), 4 âm mới `coin` / `feed` / `squeak` / `coo` (ToneSynth + generate_sounds.py, 16 WAV). `ProgressStore.isCompleted` để phân biệt qua màn lần đầu / chơi lại. `SetupCompleteView` có dòng thưởng cho bé. Cờ Debug `-openNursery YES -babyName Bean` cho ảnh chụp (MAC_BUILD chụp thêm `nursery_light/dark`). Test mới `BabyCareTests.swift` (giai đoạn, thưởng, luật cho ăn/chơi/mua/mặc, sàn no/vui, catalog, lưu SwiftData).
 - 2026-11-12 (TestFlight): upload build **1.0 (4)** = commit `fb81c85` (hình màn 1–2, bỏ nền sau hình thật) lên "Test Tidy Desk".
