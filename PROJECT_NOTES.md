@@ -1,6 +1,6 @@
 # Tidy Desk: Tech & Setup — Ghi chú dự án
 
-> Cập nhật: 2026-11-12 · Trạng thái: build OK + 67/68 test pass, 1 skip (ArtPreviewTests, đúng thiết kế) trên Mac ở commit `fb81c85` (hình màn 1–2, bỏ nền sau hình thật). `tools/check_levels.py`: 8/8 OK · `tools/check_assets.py`: 8/27 hình thiết bị (4 OK, 4 WARN tỉ lệ; còn lại dùng SF Symbol dự phòng). TestFlight gần nhất: build 3 (`4320def`). Ảnh: `screenshots/`.
+> Cập nhật: 2026-11-12 · Trạng thái: build OK + 67/68 test pass, 1 skip (ArtPreviewTests, đúng thiết kế) trên Mac ở commit `fb81c85` (hình màn 1–2, bỏ nền sau hình thật). `tools/check_levels.py`: 8/8 OK · `tools/check_assets.py`: 8/27 hình thiết bị (4 OK, 4 WARN tỉ lệ; còn lại dùng SF Symbol dự phòng). TestFlight gần nhất: build 4 (`fb81c85`). Ảnh: `screenshots/`.
 
 ## 1. App này là gì
 Game giải đố "dọn dẹp" (Cozy Tidy / Organization Puzzle) cho iOS 17+, chủ đề **bàn làm việc / góc setup công nghệ**. Mỗi màn bắt đầu với một bàn bừa bộn: vài món đã nằm sẵn sai chỗ trên bàn, các món còn lại ở **ngăn kéo phụ kiện** (Accessory Drawer) phía dưới. Người chơi kéo thả để mọi thứ vừa khít mặt bàn, không đè nhau, không tràn viền. Xếp đủ là qua màn ("Setup Complete!"). Giao diện tiếng Anh, nhắm thị trường toàn cầu.
@@ -57,7 +57,7 @@ Số nước = số lần đặt thành công (đặt món mới, hoặc dời m
 
 ## 5b. TestFlight (bản thử, mượn team RETALIX USA, INC)
 - App trên App Store Connect: **Test Tidy Desk** (Apple ID 6833522226, SKU `testtidydesk`), bundle ID **`com.powervh.tidydesk.beta`**, team `62SFVG2ZD8` (tài khoản Xcode `vu.huynh@ncr.com`). Bundle ID thật `com.powervh.tidydesk` để dành cho tài khoản riêng (đừng tạo app ASC với nó trong Retalix).
-- `project.yml` **không** chứa team/bundle ID beta: truyền qua dòng lệnh khi archive. Tăng build number mỗi lần upload. **Build đã upload gần nhất: 3** → lần sau dùng 4.
+- `project.yml` **không** chứa team/bundle ID beta: truyền qua dòng lệnh khi archive. Tăng build number mỗi lần upload. **Build đã upload gần nhất: 4** → lần sau dùng 5.
 ```
 xcodebuild -project TidyDesk.xcodeproj -scheme TidyDesk -configuration Release -destination 'generic/platform=iOS' \
   -archivePath <tmp>/TidyDesk.xcarchive -allowProvisioningUpdates \
@@ -69,6 +69,7 @@ xcodebuild -exportArchive -archivePath <tmp>/TidyDesk.xcarchive -exportOptionsPl
 - Icon hiện là icon tạm do `tools/generate_icon.py` vẽ (1024×1024, không alpha). Thay icon thật: ghi đè `Assets.xcassets/AppIcon.appiconset/AppIcon.png`.
 
 ## Lịch sử
+- 2026-11-12 (TestFlight): upload build **1.0 (4)** = commit `fb81c85` (hình màn 1–2, bỏ nền sau hình thật) lên "Test Tidy Desk".
 - 2026-11-12 (Build Mac `fb81c85`): build OK không cần sửa gì, 67/68 pass + 1 skip. Chụp lại `screenshots/art/` + `screenshots/app/` (thêm `level2_light`).
 - 2026-11-12 (Hình màn 1–2, **chưa build**): thêm `headphones` (2×2), `speaker_tower` (1×3); thay `keyboard_compact` (PNG 3:1, giờ khít ô) và `cable_bundle` (bó dây nằm ngang có đầu cắm, ~83% ô). `cable_bundle`/`headphones` là SVG Recraft có nền bị cắt nhiều mảnh nên script không bỏ được: đã render sang PNG (Chrome headless, nền trong suốt) rồi import PNG. `check_assets.py`: 8/27 (OK: keyboard_compact, keyboard_mechanical, cable_bundle, headphones, speaker_tower; WARN: coffee_mug, mouse_wireless, keyboard_fullsize). Còn thiếu cho màn 2: `desk_lamp_tall`.
 - 2026-11-12 (Hình thật, **chưa build**): bỏ khung/nền màu nhạt phía sau món có hình thật (`ItemTileView.artworkTile`): hình nằm thẳng trên bàn / ngăn kéo như đồ thật, chỉ còn bóng đổ theo dáng hình. Viền đỏ khi thả sai vẫn giữ. Vùng chạm vẫn phủ cả ô (`contentShape` trong `DraggableItemView`).
