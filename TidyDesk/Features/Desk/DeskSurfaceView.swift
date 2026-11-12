@@ -43,15 +43,34 @@ struct DeskSurfaceView: View {
                     .allowsHitTesting(false)
             }
 
+            // "Alive" light on the wood (lamp pool, screen glow, keyboard underglow), under every item.
+            ForEach(vm.placedItems) { item in
+                if let origin = item.currentPosition {
+                    ItemLifeView(item: item, layer: .under, cellSize: cellSize,
+                                 isAwake: vm.session?.itemID != item.id, boost: cleared)
+                        .offset(x: CGFloat(origin.column) * cellSize, y: CGFloat(origin.row) * cellSize)
+                }
+            }
+
             ForEach(vm.placedItems) { item in
                 if let origin = item.currentPosition {
                     DraggableItemView(item: item, vm: vm, cellSize: cellSize)
+                        .modifier(ItemSwayEffect(isActive: item.traits.life == .sway && vm.session?.itemID != item.id))
                         .modifier(ItemDoneEffect(placements: vm.placementCounts[item.id, default: 0],
                                                  cornerRadius: cellSize * 0.22))
                         .modifier(ClearGlowEffect(isCleared: cleared,
                                                   delay: 0.2 + Double(origin.row + origin.column) * 0.06,
                                                   cornerRadius: cellSize * 0.22,
                                                   inset: max(2, cellSize * 0.06)))
+                        .offset(x: CGFloat(origin.column) * cellSize, y: CGFloat(origin.row) * cellSize)
+                }
+            }
+
+            // "Alive" details over the items: coffee steam, speaker rings, status LEDs.
+            ForEach(vm.placedItems) { item in
+                if let origin = item.currentPosition {
+                    ItemLifeView(item: item, layer: .over, cellSize: cellSize,
+                                 isAwake: vm.session?.itemID != item.id, boost: cleared)
                         .offset(x: CGFloat(origin.column) * cellSize, y: CGFloat(origin.row) * cellSize)
                 }
             }
@@ -66,6 +85,7 @@ struct DeskSurfaceView: View {
         .frame(width: CGFloat(grid.columns) * cellSize, height: CGFloat(grid.rows) * cellSize, alignment: .topLeading)
         .reportFrame(FrameKey.board)
         .padding(cellSize * 0.22)
+        .modifier(LightSweepEffect(isCleared: cleared, cornerRadius: radius))   // the "after" moment: light washes over the tidy desk
         .background {
             RoundedRectangle(cornerRadius: radius, style: .continuous)
                 .fill(Theme.desk)

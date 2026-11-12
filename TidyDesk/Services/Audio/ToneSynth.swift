@@ -48,6 +48,68 @@ enum ToneSynth {
                 }
                 return v
             }
+        case .snapKeys:
+            // Keycap clatter: a few quick plastic ticks over a low "thock".
+            var noise = LCG(seed: 21)
+            let ticks: [(start: Float, gain: Float)] = [(0, 0.5), (0.016, 0.32), (0.029, 0.4), (0.047, 0.22)]
+            return render(duration: 0.12) { t in
+                let n = noise.next()
+                var v = sinf(2 * .pi * 210 * t) * expf(-t * 45) * 0.45
+                for tick in ticks where t >= tick.start {
+                    let lt = t - tick.start
+                    v += (n * 0.6 + sinf(2 * .pi * 3_600 * lt)) * expf(-lt * 420) * tick.gain
+                }
+                return v
+            }
+        case .snapCeramic:
+            // Ceramic clink: inharmonic partials ringing a little + a tiny contact transient.
+            var noise = LCG(seed: 33)
+            return render(duration: 0.35) { t in
+                let ring = sinf(2 * .pi * 2_830 * t) * 0.32 + sinf(2 * .pi * 4_170 * t) * 0.2 + sinf(2 * .pi * 5_890 * t) * 0.12
+                return ring * expf(-t * 16) + noise.next() * expf(-t * 300) * 0.3
+                    + sinf(2 * .pi * 340 * t) * expf(-t * 40) * 0.25
+            }
+        case .snapSoft:
+            // Cushioned thump: low falling sine + low-passed noise, no click.
+            var noise = LCG(seed: 45)
+            var low: Float = 0
+            var phase: Float = 0
+            return render(duration: 0.13) { t in
+                low += 0.08 * (noise.next() - low)
+                phase += 2 * .pi * (260 - 400 * t) / Float(sampleRate)
+                let attack = min(1, t * 300)
+                return (sinf(phase) * 0.7 + low * 2.2) * attack * expf(-t * 32)
+            }
+        case .snapCable:
+            // Cable rustle: band-limited noise in two little swells, then a plastic tick.
+            var noise = LCG(seed: 57)
+            var low: Float = 0
+            return render(duration: 0.17) { t in
+                low += 0.25 * (noise.next() - low)
+                let swell = expf(-powf((t - 0.03) / 0.02, 2)) + 0.7 * expf(-powf((t - 0.08) / 0.025, 2))
+                let tick = t >= 0.12 ? sinf(2 * .pi * 2_600 * (t - 0.12)) * expf(-(t - 0.12) * 220) * 0.45 : 0
+                return low * swell * 1.4 + tick
+            }
+        case .powerOn:
+            // Soft two-note "on" blip (E6 -> B6), gentle attack.
+            return render(duration: 0.26) { t in
+                let freq: Float = t < 0.08 ? 1_318.5 : 1_975.5
+                let lt = t < 0.08 ? t : t - 0.08
+                let env = min(1, lt * 160) * expf(-lt * 18)
+                return sinf(2 * .pi * freq * t) * env * 0.4
+            }
+        case .lightsOn:
+            // Warm swell: soft major chord fading in with an airy rising whoosh (the room lights up).
+            var noise = LCG(seed: 69)
+            var air: Float = 0
+            let chord: [Float] = [261.6, 329.6, 392.0, 523.3]
+            return render(duration: 1.1) { t in
+                air += (0.02 + 0.1 * min(1, t / 0.6)) * (noise.next() - air)
+                let env = min(1, t / 0.35) * expf(-max(0, t - 0.35) * 3.2)
+                var pad: Float = 0
+                for f in chord { pad += sinf(2 * .pi * f * t) + 0.25 * sinf(2 * .pi * f * 2 * t) }
+                return pad * env * 0.11 + air * env * 0.5
+            }
         }
     }
 

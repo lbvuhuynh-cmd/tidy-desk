@@ -6,10 +6,12 @@ final class RecordingFeedback: GameFeedback {
     var events: [String] = []
     func pickUp() { events.append("pickUp") }
     func cellCrossed() { events.append("cellCrossed") }
-    func snapped() { events.append("snapped") }
+    func snapped(_ traits: ItemTraits) { events.append("snapped"); snappedTraits.append(traits) }
+    var snappedTraits: [ItemTraits] = []
     func rejected() { events.append("rejected") }
     func returnedToDrawer() { events.append("returnedToDrawer") }
     func rotated() { events.append("rotated") }
+    func lightsOn() { events.append("lightsOn") }
     func levelCleared() { events.append("levelCleared") }
 }
 
@@ -208,6 +210,8 @@ final class DeskDragViewModelTests: XCTestCase {
         // Finger lifts over a valid cell: rigid + snap sound fire immediately (onEnded), not after the landing animation.
         vm.dragEnded(itemID: mug.id)
         XCTAssertEqual(feedback.events, ["pickUp", "cellCrossed", "cellCrossed", "snapped"])
+        // The mug lands with its own ceramic clink (traits from the asset name).
+        XCTAssertEqual(feedback.snappedTraits, [ItemTraits(material: .ceramic, life: .steam)])
         XCTAssertEqual(vm.settle, .landing)
 
         // Landing animation done: the mug is committed to the hovered cell and the drag is over.

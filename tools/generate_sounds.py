@@ -83,6 +83,84 @@ def complete():
     return render(0.85, gen)
 
 
+def snap_keys():
+    noise = LCG(21)
+    ticks = [(0.0, 0.5), (0.016, 0.32), (0.029, 0.4), (0.047, 0.22)]
+
+    def gen(t):
+        n = noise.next()
+        v = math.sin(2 * math.pi * 210 * t) * math.exp(-t * 45) * 0.45
+        for start, gain in ticks:
+            if t >= start:
+                lt = t - start
+                v += (n * 0.6 + math.sin(2 * math.pi * 3600 * lt)) * math.exp(-lt * 420) * gain
+        return v
+
+    return render(0.12, gen)
+
+
+def snap_ceramic():
+    noise = LCG(33)
+
+    def gen(t):
+        ring = (math.sin(2 * math.pi * 2830 * t) * 0.32 + math.sin(2 * math.pi * 4170 * t) * 0.2
+                + math.sin(2 * math.pi * 5890 * t) * 0.12)
+        return (ring * math.exp(-t * 16) + noise.next() * math.exp(-t * 300) * 0.3
+                + math.sin(2 * math.pi * 340 * t) * math.exp(-t * 40) * 0.25)
+
+    return render(0.35, gen)
+
+
+def snap_soft():
+    noise = LCG(45)
+    state = {"low": 0.0, "phase": 0.0}
+
+    def gen(t):
+        state["low"] += 0.08 * (noise.next() - state["low"])
+        state["phase"] += 2 * math.pi * (260 - 400 * t) / RATE
+        attack = min(1.0, t * 300)
+        return (math.sin(state["phase"]) * 0.7 + state["low"] * 2.2) * attack * math.exp(-t * 32)
+
+    return render(0.13, gen)
+
+
+def snap_cable():
+    noise = LCG(57)
+    state = {"low": 0.0}
+
+    def gen(t):
+        state["low"] += 0.25 * (noise.next() - state["low"])
+        swell = math.exp(-((t - 0.03) / 0.02) ** 2) + 0.7 * math.exp(-((t - 0.08) / 0.025) ** 2)
+        tick = math.sin(2 * math.pi * 2600 * (t - 0.12)) * math.exp(-(t - 0.12) * 220) * 0.45 if t >= 0.12 else 0.0
+        return state["low"] * swell * 1.4 + tick
+
+    return render(0.17, gen)
+
+
+def power_on():
+    def gen(t):
+        freq = 1318.5 if t < 0.08 else 1975.5
+        lt = t if t < 0.08 else t - 0.08
+        env = min(1.0, lt * 160) * math.exp(-lt * 18)
+        return math.sin(2 * math.pi * freq * t) * env * 0.4
+
+    return render(0.26, gen)
+
+
+def lights_on():
+    noise = LCG(69)
+    state = {"air": 0.0}
+    chord = [261.6, 329.6, 392.0, 523.3]
+
+    def gen(t):
+        state["air"] += (0.02 + 0.1 * min(1.0, t / 0.6)) * (noise.next() - state["air"])
+        env = min(1.0, t / 0.35) * math.exp(-max(0.0, t - 0.35) * 3.2)
+        pad = sum(math.sin(2 * math.pi * f * t) + 0.25 * math.sin(2 * math.pi * f * 2 * t) for f in chord)
+        return pad * env * 0.11 + state["air"] * env * 0.5
+
+    return render(1.1, gen)
+
+
 SOUNDS = {
     "pickup": lambda: sweep(340, 680, 0.07, 35, 0.45),
     "snap": snap,
@@ -90,6 +168,12 @@ SOUNDS = {
     "complete": complete,
     "drop": lambda: sweep(320, 170, 0.09, 38, 0.7),
     "rotate": rotate,
+    "snap_keys": snap_keys,
+    "snap_ceramic": snap_ceramic,
+    "snap_soft": snap_soft,
+    "snap_cable": snap_cable,
+    "power_on": power_on,
+    "lights_on": lights_on,
 }
 
 

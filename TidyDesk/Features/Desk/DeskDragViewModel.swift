@@ -238,7 +238,7 @@ final class DeskDragViewModel {
             guard let item = findItem(itemID), let board = frames[FrameKey.board] else { return finish() }
             settle = .landing
             // Rigid "click" + snap sound right as the finger lifts: zero perceived latency.
-            feedback.snapped()
+            feedback.snapped(item.traits)
             let target = SnapMath.center(of: origin, size: item.size, boardOrigin: board.origin, cellSize: cellSize)
             // "Falls and grips": quick, slightly bouncy spring into the cell while the shadow collapses.
             animateSettle(.spring(response: 0.22, dampingFraction: 0.68), {

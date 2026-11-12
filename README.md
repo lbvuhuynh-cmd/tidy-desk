@@ -23,10 +23,11 @@ Rung (haptic) chỉ cảm nhận được trên iPhone thật: đặt `DEVELOPME
 TidyDesk/
   App/                 TidyDeskApp (SwiftData container + LevelManager vào environment)
   Data/                LevelManager (đọc level_<n>.json, availableLevels, isUnlocked, loadLevel, nextLevel)
-  Domain/Models/       TechItem (+ ItemCategory), DeskGrid, LevelData (Decodable theo schema), LevelProgress (@Model), GridPoint
+  Domain/Models/       TechItem (+ ItemCategory), ItemTraits (chất liệu + hiệu ứng theo tên asset), DeskGrid, LevelData (Decodable theo schema), LevelProgress (@Model), GridPoint
   Domain/Logic/        SnapMath (hít vào ô), TilingSolver (kiểm tra màn giải được), LevelValidator, StarRating
   Features/Desk/       DeskDragViewModel (engine kéo thả), DeskGameplayView, DeskSurfaceView, AccessoryDrawerView,
-                       FloatingItemLayer, DraggableItemView, ItemTileView, SetupCompleteView (+ confetti)
+                       FloatingItemLayer, DraggableItemView, ItemTileView, SetupCompleteView (+ confetti),
+                       ItemLifeEffects (đồ "sống dậy" trên bàn, vệt sáng khi xếp xong)
   Features/Levels/     LevelSelectView (chọn bàn, sao, mở khóa tuần tự)
   Services/Audio/      SoundManager (singleton, AVAudioPlayer, preload), ToneSynth (âm thanh dự phòng tổng hợp trong bộ nhớ)
   Services/Haptics/    HapticManager (singleton: light / selection / rigid / soft / warning / success)
@@ -75,4 +76,4 @@ Nếu một file bị lỗi, `LevelManager` bỏ qua file đó (game không bị
 
 ## Thay hình & âm thanh thật
 - **Hình:** xem **[ASSETS.md](ASSETS.md)** (tên, kích thước canvas, cách vẽ top-down, SVG + Preserve Vector Data). Nhập hình: `python3 tools/check_assets.py --import <thư mục>`. Món chưa có hình thì hiện SF Symbol trong trường `symbol`.
-- **Âm thanh:** `TidyDesk/Resources/Sounds/` có sẵn 6 file tạm (`pickup`, `snap`, `error`, `complete`, `drop`, `rotate`.wav) do `python tools/generate_sounds.py` tạo ra. Muốn dùng âm thanh thật thì ghi đè file cùng tên (chấp nhận `.wav`/`.mp3`/`.caf`/`.m4a`; hoặc tạo Data Set cùng tên trong Assets.xcassets), rồi chạy lại `xcodegen generate`. Nếu thiếu file, `SoundManager` tự tổng hợp âm thanh thay thế nên game không bao giờ bị câm. File SFX nên ngắn (< 1 s) và để ở dạng `.wav`/`.caf` để phát không trễ.
+- **Âm thanh:** `TidyDesk/Resources/Sounds/` có sẵn 12 file tạm (`pickup`, `snap`, `error`, `complete`, `drop`, `rotate`, tiếng đặt đồ theo chất liệu `snap_keys` / `snap_ceramic` / `snap_soft` / `snap_cable`, `power_on`, `lights_on`.wav) do `python tools/generate_sounds.py` tạo ra. Muốn dùng âm thanh thật thì ghi đè file cùng tên (chấp nhận `.wav`/`.mp3`/`.caf`/`.m4a`; hoặc tạo Data Set cùng tên trong Assets.xcassets), rồi chạy lại `xcodegen generate`. Nếu thiếu file, `SoundManager` tự tổng hợp âm thanh thay thế nên game không bao giờ bị câm. File SFX nên ngắn (< 1 s) và để ở dạng `.wav`/`.caf` để phát không trễ.

@@ -26,7 +26,7 @@ final class ToneSynthTests: XCTestCase {
 final class SoundManagerTests: XCTestCase {
     private var appBundle: Bundle { Bundle(for: DeskDragViewModel.self) }
 
-    /// pickup / snap / error / complete / drop / rotate .wav ship in the app and decode with AVAudioPlayer.
+    /// Every sound (pickup, snap, material snaps, power_on, lights_on, ...) ships as a .wav and decodes with AVAudioPlayer.
     func testEverySoundShipsAsABundledFile() throws {
         for sound in SoundManager.Sound.allCases {
             let (data, source) = SoundManager.loadData(for: sound, in: appBundle)

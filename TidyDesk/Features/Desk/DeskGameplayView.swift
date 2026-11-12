@@ -66,7 +66,17 @@ struct DeskGameplayView: View {
             .onChange(of: cell, initial: true) { _, value in vm.cellSize = value }
             .onChange(of: drawerCell, initial: true) { _, value in vm.drawerCellSize = value }
         }
-        .background(Theme.background.ignoresSafeArea())
+        .background {
+            // The "after" moment: warm light blooms behind the finished desk, like the room's lamps just came on.
+            ZStack {
+                Theme.background
+                RadialGradient(colors: [ItemLifeView.warm.opacity(0.55), ItemLifeView.warm.opacity(0)],
+                               center: UnitPoint(x: 0.5, y: 0.4), startRadius: 0, endRadius: 520)
+                    .opacity(vm.isLevelClear ? 1 : 0)
+                    .animation(.easeInOut(duration: 1.2), value: vm.isLevelClear)
+            }
+            .ignoresSafeArea()
+        }
         .toolbar(.hidden, for: .navigationBar)
         .onAppear {
             levelManager.loadLevel(id: vm.level.levelId)
@@ -78,9 +88,11 @@ struct DeskGameplayView: View {
             guard cleared else { return }
             isNewBest = ProgressStore.recordClear(levelId: vm.level.levelId, moves: vm.moves, stars: vm.stars,
                                                   seconds: vm.elapsed(), score: vm.score, in: modelContext)
+            vm.feedback.lightsOn()
             Task { @MainActor in
-                // Let the last snap land and the LED wave run across the devices before the card covers them.
-                try? await Task.sleep(for: .milliseconds(900))
+                // Let the last snap land, the light sweep and LED wave run across the devices, and give the
+                // player a beat to enjoy the tidy desk before the card covers it.
+                try? await Task.sleep(for: .milliseconds(1500))
                 guard vm.isLevelClear else { return }
                 vm.feedback.levelCleared()
                 withAnimation(.easeOut(duration: 0.25)) { showClear = true }
