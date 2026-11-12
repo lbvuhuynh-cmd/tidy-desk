@@ -38,6 +38,14 @@ final class SoundManager {
         case powerOn = "power_on"
         /// Level clear, the "after" moment: a warm swell as the desk lights up (before the `complete` chime).
         case lightsOn = "lights_on"
+        /// Baby Corner: coins earned / spent (bright two-note chime).
+        case coin
+        /// Baby Corner: feeding, soft "gulp gulp".
+        case feed
+        /// Baby Corner: playing with a toy, rubber squeak.
+        case squeak
+        /// Baby Corner: tapping the baby, a soft happy "ooh".
+        case coo
 
         static func snap(for material: ItemMaterial) -> Sound {
             switch material {
@@ -64,6 +72,10 @@ final class SoundManager {
             case .snapCable: 0.8
             case .powerOn: 0.35
             case .lightsOn: 0.55
+            case .coin: 0.5
+            case .feed: 0.6
+            case .squeak: 0.5
+            case .coo: 0.55
             }
         }
 

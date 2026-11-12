@@ -21,23 +21,25 @@ Rung (haptic) chỉ cảm nhận được trên iPhone thật: đặt `DEVELOPME
 ## Cấu trúc
 ```
 TidyDesk/
-  App/                 TidyDeskApp (SwiftData container + LevelManager vào environment)
+  App/                 TidyDeskApp (SwiftData container: LevelProgress + BabyProfile; LevelManager vào environment), BetaConfig
   Data/                LevelManager (đọc level_<n>.json, availableLevels, isUnlocked, loadLevel, nextLevel)
-  Domain/Models/       TechItem (+ ItemCategory), ItemTraits (chất liệu + hiệu ứng theo tên asset), DeskGrid, LevelData (Decodable theo schema), LevelProgress (@Model), GridPoint
+  Domain/Models/       TechItem (+ ItemCategory), ItemTraits (chất liệu + hiệu ứng theo tên asset), DeskGrid, LevelData (Decodable theo schema), LevelProgress (@Model), BabyProfile (@Model, Baby Corner) + BabyStore, GridPoint
+  Domain/Baby/         BabyStage (4 giai đoạn), BabyCatalog (đồ ăn / đồ chơi / quần áo), BabyState (luật chăm bé, thưởng qua màn)
   Domain/Logic/        SnapMath (hít vào ô), TilingSolver (kiểm tra màn giải được), LevelValidator, StarRating
   Features/Desk/       DeskDragViewModel (engine kéo thả), DeskGameplayView, DeskSurfaceView, AccessoryDrawerView,
                        FloatingItemLayer, DraggableItemView, ItemTileView, SetupCompleteView (+ confetti),
                        ItemLifeEffects (đồ "sống dậy" trên bàn, vệt sáng khi xếp xong)
-  Features/Levels/     LevelSelectView (chọn bàn, sao, mở khóa tuần tự)
+  Features/Levels/     LevelSelectView (chọn bàn, sao, mở khóa tuần tự, banner Baby Corner)
+  Features/Baby/       BabyNurseryView (phòng bé: cho ăn / chơi / thay đồ, đặt tên), BabyAvatarView (bé vẽ bằng code), BabyBannerView
   Services/Audio/      SoundManager (singleton, AVAudioPlayer, preload), ToneSynth (âm thanh dự phòng tổng hợp trong bộ nhớ)
   Services/Haptics/    HapticManager (singleton: light / selection / rigid / soft / warning / success)
-  Services/Feedback/   GameFeedback (protocol) + FeedbackEngine (nối mỗi khoảnh khắc chơi → 1 haptic + 1 âm thanh)
+  Services/Feedback/   GameFeedback + BabyFeedback (protocol) + FeedbackEngine (nối mỗi khoảnh khắc chơi → 1 haptic + 1 âm thanh)
   Shared/              Theme (sáng/tối, màu theo nhóm đồ, dải LED), FramePreferenceKey, FlowLayout
   Resources/           Levels/level_1.json … level_8.json, Assets.xcassets, Sounds/*.wav
-TidyDeskTests/         lưới, va chạm, solver, snap, drag engine, bàn bừa bộn ban đầu, LevelManager, âm thanh
+TidyDeskTests/         lưới, va chạm, solver, snap, drag engine, bàn bừa bộn ban đầu, LevelManager, âm thanh, Baby Corner
 schema/level_schema.json   JSON Schema của một màn (VS Code dùng nó để gợi ý và báo lỗi khi viết màn)
 tools/check_levels.py      kiểm tra mọi file level_<n>.json
-tools/generate_sounds.py   tạo 6 file .wav tạm
+tools/generate_sounds.py   tạo 16 file .wav tạm
 tools/check_assets.py      danh sách 27 hình thiết bị + nhập hình (--import); quy cách vẽ: ASSETS.md
 MAC_BUILD.md               quy trình build/test/chụp màn hình trên Mac; ảnh nằm trong screenshots/ (app/, art/)
 ```
@@ -76,4 +78,4 @@ Nếu một file bị lỗi, `LevelManager` bỏ qua file đó (game không bị
 
 ## Thay hình & âm thanh thật
 - **Hình:** xem **[ASSETS.md](ASSETS.md)** (tên, kích thước canvas, cách vẽ top-down, SVG + Preserve Vector Data). Nhập hình: `python3 tools/check_assets.py --import <thư mục>`. Món chưa có hình thì hiện SF Symbol trong trường `symbol`.
-- **Âm thanh:** `TidyDesk/Resources/Sounds/` có sẵn 12 file tạm (`pickup`, `snap`, `error`, `complete`, `drop`, `rotate`, tiếng đặt đồ theo chất liệu `snap_keys` / `snap_ceramic` / `snap_soft` / `snap_cable`, `power_on`, `lights_on`.wav) do `python tools/generate_sounds.py` tạo ra. Muốn dùng âm thanh thật thì ghi đè file cùng tên (chấp nhận `.wav`/`.mp3`/`.caf`/`.m4a`; hoặc tạo Data Set cùng tên trong Assets.xcassets), rồi chạy lại `xcodegen generate`. Nếu thiếu file, `SoundManager` tự tổng hợp âm thanh thay thế nên game không bao giờ bị câm. File SFX nên ngắn (< 1 s) và để ở dạng `.wav`/`.caf` để phát không trễ.
+- **Âm thanh:** `TidyDesk/Resources/Sounds/` có sẵn 16 file tạm (`pickup`, `snap`, `error`, `complete`, `drop`, `rotate`, tiếng đặt đồ theo chất liệu `snap_keys` / `snap_ceramic` / `snap_soft` / `snap_cable`, `power_on`, `lights_on`, và cho Baby Corner `coin` / `feed` / `squeak` / `coo`.wav) do `python tools/generate_sounds.py` tạo ra. Muốn dùng âm thanh thật thì ghi đè file cùng tên (chấp nhận `.wav`/`.mp3`/`.caf`/`.m4a`; hoặc tạo Data Set cùng tên trong Assets.xcassets), rồi chạy lại `xcodegen generate`. Nếu thiếu file, `SoundManager` tự tổng hợp âm thanh thay thế nên game không bao giờ bị câm. File SFX nên ngắn (< 1 s) và để ở dạng `.wav`/`.caf` để phát không trễ.

@@ -110,6 +110,48 @@ enum ToneSynth {
                 for f in chord { pad += sinf(2 * .pi * f * t) + 0.25 * sinf(2 * .pi * f * 2 * t) }
                 return pad * env * 0.11 + air * env * 0.5
             }
+        case .coin:
+            // Bright two-note chime (B6 -> E7) with a bell-like inharmonic partial.
+            let notes: [(freq: Float, start: Float)] = [(1_975.5, 0), (2_637.0, 0.07)]
+            return render(duration: 0.4) { t in
+                var v: Float = 0
+                for note in notes where t >= note.start {
+                    let lt = t - note.start
+                    let env = min(1, lt * 500) * expf(-lt * 9)
+                    v += (sinf(2 * .pi * note.freq * lt) + 0.25 * sinf(2 * .pi * note.freq * 2.76 * lt)) * env * 0.3
+                }
+                return v
+            }
+        case .feed:
+            // Three soft rising "gulp" blips.
+            let starts: [Float] = [0, 0.13, 0.26]
+            return render(duration: 0.38) { t in
+                var v: Float = 0
+                for start in starts where t >= start && t < start + 0.09 {
+                    let lt = t - start
+                    let phase = 2 * .pi * (300 * lt + 1_300 * lt * lt)
+                    v += sinf(phase) * sinf(.pi * lt / 0.09) * 0.5
+                }
+                return v
+            }
+        case .squeak:
+            // Rubber-toy squeak: pitch up and back down with a little wobble.
+            var phase: Float = 0
+            return render(duration: 0.22) { t in
+                let freq = 900 + 700 * sinf(.pi * t / 0.22) + 30 * sinf(2 * .pi * 30 * t)
+                phase += 2 * .pi * freq / Float(sampleRate)
+                let env = min(1, t * 200) * expf(-t * 6)
+                return (sinf(phase) + 0.3 * sinf(2 * phase)) * env * 0.35
+            }
+        case .coo:
+            // Soft happy "ooh": gently rising tone with vibrato and a couple of warm harmonics.
+            var phase: Float = 0
+            return render(duration: 0.4) { t in
+                let freq = 520 + 140 * t / 0.4 + 25 * sinf(2 * .pi * 7 * t)
+                phase += 2 * .pi * freq / Float(sampleRate)
+                let env = min(1, t / 0.04) * expf(-max(0, t - 0.08) * 7)
+                return (sinf(phase) + 0.4 * sinf(2 * phase) + 0.15 * sinf(3 * phase)) * env * 0.3
+            }
         }
     }
 

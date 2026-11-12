@@ -49,3 +49,6 @@ Thay một hình: ghi đè file trong `<tên>.imageset/`, hoặc chạy lại `-
 - Mảng cùng màu nền nằm **bên trong** món đồ (ví dụ lõi giữa cuộn dây) thì được giữ lại, vì bên dưới thường là lớp viền tô đặc.
 - SVG từ Recraft đôi khi có **nền bị cắt thành nhiều mảnh** (không phải một hình chữ nhật) nên `--import` không bỏ được nền (xem trước sẽ thấy nền trắng/kem). Khi đó tải **PNG** thay vì SVG (hoặc render SVG ra PNG) rồi import lại: PNG được xóa nền bằng flood fill.
 - Nhưng script không kéo giãn hình: nếu hình bàn phím có tỉ lệ 2:1 mà ô là 4:1 thì hình chỉ phủ khoảng một nửa ô. Script sẽ báo `WARNING aspect …`. Khi tạo hình, ghi rõ tỉ lệ trong prompt (ví dụ *"wide 4:1 horizontal composition, top-down, transparent background"*) hoặc chỉnh khung trong trình vẽ.
+
+## Hình em bé (Baby Corner)
+Bé đang được vẽ bằng code (`BabyAvatarView`). Khi có hình thật, nhập 4 hình vuông (khoảng 512×512, nền trong suốt, bé nhìn chính diện, toàn thân): `baby_newborn` (quấn khăn, ngủ), `baby_infant` (ngồi, cười), `baby_crawler` (đang bò), `baby_toddler` (đứng chập chững). App tự dùng hình thật thay cho bản vẽ code; trang phục khi đó hiện bằng một huy hiệu nhỏ. Nhập bằng `check_assets.py --import` như hình thiết bị (bảng tình trạng chỉ liệt kê hình thiết bị, 4 hình này không có trong bảng).

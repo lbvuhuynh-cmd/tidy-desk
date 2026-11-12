@@ -9,6 +9,8 @@ struct SetupCompleteView: View {
     let score: Int
     let stars: Int
     let isNewBest: Bool
+    /// Baby Corner payout (coins + growth), shown as a row under the stats.
+    var babyReward: BabyReward? = nil
     let hasNextLevel: Bool
     let onNext: () -> Void
     let onReplay: () -> Void
@@ -64,6 +66,13 @@ struct SetupCompleteView: View {
                 .padding(.vertical, 10)
                 .background(RoundedRectangle(cornerRadius: 16, style: .continuous).fill(Theme.background))
                 .accessibilityElement(children: .combine)
+
+                if let babyReward {
+                    BabyRewardRow(reward: babyReward)
+                        .scaleEffect(appeared ? 1 : 0.5)
+                        .opacity(appeared ? 1 : 0)
+                        .animation(.spring(response: 0.4, dampingFraction: 0.55).delay(1.05), value: appeared)
+                }
 
                 if isNewBest {
                     Label("New best!", systemImage: "rosette")
@@ -128,6 +137,32 @@ struct SetupCompleteView: View {
         } catch {
             shownScore = score
         }
+    }
+}
+
+/// "For your baby: 🪙 +25  🌱 +30" (+ "Baby grew!" when a new stage was reached).
+private struct BabyRewardRow: View {
+    let reward: BabyReward
+
+    var body: some View {
+        VStack(spacing: 4) {
+            HStack(spacing: 10) {
+                Text("👶").font(.title3)
+                Text("🪙 +\(reward.coins)").font(.headline.monospacedDigit())
+                Text("🌱 +\(reward.growth)").font(.headline.monospacedDigit())
+            }
+            if let stage = reward.grewTo {
+                Text("Your baby grew into a \(stage.title)! 🎉")
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(Theme.accent)
+            }
+        }
+        .padding(.horizontal, 14)
+        .padding(.vertical, 8)
+        .background(Capsule().fill(Color(red: 1.0, green: 0.9, blue: 0.86).opacity(0.7)))
+        .foregroundStyle(Color(red: 0.35, green: 0.25, blue: 0.22))
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(Text("For your baby: \(reward.coins) coins and \(reward.growth) growth"))
     }
 }
 

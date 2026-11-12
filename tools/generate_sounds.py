@@ -161,6 +161,62 @@ def lights_on():
     return render(1.1, gen)
 
 
+def coin():
+    notes = [(1975.5, 0.0), (2637.0, 0.07)]
+
+    def gen(t):
+        v = 0.0
+        for freq, start in notes:
+            if t >= start:
+                lt = t - start
+                env = min(1.0, lt * 500) * math.exp(-lt * 9)
+                v += (math.sin(2 * math.pi * freq * lt) + 0.25 * math.sin(2 * math.pi * freq * 2.76 * lt)) * env * 0.3
+        return v
+
+    return render(0.4, gen)
+
+
+def feed():
+    starts = [0.0, 0.13, 0.26]
+
+    def gen(t):
+        v = 0.0
+        for start in starts:
+            if start <= t < start + 0.09:
+                lt = t - start
+                phase = 2 * math.pi * (300 * lt + 1300 * lt * lt)
+                v += math.sin(phase) * math.sin(math.pi * lt / 0.09) * 0.5
+        return v
+
+    return render(0.38, gen)
+
+
+def squeak():
+    state = {"phase": 0.0}
+
+    def gen(t):
+        freq = 900 + 700 * math.sin(math.pi * t / 0.22) + 30 * math.sin(2 * math.pi * 30 * t)
+        state["phase"] += 2 * math.pi * freq / RATE
+        env = min(1.0, t * 200) * math.exp(-t * 6)
+        p = state["phase"]
+        return (math.sin(p) + 0.3 * math.sin(2 * p)) * env * 0.35
+
+    return render(0.22, gen)
+
+
+def coo():
+    state = {"phase": 0.0}
+
+    def gen(t):
+        freq = 520 + 140 * t / 0.4 + 25 * math.sin(2 * math.pi * 7 * t)
+        state["phase"] += 2 * math.pi * freq / RATE
+        env = min(1.0, t / 0.04) * math.exp(-max(0.0, t - 0.08) * 7)
+        p = state["phase"]
+        return (math.sin(p) + 0.4 * math.sin(2 * p) + 0.15 * math.sin(3 * p)) * env * 0.3
+
+    return render(0.4, gen)
+
+
 SOUNDS = {
     "pickup": lambda: sweep(340, 680, 0.07, 35, 0.45),
     "snap": snap,
@@ -174,6 +230,10 @@ SOUNDS = {
     "snap_cable": snap_cable,
     "power_on": power_on,
     "lights_on": lights_on,
+    "coin": coin,
+    "feed": feed,
+    "squeak": squeak,
+    "coo": coo,
 }
 
 

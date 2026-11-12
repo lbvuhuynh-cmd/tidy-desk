@@ -18,6 +18,6 @@ struct TidyDeskApp: App {
                 // so the very first pick-up / snap plays instantly.
                 .task { SoundManager.shared.preload() }
         }
-        .modelContainer(for: LevelProgress.self)
+        .modelContainer(for: [LevelProgress.self, BabyProfile.self])
     }
 }

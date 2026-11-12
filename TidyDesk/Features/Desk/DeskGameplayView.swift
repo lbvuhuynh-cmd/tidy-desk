@@ -19,9 +19,14 @@ struct DeskGameplayView: View {
     @State private var showClear = false
     @State private var isNewBest = false
     @State private var confirmLeave = false
+    /// Baby Corner payout for the clear on screen.
+    @State private var babyReward: BabyReward?
+    private let babyFeedback: BabyFeedback
 
     init(level: LevelData, feedback: GameFeedback? = nil) {
-        _vm = State(initialValue: DeskDragViewModel(level: level, feedback: feedback ?? FeedbackEngine.shared))
+        let feedback = feedback ?? FeedbackEngine.shared
+        _vm = State(initialValue: DeskDragViewModel(level: level, feedback: feedback))
+        babyFeedback = (feedback as? BabyFeedback) ?? FeedbackEngine.shared
     }
 
     private var nextLevel: LevelData? { levelManager.nextLevel(after: vm.level.levelId) }
@@ -51,6 +56,7 @@ struct DeskGameplayView: View {
                                    score: vm.score,
                                    stars: vm.stars,
                                    isNewBest: isNewBest,
+                                   babyReward: babyReward,
                                    hasNextLevel: nextLevel != nil,
                                    onNext: goToNextLevel,
                                    onReplay: replay,
@@ -86,8 +92,11 @@ struct DeskGameplayView: View {
         }
         .onChange(of: vm.isLevelClear) { _, cleared in
             guard cleared else { return }
+            let isFirstClear = !ProgressStore.isCompleted(levelId: vm.level.levelId, in: modelContext)
             isNewBest = ProgressStore.recordClear(levelId: vm.level.levelId, moves: vm.moves, stars: vm.stars,
                                                   seconds: vm.elapsed(), score: vm.score, in: modelContext)
+            // Baby Corner: coins + growth for the baby (shown on the card, chime when it appears).
+            babyReward = BabyStore.rewardClear(stars: vm.stars, isFirstClear: isFirstClear, in: modelContext)
             vm.feedback.lightsOn()
             Task { @MainActor in
                 // Let the last snap land, the light sweep and LED wave run across the devices, and give the
@@ -96,6 +105,10 @@ struct DeskGameplayView: View {
                 guard vm.isLevelClear else { return }
                 vm.feedback.levelCleared()
                 withAnimation(.easeOut(duration: 0.25)) { showClear = true }
+                // Coin chime once the reward row pops in on the card (after the stars).
+                try? await Task.sleep(for: .milliseconds(1100))
+                guard showClear, babyReward != nil else { return }
+                babyFeedback.coinsEarned()
             }
         }
     }
@@ -185,6 +198,7 @@ struct DeskGameplayView: View {
     private func replay() {
         withAnimation(.easeInOut(duration: 0.25)) {
             showClear = false
+            babyReward = nil
             vm.restart()
         }
     }
@@ -194,6 +208,7 @@ struct DeskGameplayView: View {
         guard let next = nextLevel, let level = levelManager.loadLevel(id: next.levelId) else { return }
         withAnimation(.easeInOut(duration: 0.3)) {
             showClear = false
+            babyReward = nil
             vm.load(level)
         }
     }
@@ -224,5 +239,5 @@ struct DeskGameplayView: View {
         }
     }
     .environment(manager)
-    .modelContainer(for: LevelProgress.self, inMemory: true)
+    .modelContainer(for: [LevelProgress.self, BabyProfile.self], inMemory: true)
 }

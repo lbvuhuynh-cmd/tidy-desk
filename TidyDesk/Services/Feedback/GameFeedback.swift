@@ -105,9 +105,84 @@ final class FeedbackEngine: GameFeedback {
     }
 }
 
+/// Baby Corner moments. Same rule as the desk: views talk to this protocol, never to the managers directly.
+///
+/// | Moment                                   | Haptic                        | Sound        |
+/// |------------------------------------------|-------------------------------|--------------|
+/// | coins paid out on the Setup Complete card| `playLightImpact()`           | `.coin`      |
+/// | tap the baby                             | `playSoftImpact(0.5)`         | `.coo`       |
+/// | feed                                     | `playSoftImpact(0.7)`         | `.feed`      |
+/// | play with a toy                          | `playLightImpact()`           | `.squeak`    |
+/// | buy a toy / outfit                       | `playRigidImpact(0.6)`        | `.coin`      |
+/// | change outfit                            | `playSelectionChanged()`      | `.pickup`    |
+/// | baby reaches a new stage                 | `playSuccess()`               | `.complete`  |
+/// | not now (full, too few coins, too young) | `playSoftImpact(0.3)`         | `.drop`      |
+@MainActor
+protocol BabyFeedback: AnyObject {
+    func coinsEarned()
+    func babyTapped()
+    func babyFed()
+    func babyPlayed()
+    func itemBought()
+    func outfitChanged()
+    func babyGrew()
+    func careDeclined()
+}
+
+extension FeedbackEngine: BabyFeedback {
+    func coinsEarned() {
+        haptics.playLightImpact()
+        sounds.play(sound: .coin)
+    }
+
+    func babyTapped() {
+        haptics.playSoftImpact(intensity: 0.5)
+        sounds.play(sound: .coo)
+    }
+
+    func babyFed() {
+        haptics.playSoftImpact(intensity: 0.7)
+        sounds.play(sound: .feed)
+    }
+
+    func babyPlayed() {
+        haptics.playLightImpact()
+        sounds.play(sound: .squeak)
+    }
+
+    func itemBought() {
+        haptics.playRigidImpact(intensity: 0.6)
+        sounds.play(sound: .coin)
+    }
+
+    func outfitChanged() {
+        haptics.playSelectionChanged()
+        sounds.play(sound: .pickup)
+    }
+
+    func babyGrew() {
+        haptics.playSuccess()
+        sounds.play(sound: .complete)
+    }
+
+    func careDeclined() {
+        haptics.playSoftImpact(intensity: 0.3)
+        sounds.play(sound: .drop)
+    }
+}
+
 /// No-op feedback for previews and tests.
 @MainActor
-final class SilentFeedback: GameFeedback {
+final class SilentFeedback: GameFeedback, BabyFeedback {
+    func coinsEarned() {}
+    func babyTapped() {}
+    func babyFed() {}
+    func babyPlayed() {}
+    func itemBought() {}
+    func outfitChanged() {}
+    func babyGrew() {}
+    func careDeclined() {}
+
     func pickUp() {}
     func cellCrossed() {}
     func snapped(_ traits: ItemTraits) {}

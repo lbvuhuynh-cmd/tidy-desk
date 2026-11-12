@@ -26,6 +26,14 @@ final class LevelProgress {
 }
 
 enum ProgressStore {
+    /// Whether this level has been cleared before (read before `recordClear` to tell a first clear from a replay).
+    @MainActor
+    static func isCompleted(levelId: Int, in context: ModelContext) -> Bool {
+        let id = levelId
+        let descriptor = FetchDescriptor<LevelProgress>(predicate: #Predicate { $0.levelId == id && $0.isCompleted == true })
+        return ((try? context.fetchCount(descriptor)) ?? 0) > 0
+    }
+
     /// Records a clear, keeping the best values seen so far.
     /// Returns true when this run beat the previous best score (false on the very first clear).
     @MainActor

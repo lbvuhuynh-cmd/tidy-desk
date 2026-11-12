@@ -43,9 +43,11 @@ mkdir -p screenshots/app
 xcrun simctl boot "iPhone 17" 2>/dev/null || true
 xcrun simctl install booted build/DD/Build/Products/Debug-iphonesimulator/TidyDesk.app
 
-shoot() {  # shoot <tên file> <light|dark> [level id]
+shoot() {  # shoot <tên file> <light|dark> [level id | nursery]
   xcrun simctl ui booted appearance "$2"
-  if [ -n "$3" ]; then
+  if [ "$3" = "nursery" ]; then
+    xcrun simctl launch --terminate-running-process booted com.powervh.tidydesk -openNursery YES -babyName Bean
+  elif [ -n "$3" ]; then
     xcrun simctl launch --terminate-running-process booted com.powervh.tidydesk -openLevel "$3"
   else
     xcrun simctl launch --terminate-running-process booted com.powervh.tidydesk
@@ -57,9 +59,11 @@ shoot menu_light       light
 shoot level1_light     light 1    # có keyboard_compact
 shoot level5_light     light 5    # có mouse_wireless
 shoot level5_dark      dark  5
+shoot nursery_light    light nursery   # Baby Corner (phòng bé)
+shoot nursery_dark     dark  nursery
 xcrun simctl ui booted appearance light
 ```
-`-openLevel <id>` là cờ chỉ có ở bản Debug: mở thẳng màn đó, bỏ qua khóa. Nếu ảnh chụp ra trống hoặc vẫn ở menu thì tăng `sleep`.
+`-openLevel <id>` là cờ chỉ có ở bản Debug: mở thẳng màn đó, bỏ qua khóa. `-openNursery YES -babyName Bean` (cũng chỉ Debug) mở thẳng Baby Corner và đặt tên bé để bỏ qua bảng đặt tên. Nếu ảnh chụp ra trống hoặc vẫn ở menu thì tăng `sleep`.
 
 **Xem lại các ảnh vừa chụp** (đọc file PNG) và nhận xét ngắn: hình có rõ không, có bị nhòe hay méo không, bóng đổ có hợp lý không, hình có quá nhỏ trong ô không.
 

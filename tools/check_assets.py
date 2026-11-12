@@ -30,6 +30,8 @@ LEVEL_DIR = ROOT / "TidyDesk" / "Resources" / "Levels"
 CATALOG = ROOT / "TidyDesk" / "Resources" / "Assets.xcassets"
 POINTS_PER_CELL = 128  # suggested artboard size per grid cell (see ASSETS.md)
 SYSTEM_SETS = {"AppIcon", "AccentColor"}
+# Baby Corner pictures (BabyStage.assetName): not desk items, square, optional (the app draws the baby until they exist).
+BABY_ASSETS = ["baby_newborn", "baby_infant", "baby_crawler", "baby_toddler"]
 
 
 def level_assets():
@@ -272,7 +274,8 @@ def main():
         i = sys.argv.index("--import")
         if i + 1 >= len(sys.argv):
             sys.exit("--import needs a folder")
-        import_folder(Path(sys.argv[i + 1]), assets)
+        extra = {n: {"size": (2, 2), "names": {"Baby"}, "levels": set(), "symbol": None} for n in BABY_ASSETS}
+        import_folder(Path(sys.argv[i + 1]), {**assets, **extra})
     sets = catalog_sets()
     problems = 0
 
@@ -294,7 +297,9 @@ def main():
         used = ", ".join(sorted(info["names"]))
         print(f"{name:<22} {w}x{h:<4} {board:<14} {status:<8} {detail}   [{used}]")
 
-    unused = sorted(set(sets) - set(assets) - SYSTEM_SETS)
+    unused = sorted(set(sets) - set(assets) - SYSTEM_SETS - set(BABY_ASSETS))
+    baby = [n for n in BABY_ASSETS if n in sets]
+    print(f"\nBaby Corner pictures: {len(baby)}/{len(BABY_ASSETS)}" + (f" ({', '.join(baby)})" if baby else " (drawn in code until added)"))
     if unused:
         print("\nImage sets no level uses (typo?):", ", ".join(unused))
 

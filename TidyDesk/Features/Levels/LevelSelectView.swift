@@ -13,6 +13,8 @@ import SwiftData
 struct LevelSelectView: View {
     @Environment(LevelManager.self) private var levelManager
     @Query private var progress: [LevelProgress]
+    @Query(sort: \BabyProfile.createdAt) private var babies: [BabyProfile]
+    @State private var showNursery = false
 
     @State private var path: [LevelRoute] = []
     /// Per-card shake counters (locked taps).
@@ -45,6 +47,8 @@ struct LevelSelectView: View {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 18) {
                         header
+                        Button { showNursery = true } label: { BabyBannerView(profile: babies.first) }
+                            .buttonStyle(PressableCardStyle())
                         if !levelManager.availableLevels.isEmpty {
                             ProgressSummaryView(cleared: completedIds.intersection(Set(levelManager.availableLevels.map(\.levelId))).count,
                                                 total: levelManager.availableLevels.count,
@@ -67,6 +71,7 @@ struct LevelSelectView: View {
             .background(Theme.background.ignoresSafeArea())
             .overlay(alignment: .bottom) { hintToast }
             .toolbar(.hidden, for: .navigationBar)
+            .navigationDestination(isPresented: $showNursery) { BabyNurseryView() }
             .navigationDestination(for: LevelRoute.self) { route in
                 if let level = levelManager.level(id: route.levelId) {
                     DeskGameplayView(level: level)
@@ -85,6 +90,11 @@ struct LevelSelectView: View {
             if debugLevel > 0, !didOpenDebugLevel, levelManager.level(id: debugLevel) != nil {
                 didOpenDebugLevel = true   // only on launch, not every time the menu reappears
                 path = [LevelRoute(levelId: debugLevel)]
+            }
+            // `-openNursery YES` opens Baby Corner (screenshots).
+            if UserDefaults.standard.bool(forKey: "openNursery"), !didOpenDebugLevel {
+                didOpenDebugLevel = true
+                showNursery = true
             }
             #endif
         }
@@ -499,5 +509,5 @@ private struct LoadIssuesView: View {
 #Preview {
     LevelSelectView()
         .environment(LevelManager())
-        .modelContainer(for: LevelProgress.self, inMemory: true)
+        .modelContainer(for: [LevelProgress.self, BabyProfile.self], inMemory: true)
 }
