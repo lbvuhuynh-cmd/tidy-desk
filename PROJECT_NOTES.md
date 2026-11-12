@@ -57,7 +57,7 @@ Số nước = số lần đặt thành công (đặt món mới, hoặc dời m
 
 ## 5b. TestFlight (bản thử, mượn team RETALIX USA, INC)
 - App trên App Store Connect: **Test Tidy Desk** (Apple ID 6833522226, SKU `testtidydesk`), bundle ID **`com.powervh.tidydesk.beta`**, team `62SFVG2ZD8` (tài khoản Xcode `vu.huynh@ncr.com`). Bundle ID thật `com.powervh.tidydesk` để dành cho tài khoản riêng (đừng tạo app ASC với nó trong Retalix).
-- `project.yml` **không** chứa team/bundle ID beta: truyền qua dòng lệnh khi archive. Tăng build number mỗi lần upload. **Build đã upload gần nhất: 2** → lần sau dùng 3.
+- `project.yml` **không** chứa team/bundle ID beta: truyền qua dòng lệnh khi archive. Tăng build number mỗi lần upload. **Build đã upload gần nhất: 3** → lần sau dùng 4.
 ```
 xcodebuild -project TidyDesk.xcodeproj -scheme TidyDesk -configuration Release -destination 'generic/platform=iOS' \
   -archivePath <tmp>/TidyDesk.xcarchive -allowProvisioningUpdates \
