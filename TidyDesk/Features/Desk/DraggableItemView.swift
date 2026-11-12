@@ -76,7 +76,13 @@ private struct RotateBadge: View {
             .font(.system(size: size * 0.5, weight: .bold))
             .foregroundStyle(.white)
             .frame(width: size, height: size)
-            .background(Circle().fill(.black.opacity(0.28)))
+            // Dark fill + white rim + soft shadow: readable over light art, dark art and the dark-mode drawer alike.
+            .background(
+                Circle()
+                    .fill(.black.opacity(0.5))
+                    .overlay(Circle().strokeBorder(.white.opacity(0.9), lineWidth: max(1, size * 0.08)))
+                    .shadow(color: .black.opacity(0.3), radius: 2, y: 1)
+            )
             .offset(x: size * 0.15, y: -size * 0.15)
             .allowsHitTesting(false)
             .accessibilityHidden(true)

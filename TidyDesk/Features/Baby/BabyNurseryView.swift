@@ -10,6 +10,7 @@ struct BabyNurseryView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.colorScheme) private var colorScheme
     @Query(sort: \BabyProfile.createdAt) private var profiles: [BabyProfile]
 
     /// `nil` = `FeedbackEngine.shared` (resolved on the main actor; tests and previews pass `SilentFeedback`).
@@ -123,10 +124,11 @@ struct BabyNurseryView: View {
             }
             tabPicker
             itemShelf(state: state)
-            Spacer(minLength: 0)
         }
         .padding(.horizontal, 16)
         .padding(.top, 4)
+        .padding(.bottom, 12)
+        .frame(maxHeight: .infinity, alignment: .top)
         .overlay(alignment: .bottom) { noteToast }
     }
 
@@ -165,14 +167,42 @@ struct BabyNurseryView: View {
         }
     }
 
+    /// Room colors: warm pastel by day; in dark mode a cozy night nursery (dusky lilac, moon and stars)
+    /// so the room doesn't glare out of the dark UI.
+    private var isNight: Bool { colorScheme == .dark }
+    private var roomColors: [Color] {
+        isNight
+            ? [Color(red: 0.25, green: 0.23, blue: 0.36), Color(red: 0.19, green: 0.18, blue: 0.27)]
+            : [Color(red: 1.0, green: 0.93, blue: 0.9), Color(red: 0.98, green: 0.95, blue: 0.86)]
+    }
+    private var rugColor: Color {
+        isNight ? Color(red: 0.33, green: 0.38, blue: 0.53) : Color(red: 0.8, green: 0.88, blue: 0.95)
+    }
+
     private func room(_ profile: BabyProfile, state: BabyState) -> some View {
         ZStack {
             RoundedRectangle(cornerRadius: 28, style: .continuous)
-                .fill(LinearGradient(colors: [Color(red: 1.0, green: 0.93, blue: 0.9), Color(red: 0.98, green: 0.95, blue: 0.86)],
-                                     startPoint: .top, endPoint: .bottom))
+                .fill(LinearGradient(colors: roomColors, startPoint: .top, endPoint: .bottom))
+            if isNight {
+                // Night sky: a little moon and a few stars (decoration only).
+                Text("🌙")
+                    .font(.system(size: 28))
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                    .padding(20)
+                    .accessibilityHidden(true)
+                ForEach(Array(Self.starSpots.enumerated()), id: \.offset) { _, spot in
+                    Image(systemName: "sparkle")
+                        .font(.system(size: spot.size))
+                        .foregroundStyle(.white.opacity(0.55))
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                        .padding(.leading, spot.x)
+                        .padding(.top, spot.y)
+                        .accessibilityHidden(true)
+                }
+            }
             // Play rug.
             Ellipse()
-                .fill(Color(red: 0.8, green: 0.88, blue: 0.95))
+                .fill(rugColor)
                 .frame(height: 70)
                 .padding(.horizontal, 40)
                 .frame(maxHeight: .infinity, alignment: .bottom)
@@ -205,8 +235,14 @@ struct BabyNurseryView: View {
                 FloatingEmoji(emoji: bit.emoji, x: bit.x, reduceMotion: reduceMotion)
             }
         }
-        .frame(height: 250)
+        // Grows into spare screen height (tall phones), never below 230 pt (small phones).
+        .frame(minHeight: 230, maxHeight: 340)
     }
+
+    /// Fixed star positions (pt from the room's top-left) for the night room.
+    private static let starSpots: [(x: CGFloat, y: CGFloat, size: CGFloat)] = [
+        (90, 30, 10), (150, 70, 7), (240, 24, 9), (300, 64, 12), (60, 110, 7), (320, 130, 8),
+    ]
 
     private var tabPicker: some View {
         HStack(spacing: 10) {
@@ -246,7 +282,9 @@ struct BabyNurseryView: View {
                 }
             }
             .padding(.vertical, 4)
+            .padding(.horizontal, 16) // inset inside the scroll view...
         }
+        .padding(.horizontal, -16) // ...which runs to the screen edges, so cards slide off the edge (clearly scrollable)
         .scrollIndicators(.hidden)
         .id(tab) // start each tab scrolled to the left
     }
