@@ -4,7 +4,7 @@ import SwiftUI
 ///
 /// Two looks, picked automatically by `ItemArt`:
 /// * **Artwork** (top-down vector asset present): the picture *is* the object. It fills the footprint
-///   (aspect-fit, small padding) over a faint category-tinted base that marks the occupied cells, and the shadows
+///   (aspect-fit, small padding) with no base card behind it, and the shadows
 ///   follow the drawing's own silhouette, so a keyboard casts a keyboard-shaped shadow on the wooden desk.
 /// * **Placeholder** (no asset yet): the coloured category tile with an SF Symbol, as before.
 ///
@@ -43,19 +43,16 @@ struct ItemTileView: View {
     // MARK: Artwork (vector asset)
 
     private func artworkTile(_ art: ItemArt, innerW: CGFloat, innerH: CGFloat, radius: CGFloat) -> some View {
-        let color = Theme.color(for: item.category)
         // Small breathing room inside the footprint so art never touches the cell edge.
         let artPadding = min(innerW, innerH) * 0.06
         return ZStack {
-            // Footprint base: barely-there tint marking the occupied cells; fades out while lifted
-            // (the drag preview shows the footprint instead).
-            RoundedRectangle(cornerRadius: radius, style: .continuous)
-                .fill(color.opacity(0.14))
-                .overlay {
-                    RoundedRectangle(cornerRadius: radius, style: .continuous)
-                        .strokeBorder(isWarning ? Theme.invalid : color.opacity(0.28), lineWidth: isWarning ? 3 : 1)
-                }
-                .opacity(isWarning ? 1 : 1 - elevation)
+            // No base card: the drawing sits straight on the desk / drawer like a real object.
+            // (Hit-testing covers the whole footprint via `contentShape` in DraggableItemView;
+            // the drag preview shows the footprint while lifted.) Only an invalid drop gets an outline.
+            if isWarning {
+                RoundedRectangle(cornerRadius: radius, style: .continuous)
+                    .strokeBorder(Theme.invalid, lineWidth: 3)
+            }
 
             orientedArt(art, innerW: innerW, innerH: innerH, symbolTint: .white)
                 .padding(artPadding)

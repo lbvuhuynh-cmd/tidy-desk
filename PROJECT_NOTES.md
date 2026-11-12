@@ -69,6 +69,7 @@ xcodebuild -exportArchive -archivePath <tmp>/TidyDesk.xcarchive -exportOptionsPl
 - Icon hiện là icon tạm do `tools/generate_icon.py` vẽ (1024×1024, không alpha). Thay icon thật: ghi đè `Assets.xcassets/AppIcon.appiconset/AppIcon.png`.
 
 ## Lịch sử
+- 2026-11-12 (Hình thật, **chưa build**): bỏ khung/nền màu nhạt phía sau món có hình thật (`ItemTileView.artworkTile`): hình nằm thẳng trên bàn / ngăn kéo như đồ thật, chỉ còn bóng đổ theo dáng hình. Viền đỏ khi thả sai vẫn giữ. Vùng chạm vẫn phủ cả ô (`contentShape` trong `DraggableItemView`).
 - 2026-11-12 (TestFlight): upload build **1.0 (3)** = commit `4320def` (âm thanh theo chất liệu, hiệu ứng sống, lights-on, mở khóa mọi màn) lên "Test Tidy Desk".
 - 2026-11-12 (Build Mac `4320def`): build OK không cần sửa gì, 67/68 pass + 1 skip. Chụp lại `screenshots/art/` + `screenshots/app/`.
 - 2026-11-12 (TestFlight, **chưa build**): thêm `BetaConfig.unlockAllLevels = true`: mọi màn chơi được ngay, không cần qua màn trước (`LevelManager.unlockAll`, mặc định false nên test luật mở khóa không đổi; app gán từ `BetaConfig`). Menu hiện dòng nhắc "Test build · all levels unlocked". Tiến độ, sao, kỷ lục vẫn lưu như thường.
