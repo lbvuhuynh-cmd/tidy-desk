@@ -1,15 +1,12 @@
 {
   "images": [
     {
-      "filename": "keyboard_compact.svg",
+      "filename": "keyboard_compact.png",
       "idiom": "universal"
     }
   ],
   "info": {
     "author": "xcode",
     "version": 1
-  },
-  "properties": {
-    "preserves-vector-representation": true
   }
 }

@@ -1,15 +1,12 @@
 {
   "images": [
     {
-      "filename": "cable_bundle.svg",
+      "filename": "cable_bundle.png",
       "idiom": "universal"
     }
   ],
   "info": {
     "author": "xcode",
     "version": 1
-  },
-  "properties": {
-    "preserves-vector-representation": true
   }
 }

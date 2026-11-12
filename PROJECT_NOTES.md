@@ -69,6 +69,7 @@ xcodebuild -exportArchive -archivePath <tmp>/TidyDesk.xcarchive -exportOptionsPl
 - Icon hiện là icon tạm do `tools/generate_icon.py` vẽ (1024×1024, không alpha). Thay icon thật: ghi đè `Assets.xcassets/AppIcon.appiconset/AppIcon.png`.
 
 ## Lịch sử
+- 2026-11-12 (Hình màn 1–2, **chưa build**): thêm `headphones` (2×2), `speaker_tower` (1×3); thay `keyboard_compact` (PNG 3:1, giờ khít ô) và `cable_bundle` (bó dây nằm ngang có đầu cắm, ~83% ô). `cable_bundle`/`headphones` là SVG Recraft có nền bị cắt nhiều mảnh nên script không bỏ được: đã render sang PNG (Chrome headless, nền trong suốt) rồi import PNG. `check_assets.py`: 8/27 (OK: keyboard_compact, keyboard_mechanical, cable_bundle, headphones, speaker_tower; WARN: coffee_mug, mouse_wireless, keyboard_fullsize). Còn thiếu cho màn 2: `desk_lamp_tall`.
 - 2026-11-12 (Hình thật, **chưa build**): bỏ khung/nền màu nhạt phía sau món có hình thật (`ItemTileView.artworkTile`): hình nằm thẳng trên bàn / ngăn kéo như đồ thật, chỉ còn bóng đổ theo dáng hình. Viền đỏ khi thả sai vẫn giữ. Vùng chạm vẫn phủ cả ô (`contentShape` trong `DraggableItemView`).
 - 2026-11-12 (TestFlight): upload build **1.0 (3)** = commit `4320def` (âm thanh theo chất liệu, hiệu ứng sống, lights-on, mở khóa mọi màn) lên "Test Tidy Desk".
 - 2026-11-12 (Build Mac `4320def`): build OK không cần sửa gì, 67/68 pass + 1 skip. Chụp lại `screenshots/art/` + `screenshots/app/`.
