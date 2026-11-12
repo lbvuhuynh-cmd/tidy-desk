@@ -1,6 +1,6 @@
 # Tidy Desk: Tech & Setup — Ghi chú dự án
 
-> Cập nhật: 2026-11-12 · Trạng thái: build OK + 67/68 test pass, 1 skip (ArtPreviewTests, đúng thiết kế) trên Mac ở commit `fb81c85` (hình màn 1–2, bỏ nền sau hình thật). `tools/check_levels.py`: 8/8 OK · `tools/check_assets.py`: 8/27 hình thiết bị (4 OK, 4 WARN tỉ lệ; còn lại dùng SF Symbol dự phòng). TestFlight gần nhất: build 4 (`fb81c85`). Ảnh: `screenshots/`.
+> Cập nhật: 2026-11-12 · Trạng thái: build OK + 89/90 test pass, 1 skip (ArtPreviewTests, đúng thiết kế) trên Mac ở commit `549c465` (Baby Corner MVP). `tools/check_levels.py`: 8/8 OK · `tools/check_assets.py`: 8/27 hình thiết bị (4 OK, 4 WARN tỉ lệ; còn lại dùng SF Symbol dự phòng). TestFlight gần nhất: build 4 (`fb81c85`). Ảnh: `screenshots/`.
 
 ## 1. App này là gì
 Game giải đố "dọn dẹp" (Cozy Tidy / Organization Puzzle) cho iOS 17+, chủ đề **bàn làm việc / góc setup công nghệ**. Mỗi màn bắt đầu với một bàn bừa bộn: vài món đã nằm sẵn sai chỗ trên bàn, các món còn lại ở **ngăn kéo phụ kiện** (Accessory Drawer) phía dưới. Người chơi kéo thả để mọi thứ vừa khít mặt bàn, không đè nhau, không tràn viền. Xếp đủ là qua màn ("Setup Complete!"). Giao diện tiếng Anh, nhắm thị trường toàn cầu.
@@ -45,16 +45,17 @@ Số nước = số lần đặt thành công (đặt món mới, hoặc dời m
 7. Ảnh thật cho thiết bị; thay 6 file WAV tạm bằng âm thanh thu thật (cùng tên, xem README). Thêm Localizable.xcstrings.
 
 ## 5. Kết quả build/test trên Mac
-- **Ngày:** 2026-11-12 · **Commit đã build:** `fb81c85` · **Xcode:** 26.5 (17F42), iOS Simulator 26.5, iPhone 17. Làm theo `MAC_BUILD.md`.
-- **Build app:** OK, không lỗi, không warning trong code dự án hay asset catalog. **Không phải sửa file nào.**
-- **Test:** 68 test: **67 pass, 0 fail, 1 skip** (`ArtPreviewTests`, chỉ chạy khi bật `TEST_RUNNER_TIDY_SNAPSHOTS=1`). Dòng log "level_7.json: duplicate levelId 1" là do `LevelManagerTests` cố tình tạo file hỏng.
-- **Dữ liệu:** `check_levels.py` 8/8 OK. `check_assets.py`: 8/27 hình. OK: `headphones`, `keyboard_compact`, `keyboard_mechanical`, `speaker_tower`. WARN tỉ lệ: `cable_bundle` (~83%), `coffee_mug` (~83%), `keyboard_fullsize` (~76%), `mouse_wireless` (~68%).
-- **Ảnh từng hình (`screenshots/art/`, ~6.9 MB):** 27 file + 2 tấm tổng hợp. Hình thật rõ, không nhòe/méo; không còn khung nền màu phía sau, bóng đổ theo dáng hình, nhấc và xoay đúng.
-- **Ảnh app (`screenshots/app/`):** `menu_light`, `level1_light`, `level2_light` (mới: headphones, speaker_tower, cable_bundle), `level5_light`, `level5_dark`. Nhận xét:
-  - Màn 1: ly cà phê nằm thẳng trên bàn, có khói bốc lên (hiệu ứng `steam`). Bàn phím compact giờ khít ô 3×1.
-  - Màn 2: bó dây nằm ngang đẹp, gần khít 2 ô. Tai nghe và loa tháp trong ngăn kéo rõ nét. Còn `desk_lamp_tall` dùng ô màu SF Symbol nên lệch tông với các hình thật.
-  - Màn 5 tối: quầng sáng màn hình và RGB dưới bàn phím hiện rõ. Nút xoay ↻ đè lên góc hình thật (bó dây, bàn phím); ở chế độ tối nút trên bó dây hơi khó thấy.
-  - Chuột và ly cà phê trong ngăn kéo vẫn nhỏ hơn các món khác (hình chưa phủ hết ô 1×1).
+- **Ngày:** 2026-11-12 · **Commit đã build:** `549c465` (Baby Corner MVP) · **Xcode:** 26.5 (17F42), iOS Simulator 26.5, iPhone 17. Làm theo `MAC_BUILD.md`.
+- **Build app:** OK ngay lần đầu, không lỗi, không warning trong code dự án hay asset catalog. **Không phải sửa file nào.**
+- **Test:** 90 test: **89 pass, 0 fail, 1 skip** (`ArtPreviewTests`, chỉ chạy khi bật `TEST_RUNNER_TIDY_SNAPSHOTS=1`). `BabyCareTests` mới pass hết. Dòng log "level_7.json: duplicate levelId 1" là do `LevelManagerTests` cố tình tạo file hỏng.
+- **Dữ liệu:** `check_levels.py` 8/8 OK. `check_assets.py`: 8/27 hình (4 OK, 4 WARN tỉ lệ, không đổi so với `fb81c85`).
+- **Ảnh từng hình (`screenshots/art/`):** không đổi so với lần trước.
+- **Ảnh app (`screenshots/app/`):** `menu_light`, `level1_light`, `level2_light`, `level5_light`, `level5_dark`, `nursery_light`, `nursery_dark` (mới). Nhận xét:
+  - Baby Corner: cờ `-openNursery YES -babyName Bean` chạy đúng, bỏ qua bảng đặt tên. Hiện tên "Bean", giai đoạn Newborn, thanh lớn, 20 xu khởi đầu, bé vẽ bằng code (ngủ, quấn khăn) rõ và dễ thương, thanh Tummy / Joy, 3 nút Feed / Play / Dress, hàng đồ ăn (Milk 4 xu; Porridge / Banana / Cookie khóa theo giai đoạn).
+  - Hàng đồ ăn là cuộn ngang nên thẻ Cookie bị cắt ở mép phải (đúng thiết kế, nhưng có thể thêm khoảng đệm phải để người chơi thấy là cuộn được).
+  - Chế độ tối: khung cảnh bé vẫn nền pastel sáng, khá chói giữa giao diện tối; có thể làm tối nhẹ khung này.
+  - Menu: simulator có tiến độ cũ nên menu tự cuộn tới màn 3; banner Baby Corner ở đầu danh sách bị cuộn khuất, chưa xem được trong ảnh.
+  - Các màn chơi: giống lần trước, không có gì vỡ.
 
 ## 5b. TestFlight (bản thử, mượn team RETALIX USA, INC)
 - App trên App Store Connect: **Test Tidy Desk** (Apple ID 6833522226, SKU `testtidydesk`), bundle ID **`com.powervh.tidydesk.beta`**, team `62SFVG2ZD8` (tài khoản Xcode `vu.huynh@ncr.com`). Bundle ID thật `com.powervh.tidydesk` để dành cho tài khoản riêng (đừng tạo app ASC với nó trong Retalix).
@@ -70,6 +71,7 @@ xcodebuild -exportArchive -archivePath <tmp>/TidyDesk.xcarchive -exportOptionsPl
 - Icon hiện là icon tạm do `tools/generate_icon.py` vẽ (1024×1024, không alpha). Thay icon thật: ghi đè `Assets.xcassets/AppIcon.appiconset/AppIcon.png`.
 
 ## Lịch sử
+- 2026-11-12 (Build Mac `549c465`): Baby Corner build OK không cần sửa gì, 89/90 pass + 1 skip. Chụp lại `screenshots/` (thêm `nursery_light/dark`).
 - 2026-11-12 (Baby Corner, **chưa build**): thêm tính năng chăm bé (MVP). Mới: `Domain/Baby/` (`BabyStage`, `BabyCatalog`, `BabyState`), `BabyProfile` (@Model, thêm vào modelContainer) + `BabyStore`, `Features/Baby/` (`BabyNurseryView`, `BabyAvatarView`, `BabyBannerView`), protocol `BabyFeedback` (FeedbackEngine + SilentFeedback), 4 âm mới `coin` / `feed` / `squeak` / `coo` (ToneSynth + generate_sounds.py, 16 WAV). `ProgressStore.isCompleted` để phân biệt qua màn lần đầu / chơi lại. `SetupCompleteView` có dòng thưởng cho bé. Cờ Debug `-openNursery YES -babyName Bean` cho ảnh chụp (MAC_BUILD chụp thêm `nursery_light/dark`). Test mới `BabyCareTests.swift` (giai đoạn, thưởng, luật cho ăn/chơi/mua/mặc, sàn no/vui, catalog, lưu SwiftData).
 - 2026-11-12 (TestFlight): upload build **1.0 (4)** = commit `fb81c85` (hình màn 1–2, bỏ nền sau hình thật) lên "Test Tidy Desk".
 - 2026-11-12 (Build Mac `fb81c85`): build OK không cần sửa gì, 67/68 pass + 1 skip. Chụp lại `screenshots/art/` + `screenshots/app/` (thêm `level2_light`).
