@@ -1,6 +1,6 @@
 # Tidy Desk: Tech & Setup — Ghi chú dự án
 
-> Cập nhật: 2026-11-12 · Trạng thái: build OK + 89/90 test pass, 1 skip (ArtPreviewTests, đúng thiết kế) trên Mac ở commit `549c465` (Baby Corner MVP). `tools/check_levels.py`: 8/8 OK · `tools/check_assets.py`: 8/27 hình thiết bị (4 OK, 4 WARN tỉ lệ; còn lại dùng SF Symbol dự phòng). TestFlight gần nhất: build 5 (`549c465`). Ảnh: `screenshots/`.
+> Cập nhật: 2026-11-13 · Trạng thái: build OK + 107/108 test pass, 1 skip (ArtPreviewTests, đúng thiết kế) trên Mac ở commit `5e1f64b` (38 màn / 4 chương, Baby Corner giai đoạn A). `tools/check_levels.py`: 38/38 OK · `tools/check_assets.py`: 41/41 hình (16 WARN tỉ lệ). Ảnh: `screenshots/`.
 
 ## 1. App này là gì
 Game giải đố "dọn dẹp" (Cozy Tidy / Organization Puzzle) cho iOS 17+, chủ đề **bàn làm việc / góc setup công nghệ**. Mỗi màn bắt đầu với một bàn bừa bộn: vài món đã nằm sẵn sai chỗ trên bàn, các món còn lại ở **ngăn kéo phụ kiện** (Accessory Drawer) phía dưới. Người chơi kéo thả để mọi thứ vừa khít mặt bàn, không đè nhau, không tràn viền. Xếp đủ là qua màn ("Setup Complete!"). Giao diện tiếng Anh, nhắm thị trường toàn cầu.
@@ -46,17 +46,17 @@ Lộ trình đầy đủ theo giai đoạn: [ROADMAP.md](ROADMAP.md).
 7. Ảnh thật cho thiết bị; thay 6 file WAV tạm bằng âm thanh thu thật (cùng tên, xem README). Thêm Localizable.xcstrings.
 
 ## 5. Kết quả build/test trên Mac
-- **Ngày:** 2026-11-12 · **Commit đã build:** `549c465` (Baby Corner MVP) · **Xcode:** 26.5 (17F42), iOS Simulator 26.5, iPhone 17. Làm theo `MAC_BUILD.md`.
+- **Ngày:** 2026-11-13 · **Commit đã build:** `5e1f64b` (38 màn / 4 chương, đủ 41 hình, Baby Corner giai đoạn A, mở khóa theo chương) · **Xcode:** 26.5 (17F42), iOS Simulator 26.5, iPhone 17. Làm theo `MAC_BUILD.md`.
 - **Build app:** OK ngay lần đầu, không lỗi, không warning trong code dự án hay asset catalog. **Không phải sửa file nào.**
-- **Test:** 90 test: **89 pass, 0 fail, 1 skip** (`ArtPreviewTests`, chỉ chạy khi bật `TEST_RUNNER_TIDY_SNAPSHOTS=1`). `BabyCareTests` mới pass hết. Dòng log "level_7.json: duplicate levelId 1" là do `LevelManagerTests` cố tình tạo file hỏng.
-- **Dữ liệu:** `check_levels.py` 8/8 OK. `check_assets.py`: 8/27 hình (4 OK, 4 WARN tỉ lệ, không đổi so với `fb81c85`).
-- **Ảnh từng hình (`screenshots/art/`):** không đổi so với lần trước.
-- **Ảnh app (`screenshots/app/`):** `menu_light`, `level1_light`, `level2_light`, `level5_light`, `level5_dark`, `nursery_light`, `nursery_dark` (mới). Nhận xét:
-  - Baby Corner: cờ `-openNursery YES -babyName Bean` chạy đúng, bỏ qua bảng đặt tên. Hiện tên "Bean", giai đoạn Newborn, thanh lớn, 20 xu khởi đầu, bé vẽ bằng code (ngủ, quấn khăn) rõ và dễ thương, thanh Tummy / Joy, 3 nút Feed / Play / Dress, hàng đồ ăn (Milk 4 xu; Porridge / Banana / Cookie khóa theo giai đoạn).
-  - Hàng đồ ăn là cuộn ngang nên thẻ Cookie bị cắt ở mép phải (đúng thiết kế, nhưng có thể thêm khoảng đệm phải để người chơi thấy là cuộn được).
-  - Chế độ tối: khung cảnh bé vẫn nền pastel sáng, khá chói giữa giao diện tối; có thể làm tối nhẹ khung này.
-  - Menu: simulator có tiến độ cũ nên menu tự cuộn tới màn 3; banner Baby Corner ở đầu danh sách bị cuộn khuất, chưa xem được trong ảnh.
-  - Các màn chơi: giống lần trước, không có gì vỡ.
+- **Test:** 108 test: **107 pass, 0 fail, 1 skip** (`ArtPreviewTests`, chỉ chạy khi bật `TEST_RUNNER_TIDY_SNAPSHOTS=1`). Dòng log "level_7.json: duplicate levelId 1" là do `LevelManagerTests` cố tình tạo file hỏng.
+- **Dữ liệu:** `check_levels.py` **38/38 OK**. `check_assets.py`: **41/41** hình thiết bị/vườn. WARN tỉ lệ (16): nặng nhất `grow_light` (~31% ô), `monitor` (~40%), `monitor_ultrawide` (~45%), `power_strip` (~63%); còn lại 66–85% (`desk_lamp_tall`, `pruning_shears`, `mouse_wireless`, `notebook`, `watering_can`, `mouse_on_mat`, `keyboard_fullsize`, `flower_box`, `seed_packet`, `cable_bundle`, `coffee_mug`, `laptop_gaming`).
+- **Ảnh từng hình (`screenshots/art/`, ~13 MB):** 41 file + 2 tấm tổng hợp, mọi món là `ASSET`. Hình Gemini rõ, cùng tông pastel với hình cũ, không thấy viền nền sót sau khi cắt.
+- **Ảnh app (`screenshots/app/`):** `menu_light`, `level1_light`, `level5_light/dark`, `level29_light`, `level38_light`, `nursery_light/dark`, `babybook_light` (bỏ `level2_light` cũ vì MAC_BUILD không còn chụp). Nhận xét:
+  - Màn 5: laptop (hình thật) đẹp, khít ô 3×2; ngăn kéo toàn hình thật (webcam, tai nghe, micro, bó dây, lót chuột), đồng tông.
+  - Màn 38 "Blooming Bench" (8×6): chậu monstera, khay thảo mộc, bình tưới, găng tay, giỏ rau rõ nét. `grow_light` trong ngăn kéo chỉ là que mảnh, khó nhận ra (đúng WARN ~31%).
+  - Menu: có tiêu đề chương ("CHAPTER 1 · First Desks 2/8"). Vì simulator có tiến độ cũ, menu tự cuộn nên thẻ "Continue" nằm **dưới thanh trạng thái / Dynamic Island**, chữ giờ chồng lên chữ "Level 3" → nên thêm nền/blur cho vùng safe area trên cùng hoặc cuộn chừa khoảng trống.
+  - Phòng bé tối: "phòng đêm" tím than + trăng sao đẹp, không còn chói. 4 thanh nhu cầu, 5 nút (Feed/Play/Bath/Sleep/Dress), hàng đồ cuộn tới mép phải. Thanh test của bản beta (−/+ tháng, +100 xu, Needs ↓) hiện ở dưới, đúng ý `unlockAllBabyContent`.
+  - Sổ tay em bé: "9 of 18 pages", thẻ cột mốc dùng hình Gemini (`baby_newborn`, `baby_infant`, `baby_roller`) rất dễ thương. Bé trong phòng và ảnh nhỏ đầu sổ vẫn vẽ bằng code (chưa có hình crawler) nên khác phong cách với các trang sổ.
 
 ## 5b. TestFlight (bản thử, mượn team RETALIX USA, INC)
 - App trên App Store Connect: **Test Tidy Desk** (Apple ID 6833522226, SKU `testtidydesk`), bundle ID **`com.powervh.tidydesk.beta`**, team `62SFVG2ZD8` (tài khoản Xcode `vu.huynh@ncr.com`). Bundle ID thật `com.powervh.tidydesk` để dành cho tài khoản riêng (đừng tạo app ASC với nó trong Retalix).
@@ -72,6 +72,7 @@ xcodebuild -exportArchive -archivePath <tmp>/TidyDesk.xcarchive -exportOptionsPl
 - Icon hiện là icon tạm do `tools/generate_icon.py` vẽ (1024×1024, không alpha). Thay icon thật: ghi đè `Assets.xcassets/AppIcon.appiconset/AppIcon.png`.
 
 ## Lịch sử
+- 2026-11-13 (Build Mac `5e1f64b`): build OK không cần sửa gì, 107/108 pass + 1 skip. Chụp lại `screenshots/` theo MAC_BUILD mới (thêm `level29/38_light`, `babybook_light`).
 - 2026-11-13 (Mở khóa theo chương, **chưa build**): **cả 4 chương mở ngay từ đầu** (màn đầu của mỗi chương chơi được luôn); trong mỗi chương màn khó mở lần lượt khi qua màn trước **cùng chương** (`LevelManager.prerequisite` / `isUnlocked`). Màn không có `chapter` vẫn mở lần lượt như cũ. Test mới `testEveryChapterStartsOpenAndUnlocksInOrder`, `testShippedChaptersAreAllOpenAtTheStart`.
 - 2026-11-13 (Hình thiết bị đủ): 19 thiết bị còn lại làm bằng Gemini (5 hình nhóm, ART_PLAN ngày 3–7) + `baby_infant`, `baby_roller` → **41/41 hình cho mọi món trong 38 màn**, 3/6 hình bé. `split_sheet.py`: chỉ gộp mảnh nhỏ vào món gần nó (không gộp 2 món lớn có khung chồng nhau), xóa phần của món bên cạnh lấn vào khung cắt, tùy chọn `--gap=`. Cần vẽ lại sau: `monitor` / `monitor_ultrawide` (nhìn từ trên chỉ thấy cạnh mỏng, lấp ~40% ô), `power_strip` (dây cắm).
 - 2026-11-13 (Hình vườn + màn): 14 hình **Góc làm vườn** làm bằng Gemini theo 4 nhóm, cắt bằng công cụ mới `tools/split_sheet.py` (tự xóa nền, tìm từng món, cắt theo thứ tự đọc), nhập bằng `check_assets.py` (giờ nhận cả JPEG). Hình bé đầu tiên `baby_newborn` (Gemini). `generate_levels.py` ưu tiên món chưa dùng trong chương nên mọi món đều xuất hiện (trước đó chương Office Hours không có màn hình/laptop, chương vườn thiếu 3 món) → **sinh lại màn 9–38** (bố cục đổi, `check_levels.py` 38/38 OK). Tình trạng hình: 22 hình thiết bị/vườn + 1/6 hình bé.
