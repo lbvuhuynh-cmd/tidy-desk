@@ -38,7 +38,7 @@ Nếu số món tìm thấy khác số tên, công cụ lưu thành `item_01.png
 
 ---
 
-## 1. Thiết bị trên bàn (nhìn thẳng từ trên xuống)
+## 1. Thiết bị trên bàn (nhìn thẳng từ trên xuống): ✅ đã đủ (Gemini, 13/11)
 
 Mỗi prompt ghép từ hai phần: **đoạn chung** (dán trước) + **mô tả món** (cột Mô tả).
 
@@ -49,25 +49,25 @@ Flat 2D vector illustration, strictly top-down view (looking straight down from 
 
 | Xong | Tên file | Ô | Khung | Mô tả món (dán sau đoạn chung) |
 |---|---|---|---|---|
-| [ ] | `desk_lamp_tall` | 1×3 | 1:2 | a slim LED desk lamp lying along its length, round base at the bottom, long arm, very tall vertical 1:3 shape |
-| [ ] | `desk_lamp` | 1×2 | 1:2 | a small desk lamp seen from above, round base and short bent arm with lamp head, tall vertical 1:2 shape |
-| [ ] | `plant` | 1×1 | 1:1 | a small potted plant seen from above, round pot rim with leafy green leaves spreading out, square composition |
-| [ ] | `webcam` | 1×1 | 1:1 | a small round webcam lying flat, lens in the middle, tiny status light, square composition |
-| [ ] | `notebook` | 1×2 | 1:2 | a closed spiral notebook with a pastel cover and an elastic band, tall vertical 1:2 shape |
-| [ ] | `phone` | 1×2 | 1:2 | a smartphone lying face up, rounded corners, soft glowing screen with simple app icons (no text), tall vertical 1:2 shape |
-| [ ] | `microphone` | 1×2 | 1:2 | a small desktop microphone on a round stand, mesh head at the top, tall vertical 1:2 shape |
-| [ ] | `speaker` | 1×2 | 1:2 | a small bookshelf speaker seen from above, two round drivers, tall vertical 1:2 shape |
-| [ ] | `mic_boom` | 1×3 | 1:2 | a podcast microphone on a long boom arm lying along its length, mic at the top end, clamp at the bottom, very tall vertical 1:3 shape |
-| [ ] | `game_controller` | 2×1 | 2:1 | a gamepad controller lying flat, two thumbsticks, d-pad and four round buttons, wide horizontal 2:1 shape |
-| [ ] | `mouse_on_mat` | 2×1 | 2:1 | a wireless mouse resting on a small rectangular mouse mat, wide horizontal 2:1 shape |
-| [ ] | `desk_mat` | 2×2 | 1:1 | a soft fabric mouse pad / desk mat with rounded corners and a subtle pattern, square composition |
-| [ ] | `tablet` | 2×2 | 1:1 | a tablet lying face up with a slim case, soft glowing screen with a simple drawing app (no text), square composition |
-| [ ] | `wifi_router` | 2×2 | 1:1 | a Wi-Fi router lying flat, rounded square body, two short antennas, small status lights, square composition |
-| [ ] | `laptop_gaming` | 2×2 | 1:1 | a compact gaming laptop opened flat, RGB keyboard and glowing screen, square composition |
-| [ ] | `power_strip` | 3×1 | 2:1 | a power strip with four sockets and a switch, very wide horizontal 3:1 shape |
-| [ ] | `laptop` | 3×2 | 2:1 | an open laptop seen from above, keyboard and trackpad in front, screen folded back, horizontal 3:2 shape |
-| [ ] | `monitor` | 3×2 | 2:1 | a computer monitor seen from above, slim screen edge with a stand base behind it, horizontal 3:2 shape |
-| [ ] | `monitor_ultrawide` | 4×2 | 2:1 | an ultrawide curved monitor seen from above, long gentle curve and a stand base, wide horizontal 2:1 shape |
+| [x] | `desk_lamp_tall` | 1×3 | 1:2 | a slim LED desk lamp lying along its length, round base at the bottom, long arm, very tall vertical 1:3 shape |
+| [x] | `desk_lamp` | 1×2 | 1:2 | a small desk lamp seen from above, round base and short bent arm with lamp head, tall vertical 1:2 shape |
+| [x] | `plant` | 1×1 | 1:1 | a small potted plant seen from above, round pot rim with leafy green leaves spreading out, square composition |
+| [x] | `webcam` | 1×1 | 1:1 | a small round webcam lying flat, lens in the middle, tiny status light, square composition |
+| [x] | `notebook` | 1×2 | 1:2 | a closed spiral notebook with a pastel cover and an elastic band, tall vertical 1:2 shape |
+| [x] | `phone` | 1×2 | 1:2 | a smartphone lying face up, rounded corners, soft glowing screen with simple app icons (no text), tall vertical 1:2 shape |
+| [x] | `microphone` | 1×2 | 1:2 | a small desktop microphone on a round stand, mesh head at the top, tall vertical 1:2 shape |
+| [x] | `speaker` | 1×2 | 1:2 | a small bookshelf speaker seen from above, two round drivers, tall vertical 1:2 shape |
+| [x] | `mic_boom` | 1×3 | 1:2 | a podcast microphone on a long boom arm lying along its length, mic at the top end, clamp at the bottom, very tall vertical 1:3 shape |
+| [x] | `game_controller` | 2×1 | 2:1 | a gamepad controller lying flat, two thumbsticks, d-pad and four round buttons, wide horizontal 2:1 shape |
+| [x] | `mouse_on_mat` | 2×1 | 2:1 | a wireless mouse resting on a small rectangular mouse mat, wide horizontal 2:1 shape |
+| [x] | `desk_mat` | 2×2 | 1:1 | a soft fabric mouse pad / desk mat with rounded corners and a subtle pattern, square composition |
+| [x] | `tablet` | 2×2 | 1:1 | a tablet lying face up with a slim case, soft glowing screen with a simple drawing app (no text), square composition |
+| [x] | `wifi_router` | 2×2 | 1:1 | a Wi-Fi router lying flat, rounded square body, two short antennas, small status lights, square composition |
+| [x] | `laptop_gaming` | 2×2 | 1:1 | a compact gaming laptop opened flat, RGB keyboard and glowing screen, square composition |
+| [x] | `power_strip` | 3×1 | 2:1 | a power strip with four sockets and a switch, very wide horizontal 3:1 shape |
+| [x] | `laptop` | 3×2 | 2:1 | an open laptop seen from above, keyboard and trackpad in front, screen folded back, horizontal 3:2 shape |
+| [x] | `monitor` | 3×2 | 2:1 | a computer monitor seen from above, slim screen edge with a stand base behind it, horizontal 3:2 shape |
+| [x] | `monitor_ultrawide` | 4×2 | 2:1 | an ultrawide curved monitor seen from above, long gentle curve and a stand base, wide horizontal 2:1 shape |
 
 Đã có hình (không cần làm lại): `keyboard_compact`, `keyboard_mechanical`, `keyboard_fullsize`, `headphones`, `speaker_tower`, `cable_bundle`, `coffee_mug`, `mouse_wireless`.
 

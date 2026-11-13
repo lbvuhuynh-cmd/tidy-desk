@@ -1,0 +1,12 @@
+{
+  "images": [
+    {
+      "filename": "monitor_ultrawide.png",
+      "idiom": "universal"
+    }
+  ],
+  "info": {
+    "author": "xcode",
+    "version": 1
+  }
+}

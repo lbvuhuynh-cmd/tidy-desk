@@ -1,0 +1,12 @@
+{
+  "images": [
+    {
+      "filename": "mic_boom.png",
+      "idiom": "universal"
+    }
+  ],
+  "info": {
+    "author": "xcode",
+    "version": 1
+  }
+}

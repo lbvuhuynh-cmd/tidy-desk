@@ -39,42 +39,42 @@ Same baby, exact same art style, colors, outlines and plain light gray backgroun
 Same baby, exact same art style, colors and outlines. Show the same baby at three ages side by side in ONE horizontal row, from left to right: 1) 7 months old crawling toward the viewer on hands and knees, one tiny front tooth; 2) 1 year old standing with wobbly first steps, arms out for balance, small fringe; 3) 2 years old standing confidently and waving hello, fuller hair with a soft fringe, cream short-sleeve romper and little sneakers. All wear plain cream clothes. Each child stands alone with lots of empty space around it, they never touch or overlap, nothing else in the picture (no pillow, no blanket, no floor), no shadows, no text, plain light gray background, large and high resolution.
 ```
 
-### Ngày 3: Đồ đứng A (màn 2–4) · thư mục `tidy-art\tech`
+### ✅ Ngày 3: Đồ đứng A (màn 2–4) · thư mục `tidy-art\tech`
 | Xong | Lưu thành | Món (trái → phải) |
 |---|---|---|
-| [ ] | `tech_1.jpeg` | desk_lamp_tall, mic_boom, speaker, phone |
+| [x] | `tech_1.jpeg` | desk_lamp_tall, mic_boom, speaker, phone |
 ```
 A sprite sheet of 4 separate tall desk objects standing upright in ONE horizontal row, in this exact order from left to right: 1) a slim LED desk lamp lying along its length, round base at the bottom, long arm (very tall and thin, shape 1:3), 2) a podcast microphone on a long boom arm lying along its length, mic at the top end, clamp at the bottom (very tall, 1:3), 3) a small bookshelf speaker with two round drivers (1:2, twice as tall as wide), 4) a smartphone lying face up with a soft glowing screen with simple app icons, no text (1:2). Flat 2D vector illustration, strictly top-down view (looking straight down from above), cozy pastel palette (lavender, soft pink, cream, muted purple), clean outlines. Each object stands alone with lots of empty space around it, objects never touch or overlap, no shadows, no text, no labels, no numbers, plain light gray background, large and high resolution.
 ```
 
-### Ngày 4: Đồ đứng B · thư mục `tidy-art\tech`
+### ✅ Ngày 4: Đồ đứng B · thư mục `tidy-art\tech`
 | Xong | Lưu thành | Món (trái → phải) |
 |---|---|---|
-| [ ] | `tech_2.jpeg` | notebook, microphone, desk_lamp |
+| [x] | `tech_2.jpeg` | notebook, microphone, desk_lamp |
 ```
 Same art style as the previous image. A sprite sheet of 3 separate tall desk objects standing upright in ONE horizontal row, in this exact order from left to right: 1) a closed spiral notebook with a pastel cover and an elastic band (shape 1:2, twice as tall as wide), 2) a small desktop microphone on a round stand, mesh head at the top (1:2), 3) a small desk lamp with a round base, short bent arm and lamp head (1:2). Flat 2D vector illustration, strictly top-down view, cozy pastel palette (lavender, soft pink, cream, muted purple), clean outlines. Each object stands alone with lots of empty space around it, objects never touch or overlap, no shadows, no text, no labels, no numbers, plain light gray background, large and high resolution.
 ```
 
-### Ngày 5: Đồ vuông · thư mục `tidy-art\tech`
+### ✅ Ngày 5: Đồ vuông · thư mục `tidy-art\tech`
 | Xong | Lưu thành | Món (hàng trên trái → phải, rồi hàng dưới) |
 |---|---|---|
-| [ ] | `tech_3.jpeg` | desk_mat, tablet, wifi_router, laptop_gaming, plant, webcam |
+| [x] | `tech_3.jpeg` | desk_mat, tablet, wifi_router, laptop_gaming, plant, webcam |
 ```
 Same art style as the previous image. A sprite sheet of 6 separate square desk objects arranged in a 3 x 2 grid, in this exact order (top row left to right, then bottom row left to right): 1) a soft fabric mouse pad with rounded corners and a subtle pattern, 2) a tablet lying face up in a slim case with a simple drawing app on the screen, 3) a Wi-Fi router lying flat with two short antennas and small status lights, 4) a compact gaming laptop opened flat with an RGB keyboard and glowing screen, 5) a small potted plant with leafy green leaves seen from above, 6) a small round webcam with the lens in the middle. Every object has a square shape. Flat 2D vector illustration, strictly top-down view, cozy pastel palette (lavender, soft pink, cream, muted purple), clean outlines. Each object stands alone with lots of empty space around it, objects never touch or overlap, no shadows, no text, no labels, no numbers, plain light gray background, large and high resolution.
 ```
 
-### Ngày 6: Đồ nằm ngang · thư mục `tidy-art\tech`
+### ✅ Ngày 6: Đồ nằm ngang · thư mục `tidy-art\tech`
 | Xong | Lưu thành | Món (trên → dưới) |
 |---|---|---|
-| [ ] | `tech_4.jpeg` | game_controller, mouse_on_mat, power_strip |
+| [x] | `tech_4.jpeg` | game_controller, mouse_on_mat, power_strip |
 ```
 Same art style as the previous image. A sprite sheet of 3 separate wide desk objects stacked in ONE vertical column, in this exact order from top to bottom: 1) a gamepad controller lying flat with two thumbsticks, a d-pad and four round buttons (shape 2:1, twice as wide as tall), 2) a wireless mouse resting on a small rectangular mouse mat (2:1), 3) a power strip with four sockets and a switch (very wide, 3:1). Flat 2D vector illustration, strictly top-down view, cozy pastel palette (lavender, soft pink, cream, muted purple), clean outlines. Each object stands alone with lots of empty space around it, objects never touch or overlap, no shadows, no text, no labels, no numbers, plain light gray background, large and high resolution.
 ```
 
-### Ngày 7: Màn hình và laptop · thư mục `tidy-art\tech`
+### ✅ Ngày 7: Màn hình và laptop · thư mục `tidy-art\tech`
 | Xong | Lưu thành | Món (trên → dưới) |
 |---|---|---|
-| [ ] | `tech_5.jpeg` | monitor, laptop, monitor_ultrawide |
+| [x] | `tech_5.jpeg` | monitor, laptop, monitor_ultrawide |
 ```
 Same art style as the previous image. A sprite sheet of 3 separate screen devices stacked in ONE vertical column, in this exact order from top to bottom: 1) a computer monitor seen from above, slim screen edge with a stand base behind it (shape 3:2), 2) an open laptop seen from above, keyboard and trackpad in front, screen folded back (3:2), 3) an ultrawide curved monitor seen from above with a long gentle curve and a stand base (2:1, twice as wide as tall). Flat 2D vector illustration, strictly top-down view, cozy pastel palette (lavender, soft pink, cream, muted purple), clean outlines. Each object stands alone with lots of empty space around it, objects never touch or overlap, no shadows, no text, no labels, no numbers, plain light gray background, large and high resolution.
 ```
@@ -87,6 +87,8 @@ Những hình này đang chỉ lấp 30–80% ô (`check_assets.py` báo WARN). 
 | [ ] | `mouse_wireless.jpeg` | mouse_wireless (1×1) | hơi dài, lấp ~68% |
 | [ ] | `keyboard_fullsize.jpeg` | keyboard_fullsize (5×1) | chưa đủ dài, lấp ~76% |
 | [ ] | `watering_can.jpeg` | watering_can (2×2) | hơi bẹt, lấp ~74% |
+| [ ] | `monitors.jpeg` | monitor (3×2), monitor_ultrawide (4×2) | nhìn từ trên xuống chỉ thấy cạnh mỏng, lấp ~40–45% ô; vẽ lại kiểu "screen tilted back so the glowing screen is visible from above" |
+| [ ] | `power_strip.jpeg` | power_strip (3×1) | dây cắm làm hình dài quá, lấp ~63%; vẽ lại không có dây |
 
 Prompt mẫu (đổi tên món và tỉ lệ):
 ```

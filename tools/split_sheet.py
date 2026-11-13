@@ -9,6 +9,7 @@ How it works:
 Usage:
   python tools/split_sheet.py <sheet.png|jpg> <out folder> name1 name2 name3 ...
   python tools/split_sheet.py sheet.jpg out/                   (no names: preview, saves item_01.png ...)
+  python tools/split_sheet.py --gap=0.004 sheet.jpg out/ a b c  (items drawn close together: merge less)
 
 Then import as usual:  python tools/check_assets.py --import <out folder>
 
@@ -24,7 +25,8 @@ from check_assets import clean_png  # noqa: E402
 
 
 def find_boxes(alpha_mask, w, h, step):
-    """Connected components on a downsampled mask -> bounding boxes in full-size pixels."""
+    """Connected components on a downsampled mask -> (label grid, boxes). Each box is
+    [x0, y0, x1, y1, cells, {labels}] in full-size pixels; the grid holds the component label of every cell."""
     gw, gh = (w + step - 1) // step, (h + step - 1) // step
     grid = bytearray(gw * gh)
     for gy in range(gh):
@@ -34,17 +36,20 @@ def find_boxes(alpha_mask, w, h, step):
                    for x in range(x0, min(w, x0 + step), 2)):
                 grid[gy * gw + gx] = 1
     seen = bytearray(gw * gh)
+    labels = [0] * (gw * gh)
     boxes = []
     for start in range(gw * gh):
         if not grid[start] or seen[start]:
             continue
         queue = deque([start])
         seen[start] = 1
+        label = len(boxes) + 1
         minx = miny = 10 ** 9
         maxx = maxy = -1
         cells = 0
         while queue:
             i = queue.popleft()
+            labels[i] = label
             gx, gy = i % gw, i // gw
             cells += 1
             minx, maxx, miny, maxy = min(minx, gx), max(maxx, gx), min(miny, gy), max(maxy, gy)
@@ -54,20 +59,24 @@ def find_boxes(alpha_mask, w, h, step):
                     if grid[j] and not seen[j]:
                         seen[j] = 1
                         queue.append(j)
-        boxes.append([minx * step, miny * step, min(w, (maxx + 1) * step), min(h, (maxy + 1) * step), cells])
-    return boxes
+        boxes.append([minx * step, miny * step, min(w, (maxx + 1) * step), min(h, (maxy + 1) * step), cells, {label}])
+    return (labels, gw), boxes
 
 
 def merge_close(boxes, gap):
-    """Merges boxes that overlap or nearly touch (stray bits belong to the nearest object)."""
+    """Merges a small piece into the object box it overlaps or nearly touches (stray bits belong to the nearest object)."""
     changed = True
     while changed:
         changed = False
         for i in range(len(boxes)):
             for j in range(i + 1, len(boxes)):
                 a, b = boxes[i], boxes[j]
-                if a[0] - gap <= b[2] and b[0] - gap <= a[2] and a[1] - gap <= b[3] and b[1] - gap <= a[3]:
-                    boxes[i] = [min(a[0], b[0]), min(a[1], b[1]), max(a[2], b[2]), max(a[3], b[3]), a[4] + b[4]]
+                near = a[0] - gap <= b[2] and b[0] - gap <= a[2] and a[1] - gap <= b[3] and b[1] - gap <= a[3]
+                # Only a small piece (sparkle, cable end, loose part) joins its neighbour; two real objects whose
+                # boxes overlap (e.g. a boom arm reaching over a speaker) stay separate.
+                small = min(a[4], b[4]) < 0.12 * max(a[4], b[4])
+                if near and small:
+                    boxes[i] = [min(a[0], b[0]), min(a[1], b[1]), max(a[2], b[2]), max(a[3], b[3]), a[4] + b[4], a[5] | b[5]]
                     del boxes[j]
                     changed = True
                     break
@@ -96,8 +105,12 @@ def reading_order(boxes):
 def main():
     if len(sys.argv) < 3:
         sys.exit(__doc__)
-    sheet, out = Path(sys.argv[1]), Path(sys.argv[2])
-    names = sys.argv[3:]
+    args = [a for a in sys.argv[1:] if not a.startswith("--gap=")]
+    gap_ratio = next((float(a[6:]) for a in sys.argv[1:] if a.startswith("--gap=")), 0.015)
+    if len(args) < 2:
+        sys.exit(__doc__)
+    sheet, out = Path(args[0]), Path(args[1])
+    names = args[2:]
     out.mkdir(parents=True, exist_ok=True)
 
     from PIL import Image
@@ -111,12 +124,12 @@ def main():
     mask = bytes(1 if a > 40 else 0 for a in alpha)
 
     step = max(2, min(w, h) // 300)
-    boxes = find_boxes(mask, w, h, step)
+    (label_grid, gw), boxes = find_boxes(mask, w, h, step)
     if not boxes:
         sys.exit("No objects found.")
     biggest = max(b[4] for b in boxes)
     boxes = [b for b in boxes if b[4] >= biggest * 0.01]           # drop specks / noise
-    boxes = merge_close(boxes, gap=int(0.015 * max(w, h)))
+    boxes = merge_close(boxes, gap=int(gap_ratio * max(w, h)))
     boxes = reading_order(boxes)
 
     print(f"{sheet.name}: {len(boxes)} item(s) found")
@@ -125,8 +138,33 @@ def main():
         print(f"WARNING: {len(names)} names given but {len(boxes)} items found -> saving as item_NN.png; "
               "look at them, then rename (or regenerate with more space between items).")
     pad = max(2, int(0.01 * max(w, h)))
-    for index, (x0, y0, x1, y1, _) in enumerate(boxes, start=1):
-        crop = im.crop((max(0, x0 - pad), max(0, y0 - pad), min(w, x1 + pad), min(h, y1 + pad)))
+    for index, (x0, y0, x1, y1, _, own) in enumerate(boxes, start=1):
+        cx0, cy0, cx1, cy1 = max(0, x0 - pad), max(0, y0 - pad), min(w, x1 + pad), min(h, y1 + pad)
+        crop = im.crop((cx0, cy0, cx1, cy1))
+        # Keep only this object's pixels: a neighbour reaching into the box (e.g. a boom arm over a speaker)
+        # is erased. Cells with no label (background / soft fringe) stay as they are.
+        # Unlabelled cells next to a neighbour's cells (its soft anti-aliased fringe) are erased too.
+        gh = len(label_grid) // gw
+
+        def foreign(gx, gy):
+            lab = label_grid[gy * gw + gx]
+            if lab:
+                return lab not in own
+            near = [label_grid[ny * gw + nx] for ny in range(max(0, gy - 1), min(gh, gy + 2))
+                    for nx in range(max(0, gx - 1), min(gw, gx + 2))]
+            return any(n and n not in own for n in near) and not any(n in own for n in near)
+
+        verdict = {}
+        cp = crop.load()
+        for y in range(crop.size[1]):
+            gy = (cy0 + y) // step
+            for x in range(crop.size[0]):
+                gx = (cx0 + x) // step
+                key = (gx, gy)
+                if key not in verdict:
+                    verdict[key] = foreign(gx, gy)
+                if verdict[key]:
+                    cp[x, y] = (0, 0, 0, 0)
         crop = crop.crop(crop.getbbox() or (0, 0, crop.size[0], crop.size[1]))
         name = names[index - 1] if use_names else f"item_{index:02d}"
         crop.save(out / f"{name}.png")
