@@ -165,19 +165,26 @@ final class LevelManager {
     }
 
     /// The level that must be cleared to open `id` (for the "Finish Level N first" hint).
+    /// The level that has to be cleared first: the previous level **in the same chapter**.
+    /// `nil` for the first level of every chapter (all chapters are open from the start).
     func prerequisite(of id: Int) -> LevelData? {
         guard let index = availableLevels.firstIndex(where: { $0.levelId == id }), index > 0 else { return nil }
-        return availableLevels[index - 1]
+        let previous = availableLevels[index - 1]
+        return previous.chapter == availableLevels[index].chapter ? previous : nil
     }
 
     var maxStars: Int { availableLevels.count * 3 }
 
     // MARK: Unlocking (backed by SwiftData `LevelProgress`)
 
-    /// Pure rule, given the completed level ids.
+    /// Pure rule, given the completed level ids. Every chapter's first level is open from the start, so players
+    /// pick the theme they like; inside a chapter the harder desks open one by one (clear the previous level).
+    /// Levels without a `chapter` count as one chapter together, i.e. plain one-after-another unlocking.
     func isUnlocked(_ id: Int, completedIds: Set<Int>) -> Bool {
-        guard let index = availableLevels.firstIndex(where: { $0.levelId == id }) else { return false }
-        return unlockAll || index == 0 || completedIds.contains(availableLevels[index - 1].levelId)
+        guard availableLevels.contains(where: { $0.levelId == id }) else { return false }
+        if unlockAll { return true }
+        guard let previous = prerequisite(of: id) else { return true }
+        return completedIds.contains(previous.levelId)
     }
 
     /// Convenience for views that already hold `@Query var progress: [LevelProgress]`.

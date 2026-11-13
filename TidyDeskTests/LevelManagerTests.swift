@@ -247,4 +247,50 @@ final class LevelManagerTests: XCTestCase {
         XCTAssertNil(manager.loadLevel(id: 42))
         XCTAssertEqual(manager.currentLevel?.levelId, 2, "a bad id keeps the current level")
     }
+
+    /// Every chapter opens at its first (easy) level; harder levels inside a chapter open one by one.
+    func testEveryChapterStartsOpenAndUnlocksInOrder() throws {
+        let data = { (id: Int, chapter: String) in
+            try JSONDecoder().decode(LevelData.self, from: Self.level(id)
+                .replacingOccurrences(of: "\"levelName\": \"Desk\", ", with: "\"levelName\": \"Desk\", \"chapter\": \"\(chapter)\", ")
+                .data(using: .utf8)!)
+        }
+        let manager = LevelManager(levels: [try data(1, "A"), try data(2, "A"), try data(3, "A"),
+                                            try data(4, "B"), try data(5, "B"), try data(6, "C")])
+        XCTAssertEqual(manager.availableLevels.map(\.chapter), ["A", "A", "A", "B", "B", "C"])
+
+        // Chapter starts are open right away.
+        XCTAssertTrue(manager.isUnlocked(1, completedIds: []))
+        XCTAssertTrue(manager.isUnlocked(4, completedIds: []))
+        XCTAssertTrue(manager.isUnlocked(6, completedIds: []))
+        // Harder levels wait for the previous level of their own chapter.
+        XCTAssertFalse(manager.isUnlocked(2, completedIds: []))
+        XCTAssertFalse(manager.isUnlocked(5, completedIds: [1, 2, 3]), "other chapters don't count")
+        XCTAssertTrue(manager.isUnlocked(5, completedIds: [4]))
+        XCTAssertFalse(manager.isUnlocked(3, completedIds: [1]))
+        XCTAssertTrue(manager.isUnlocked(3, completedIds: [1, 2]))
+
+        XCTAssertNil(manager.prerequisite(of: 4), "first level of a chapter needs nothing")
+        XCTAssertEqual(manager.prerequisite(of: 5)?.levelId, 4)
+        XCTAssertEqual(manager.status(of: 4, completedIds: [], bestStars: [:]), .unlocked)
+        XCTAssertEqual(manager.status(of: 5, completedIds: [], bestStars: [:]), .locked)
+
+        // "Continue" still walks the game in order.
+        XCTAssertEqual(manager.continueLevelId(completedIds: []), 1)
+        XCTAssertEqual(manager.continueLevelId(completedIds: [1, 2, 3]), 4)
+    }
+
+    /// The shipped game: all four chapters can be started on day one.
+    func testShippedChaptersAreAllOpenAtTheStart() throws {
+        let manager = LevelManager(bundle: Bundle(for: DeskDragViewModel.self))
+        var seen: Set<String> = []
+        for level in manager.availableLevels {
+            guard let chapter = level.chapter, !seen.contains(chapter) else { continue }
+            seen.insert(chapter)
+            XCTAssertTrue(manager.isUnlocked(level.levelId, completedIds: []), "\(chapter) starts open")
+        }
+        XCTAssertGreaterThanOrEqual(seen.count, 4)
+        let second = try XCTUnwrap(manager.availableLevels.dropFirst().first)
+        XCTAssertFalse(manager.isUnlocked(second.levelId, completedIds: []), "level 2 still needs level 1")
+    }
 }

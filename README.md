@@ -29,7 +29,7 @@ TidyDesk/
   Features/Desk/       DeskDragViewModel (engine kéo thả), DeskGameplayView, DeskSurfaceView, AccessoryDrawerView,
                        FloatingItemLayer, DraggableItemView, ItemTileView, SetupCompleteView (+ confetti),
                        ItemLifeEffects (đồ "sống dậy" trên bàn, vệt sáng khi xếp xong)
-  Features/Levels/     LevelSelectView (chọn bàn, sao, mở khóa tuần tự, banner Baby Corner)
+  Features/Levels/     LevelSelectView (chọn bàn theo chương, sao, mở khóa: mọi chương mở sẵn, trong chương mở lần lượt; banner Baby Corner)
   Features/Baby/       BabyNurseryView (phòng bé: ăn / chơi / tắm / ru ngủ / thay đồ, đặt tên, bảng test beta), BabyBookView (Sổ tay em bé), BabyAvatarView (bé vẽ bằng code), BabyBannerView
   Services/Audio/      SoundManager (singleton, AVAudioPlayer, preload), ToneSynth (âm thanh dự phòng tổng hợp trong bộ nhớ)
   Services/Haptics/    HapticManager (singleton: light / selection / rigid / soft / warning / success)
