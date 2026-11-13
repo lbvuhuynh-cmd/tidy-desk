@@ -25,6 +25,9 @@ Mục tiêu: bản TestFlight chơi mượt, không lỗi, có ý kiến ngườ
 
 ## Giai đoạn 2: Baby Corner giai đoạn B và C
 Mục tiêu: người chơi muốn quay lại mỗi ngày, nhưng không bị phạt khi vắng mặt.
+- [x] **Bé sinh động:** thở, chớp mắt, ngáp, lắc lư; vỗ tay reo hò khi vừa qua màn (chờ build)
+- [ ] **Bưu thiếp sau khi qua màn:** ảnh bàn vừa dọn + bé ở góc + sao, chia sẻ bằng ShareLink (cần cổng phụ huynh nếu vào mục Kids)
+- [ ] Rà âm thanh / rung Tắm và Ru ngủ (làm cùng đợt thay âm thanh thật, thử trên iPhone thật)
 - [ ] Trò chơi nhỏ: **đút ăn** (kéo thìa "máy bay" vào miệng bé), **ú òa** (chạm để bé che mặt rồi cười)
 - [ ] **Điều bé muốn hôm nay:** mỗi ngày một mong muốn nhỏ, làm thì thưởng thêm, không có chuỗi ngày bị đứt
 - [ ] **Trang trí phòng bé** bằng xu: nôi, đồ treo nôi, giấy dán tường, thảm

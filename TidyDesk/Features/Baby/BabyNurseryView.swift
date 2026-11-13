@@ -333,7 +333,8 @@ struct BabyNurseryView: View {
 
     private func normalScene(state: BabyState) -> some View {
         Button(action: tapBaby) {
-            BabyAvatarView(stage: state.stage, outfit: state.equippedOutfit, mood: mood, size: 180)
+            LivelyBabyView(stage: state.stage, outfit: state.equippedOutfit, mood: mood, size: 180,
+                           drowsy: state.wantsSleep)
                 .keyframeAnimator(initialValue: 1.0, trigger: bounce) { view, scale in
                     view.scaleEffect(scale, anchor: .bottom)
                 } keyframes: { _ in

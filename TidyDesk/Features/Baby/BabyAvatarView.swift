@@ -26,6 +26,13 @@ struct BabyAvatarView: View {
     var outfit: BabyShopItem? = BabyCatalog.item(id: BabyCatalog.defaultOutfitId)
     var mood: Mood = .content
     var size: CGFloat = 160
+    /// Momentary closed eyes (a blink, see `LivelyBabyView`). Drawn baby only.
+    var eyesClosed = false
+    /// Mid-yawn: closed eyes and a round open mouth. Drawn baby only (real art gets a 🥱 badge from `LivelyBabyView`).
+    var yawning = false
+
+    /// True when real artwork exists for this stage (then the face can't blink or yawn).
+    static func hasArt(for stage: BabyStage) -> Bool { UIImage(named: stage.assetName) != nil }
 
     private static let skin = Color(red: 1.0, green: 0.86, blue: 0.74)
     private static let skinShade = Color(red: 0.95, green: 0.74, blue: 0.62)
@@ -35,7 +42,7 @@ struct BabyAvatarView: View {
 
     var body: some View {
         Group {
-            if UIImage(named: stage.assetName) != nil {
+            if Self.hasArt(for: stage) {
                 Image(stage.assetName)
                     .resizable()
                     .scaledToFit()
@@ -242,7 +249,8 @@ struct BabyAvatarView: View {
 
     @ViewBuilder
     private func eye(head: CGFloat) -> some View {
-        let effective: Mood = (stage == .newborn && mood == .content) ? .sleepy : mood
+        let base: Mood = (stage == .newborn && mood == .content) ? .sleepy : mood
+        let effective: Mood = (eyesClosed || yawning) && base != .delighted ? .sleepy : base
         switch effective {
         case .asleep:
             HappyEye().stroke(Self.ink, style: StrokeStyle(lineWidth: head * 0.03, lineCap: .round))
@@ -265,6 +273,18 @@ struct BabyAvatarView: View {
 
     @ViewBuilder
     private func mouth(head: CGFloat) -> some View {
+        if yawning && mood != .delighted {
+            // Big round "O".
+            Ellipse().fill(Color(red: 0.7, green: 0.3, blue: 0.34))
+                .frame(width: head * 0.12, height: head * 0.15)
+                .offset(y: head * 0.02)
+        } else {
+            mouthShape(head: head)
+        }
+    }
+
+    @ViewBuilder
+    private func mouthShape(head: CGFloat) -> some View {
         switch mood {
         case .delighted:
             Smile().fill(Color(red: 0.85, green: 0.38, blue: 0.42))

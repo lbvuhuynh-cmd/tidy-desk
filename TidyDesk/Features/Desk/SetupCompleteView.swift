@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftData
 
 /// "Setup Complete!" summary: gentle LED-colour confetti, staggered stars, time / moves / score
 /// (score counts up), a "New best!" badge, and next / replay buttons.
@@ -143,11 +144,16 @@ struct SetupCompleteView: View {
 /// "For your baby: 🪙 +25  🌱 +30" (+ "Baby grew!" when a new stage was reached).
 private struct BabyRewardRow: View {
     let reward: BabyReward
+    @Query(sort: \BabyProfile.createdAt) private var babies: [BabyProfile]
 
     var body: some View {
+        let state = babies.first?.state ?? BabyState()
         VStack(spacing: 4) {
             HStack(spacing: 10) {
-                Text("👶").font(.title3)
+                // The baby claps and hops for the tidy desk, right when this row pops in (see the card's delays).
+                LivelyBabyView(stage: state.stage, outfit: state.equippedOutfit, size: 44,
+                               cheerOnAppear: true, cheerDelay: 1.15)
+                    .frame(width: 44, height: 44)
                 Text("🪙 +\(reward.coins)").font(.headline.monospacedDigit())
                 Text("🌱 +\(reward.growth)").font(.headline.monospacedDigit())
             }

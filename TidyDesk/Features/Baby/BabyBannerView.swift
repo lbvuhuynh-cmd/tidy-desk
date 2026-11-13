@@ -5,6 +5,10 @@ import SwiftUI
 struct BabyBannerView: View {
     let profile: BabyProfile?
 
+    /// Growth points when the menu was last shown; more on the next visit → the baby cheers.
+    @State private var seenGrowth: Int?
+    @State private var cheer = 0
+
     var body: some View {
         let state = profile?.state ?? BabyState()
         HStack(spacing: 12) {
@@ -12,8 +16,9 @@ struct BabyBannerView: View {
                 Circle()
                     .fill(LinearGradient(colors: [Color(red: 1.0, green: 0.92, blue: 0.88), Color(red: 0.98, green: 0.95, blue: 0.86)],
                                          startPoint: .top, endPoint: .bottom))
-                BabyAvatarView(stage: state.stage, outfit: state.equippedOutfit,
-                               mood: profile == nil ? .sleepy : .content, size: 60)
+                LivelyBabyView(stage: state.stage, outfit: state.equippedOutfit,
+                               mood: profile == nil ? .sleepy : .content, size: 60,
+                               drowsy: state.wantsSleep, cheer: cheer)
                 if profile != nil, let wish = state.wish {
                     Text(wish.emoji)
                         .font(.system(size: 14))
@@ -65,5 +70,16 @@ struct BabyBannerView: View {
         .foregroundStyle(.primary)
         .accessibilityElement(children: .combine)
         .accessibilityHint(Text("Opens Baby Corner"))
+        .onAppear {
+            // Back on the menu after the baby grew (a desk was tidied, or it was fed / played with): it cheers.
+            let growth = state.growthPoints
+            if let seenGrowth, growth > seenGrowth {
+                Task { @MainActor in
+                    try? await Task.sleep(for: .milliseconds(450)) // let the back transition finish
+                    cheer += 1
+                }
+            }
+            seenGrowth = growth
+        }
     }
 }

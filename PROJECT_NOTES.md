@@ -73,6 +73,7 @@ xcodebuild -exportArchive -archivePath <tmp>/TidyDesk.xcarchive -exportOptionsPl
 - Icon hiện là icon tạm do `tools/generate_icon.py` vẽ (1024×1024, không alpha). Thay icon thật: ghi đè `Assets.xcassets/AppIcon.appiconset/AppIcon.png`.
 
 ## Lịch sử
+- 2026-11-13 (Bé sinh động, **chưa build**): `LivelyBabyView` bọc `BabyAvatarView`: thở nhẹ, chớp mắt (đôi khi 2 lần), thỉnh thoảng lắc lư, ngáp (thường hơn khi thanh ngủ thấp); **bé vỗ tay 👏 và nhảy cẫng** trên thẻ Setup Complete (thay emoji 👶) và trên banner menu khi quay lại sau khi bé lớn thêm. Hình thật không chớp/ngáp được → lắc lư thay chớp mắt, ngáp hiện huy hiệu 🥱. Reduce Motion: không thở/lắc/nhảy. `BabyAvatarView` thêm `eyesClosed`, `yawning`, `hasArt(for:)`. Dùng ở phòng bé, banner, thẻ qua màn.
 - 2026-11-13 (Menu, **chưa build**): thêm dải mờ (`.ultraThinMaterial`) sau thanh trạng thái / Dynamic Island ở `LevelSelectView`, để thẻ Continue khi cuộn không chồng lên giờ (lỗi thấy trong `menu_light` bản 6).
 - 2026-11-13 (TestFlight): Account Holder đã chấp nhận thỏa thuận; upload build **1.0 (6)** = commit `5e1f64b` (38 màn / 4 chương, đủ 41 hình, Baby Corner giai đoạn A) lên app mới **Wrapper Test New** (`com.powervh.wrapper.test.beta`).
 - 2026-11-13 (TestFlight): upload build 6 (`5e1f64b`) **thất bại**: "You do not have required contracts" (team RETALIX có thỏa thuận Apple mới chưa được Account Holder chấp nhận; lỗi theo team, không theo app). Đổi bundle ID beta sang `com.powervh.wrapper.test.beta` (mục 5b); cần tạo app ASC mới với bundle này trước khi upload.
