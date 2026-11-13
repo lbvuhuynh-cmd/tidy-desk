@@ -13,6 +13,29 @@ Mở file này khi cần tạo hình. Làm xong hình nào thì đánh dấu `[x
 
 ---
 
+## Làm theo nhóm (nhiều món trong một hình)
+
+Một lượt AI có thể vẽ **4–6 món cùng lúc**. Các món sẽ cùng style và tốn ít lượt hơn. Sau đó công cụ `tools/split_sheet.py` tự xóa nền, tìm từng món và cắt ra **theo thứ tự đọc**: hàng trên từ trái sang phải, rồi tới hàng dưới.
+
+**Mẫu prompt nhóm** (thay danh sách món, giữ đúng thứ tự):
+```
+A sprite sheet of 6 separate objects arranged in a 3 x 2 grid, in this exact order (top row left to right, then bottom row): 1) ..., 2) ..., 3) ..., 4) ..., 5) ..., 6) ... . Flat 2D vector illustration, strictly top-down view, cozy pastel palette, clean outlines. Each object stands alone with lots of empty space around it, objects never touch or overlap, no shadows, no text, no labels, no numbers, plain light gray background.
+```
+
+**Mẹo:**
+- Gom các món **cùng dáng** vào một nhóm: nhóm vuông (1×1, 2×2), nhóm đứng (1×2, 1×3), nhóm nằm ngang (2×1, 3×1). Món rất dài (4×1, 5×1) nên làm riêng.
+- Tối đa khoảng 6 món mỗi hình. Nhiều hơn thì mỗi món bị nhỏ và mờ.
+- Em bé: có thể làm cả 3 tuổi trên một hình, ví dụ *"the same baby at three ages side by side, left to right: 7 months crawling, 1 year standing, 2 years waving"*. Đây cũng là cách giữ bé giống nhau tốt nhất.
+
+**Cắt hình** (Claude chạy giúp):
+```
+python tools/split_sheet.py <hình nhóm> <thư mục ra> ten_mon_1 ten_mon_2 ...
+python tools/check_assets.py --import <thư mục ra>
+```
+Nếu số món tìm thấy khác số tên, công cụ lưu thành `item_01.png`, `item_02.png`… để xem rồi đặt tên lại.
+
+---
+
 ## 1. Thiết bị trên bàn (nhìn thẳng từ trên xuống)
 
 Mỗi prompt ghép từ hai phần: **đoạn chung** (dán trước) + **mô tả món** (cột Mô tả).
