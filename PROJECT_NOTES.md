@@ -1,6 +1,6 @@
 # Tidy Desk: Tech & Setup — Ghi chú dự án
 
-> Cập nhật: 2026-11-13 · Trạng thái: build OK + 107/108 test pass, 1 skip (ArtPreviewTests, đúng thiết kế) trên Mac ở commit `5e1f64b` (38 màn / 4 chương, Baby Corner giai đoạn A). `tools/check_levels.py`: 38/38 OK · `tools/check_assets.py`: 41/41 hình (16 WARN tỉ lệ). Ảnh: `screenshots/`.
+> Cập nhật: 2026-11-13 · Trạng thái: build OK + 107/108 test pass, 1 skip (ArtPreviewTests, đúng thiết kế) trên Mac ở commit `5a322ed` (38 màn / 4 chương, Baby Corner giai đoạn A, bé sinh động). `tools/check_levels.py`: 38/38 OK · `tools/check_assets.py`: 41/41 hình (16 WARN tỉ lệ). Ảnh: `screenshots/`.
 
 ## 1. App này là gì
 Game giải đố "dọn dẹp" (Cozy Tidy / Organization Puzzle) cho iOS 17+, chủ đề **bàn làm việc / góc setup công nghệ**. Mỗi màn bắt đầu với một bàn bừa bộn: vài món đã nằm sẵn sai chỗ trên bàn, các món còn lại ở **ngăn kéo phụ kiện** (Accessory Drawer) phía dưới. Người chơi kéo thả để mọi thứ vừa khít mặt bàn, không đè nhau, không tràn viền. Xếp đủ là qua màn ("Setup Complete!"). Giao diện tiếng Anh, nhắm thị trường toàn cầu.
@@ -47,17 +47,15 @@ Lộ trình đầy đủ theo giai đoạn: [ROADMAP.md](ROADMAP.md).
 8. **Kiếm tiền (chưa chốt, xem `ROADMAP.md`):** đề xuất tải miễn phí + mua một lần mở toàn bộ (~2,99–4,99 USD), không quảng cáo; kiểm chứng trước bằng ý kiến người thử TestFlight và vài video ngắn cảnh dọn bàn.
 
 ## 5. Kết quả build/test trên Mac
-- **Ngày:** 2026-11-13 · **Commit đã build:** `5e1f64b` (38 màn / 4 chương, đủ 41 hình, Baby Corner giai đoạn A, mở khóa theo chương) · **Xcode:** 26.5 (17F42), iOS Simulator 26.5, iPhone 17. Làm theo `MAC_BUILD.md`.
+- **Ngày:** 2026-11-13 · **Commit đã build:** `5a322ed` (bé sinh động, thanh mờ sau status bar ở menu) · **Xcode:** 26.5 (17F42), iOS Simulator 26.5, iPhone 17. Làm theo `MAC_BUILD.md`.
 - **Build app:** OK ngay lần đầu, không lỗi, không warning trong code dự án hay asset catalog. **Không phải sửa file nào.**
 - **Test:** 108 test: **107 pass, 0 fail, 1 skip** (`ArtPreviewTests`, chỉ chạy khi bật `TEST_RUNNER_TIDY_SNAPSHOTS=1`). Dòng log "level_7.json: duplicate levelId 1" là do `LevelManagerTests` cố tình tạo file hỏng.
-- **Dữ liệu:** `check_levels.py` **38/38 OK**. `check_assets.py`: **41/41** hình thiết bị/vườn. WARN tỉ lệ (16): nặng nhất `grow_light` (~31% ô), `monitor` (~40%), `monitor_ultrawide` (~45%), `power_strip` (~63%); còn lại 66–85% (`desk_lamp_tall`, `pruning_shears`, `mouse_wireless`, `notebook`, `watering_can`, `mouse_on_mat`, `keyboard_fullsize`, `flower_box`, `seed_packet`, `cable_bundle`, `coffee_mug`, `laptop_gaming`).
-- **Ảnh từng hình (`screenshots/art/`, ~13 MB):** 41 file + 2 tấm tổng hợp, mọi món là `ASSET`. Hình Gemini rõ, cùng tông pastel với hình cũ, không thấy viền nền sót sau khi cắt.
-- **Ảnh app (`screenshots/app/`):** `menu_light`, `level1_light`, `level5_light/dark`, `level29_light`, `level38_light`, `nursery_light/dark`, `babybook_light` (bỏ `level2_light` cũ vì MAC_BUILD không còn chụp). Nhận xét:
-  - Màn 5: laptop (hình thật) đẹp, khít ô 3×2; ngăn kéo toàn hình thật (webcam, tai nghe, micro, bó dây, lót chuột), đồng tông.
-  - Màn 38 "Blooming Bench" (8×6): chậu monstera, khay thảo mộc, bình tưới, găng tay, giỏ rau rõ nét. `grow_light` trong ngăn kéo chỉ là que mảnh, khó nhận ra (đúng WARN ~31%).
-  - Menu: có tiêu đề chương ("CHAPTER 1 · First Desks 2/8"). Vì simulator có tiến độ cũ, menu tự cuộn nên thẻ "Continue" nằm **dưới thanh trạng thái / Dynamic Island**, chữ giờ chồng lên chữ "Level 3" → nên thêm nền/blur cho vùng safe area trên cùng hoặc cuộn chừa khoảng trống.
-  - Phòng bé tối: "phòng đêm" tím than + trăng sao đẹp, không còn chói. 4 thanh nhu cầu, 5 nút (Feed/Play/Bath/Sleep/Dress), hàng đồ cuộn tới mép phải. Thanh test của bản beta (−/+ tháng, +100 xu, Needs ↓) hiện ở dưới, đúng ý `unlockAllBabyContent`.
-  - Sổ tay em bé: "9 of 18 pages", thẻ cột mốc dùng hình Gemini (`baby_newborn`, `baby_infant`, `baby_roller`) rất dễ thương. Bé trong phòng và ảnh nhỏ đầu sổ vẫn vẽ bằng code (chưa có hình crawler) nên khác phong cách với các trang sổ.
+- **Dữ liệu:** `check_levels.py` **38/38 OK**. `check_assets.py`: **41/41** hình (16 WARN tỉ lệ, không đổi: nặng nhất `grow_light` ~31%, `monitor` ~40%, `monitor_ultrawide` ~45%, `power_strip` ~63%).
+- **Ảnh từng hình (`screenshots/art/`):** 41 file + 2 tấm tổng hợp, không đổi so với `5e1f64b`.
+- **Ảnh app (`screenshots/app/`):** đủ 9 ảnh theo MAC_BUILD. Nhận xét:
+  - Menu: lần này mở ở đầu danh sách: tiêu đề "Tidy Desk", dòng "Test build · all levels unlocked", banner Baby Corner (bé 8 tháng, 9/18 trang, 20 xu), thẻ tổng "2 / 38 desks · 4 / 114 sao", Continue, tiêu đề chương 1. Thanh trạng thái có dải nền mờ riêng (`b8cf1d3`); không còn cảnh thẻ chạy dưới đồng hồ.
+  - Phòng bé: ảnh chụp đúng lúc bé đang chớp mắt (mắt khép hờ), tức hoạt ảnh `LivelyBabyView` chạy. Thở / ngáp / vỗ tay chỉ thấy được khi xem trên máy.
+  - Các màn chơi, phòng bé tối, Sổ tay em bé: như lần trước, không có gì vỡ.
 
 ## 5b. TestFlight (bản thử, mượn team RETALIX USA, INC)
 - **Bundle ID beta hiện tại: `com.powervh.wrapper.test.beta`** (đổi 2026-11-13 theo yêu cầu người dùng), team `62SFVG2ZD8` (tài khoản Xcode `vu.huynh@ncr.com`). App trên App Store Connect: **Wrapper Test New** (Apple ID 6834471482, SKU `Wrapper_Test`); tên tạm, đổi sau được; bundle ID và SKU cố định. App cũ **Test Tidy Desk** (Apple ID 6833522226, SKU `testtidydesk`, bundle `com.powervh.tidydesk.beta`) giữ build 1–5, không upload vào nữa. Bundle ID thật `com.powervh.tidydesk` để dành cho tài khoản riêng (đừng tạo app ASC với nó trong Retalix).
@@ -73,6 +71,7 @@ xcodebuild -exportArchive -archivePath <tmp>/TidyDesk.xcarchive -exportOptionsPl
 - Icon hiện là icon tạm do `tools/generate_icon.py` vẽ (1024×1024, không alpha). Thay icon thật: ghi đè `Assets.xcassets/AppIcon.appiconset/AppIcon.png`.
 
 ## Lịch sử
+- 2026-11-13 (Build Mac `5a322ed`): build OK không cần sửa gì, 107/108 pass + 1 skip. Chụp lại `screenshots/`.
 - 2026-11-13 (Bé sinh động, **chưa build**): `LivelyBabyView` bọc `BabyAvatarView`: thở nhẹ, chớp mắt (đôi khi 2 lần), thỉnh thoảng lắc lư, ngáp (thường hơn khi thanh ngủ thấp); **bé vỗ tay 👏 và nhảy cẫng** trên thẻ Setup Complete (thay emoji 👶) và trên banner menu khi quay lại sau khi bé lớn thêm. Hình thật không chớp/ngáp được → lắc lư thay chớp mắt, ngáp hiện huy hiệu 🥱. Reduce Motion: không thở/lắc/nhảy. `BabyAvatarView` thêm `eyesClosed`, `yawning`, `hasArt(for:)`. Dùng ở phòng bé, banner, thẻ qua màn.
 - 2026-11-13 (Menu, **chưa build**): thêm dải mờ (`.ultraThinMaterial`) sau thanh trạng thái / Dynamic Island ở `LevelSelectView`, để thẻ Continue khi cuộn không chồng lên giờ (lỗi thấy trong `menu_light` bản 6).
 - 2026-11-13 (TestFlight): Account Holder đã chấp nhận thỏa thuận; upload build **1.0 (6)** = commit `5e1f64b` (38 màn / 4 chương, đủ 41 hình, Baby Corner giai đoạn A) lên app mới **Wrapper Test New** (`com.powervh.wrapper.test.beta`).
