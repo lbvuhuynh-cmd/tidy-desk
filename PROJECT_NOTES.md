@@ -59,7 +59,7 @@ Lộ trình đầy đủ theo giai đoạn: [ROADMAP.md](ROADMAP.md).
 
 ## 5b. TestFlight (bản thử, mượn team RETALIX USA, INC)
 - **Bundle ID beta hiện tại: `com.powervh.wrapper.test.beta`** (đổi 2026-11-13 theo yêu cầu người dùng), team `62SFVG2ZD8` (tài khoản Xcode `vu.huynh@ncr.com`). App trên App Store Connect: **Wrapper Test New** (Apple ID 6834471482, SKU `Wrapper_Test`); tên tạm, đổi sau được; bundle ID và SKU cố định. App cũ **Test Tidy Desk** (Apple ID 6833522226, SKU `testtidydesk`, bundle `com.powervh.tidydesk.beta`) giữ build 1–5, không upload vào nữa. Bundle ID thật `com.powervh.tidydesk` để dành cho tài khoản riêng (đừng tạo app ASC với nó trong Retalix).
-- `project.yml` **không** chứa team/bundle ID beta: truyền qua dòng lệnh khi archive. Tăng build number mỗi lần upload. **Build đã upload gần nhất: 6** (app Wrapper Test New) → lần sau dùng 7.
+- `project.yml` **không** chứa team/bundle ID beta: truyền qua dòng lệnh khi archive. Tăng build number mỗi lần upload. **Build đã upload gần nhất: 7** (app Wrapper Test New) → lần sau dùng 8.
 ```
 xcodebuild -project TidyDesk.xcodeproj -scheme TidyDesk -configuration Release -destination 'generic/platform=iOS' \
   -archivePath <tmp>/TidyDesk.xcarchive -allowProvisioningUpdates \
@@ -71,6 +71,7 @@ xcodebuild -exportArchive -archivePath <tmp>/TidyDesk.xcarchive -exportOptionsPl
 - Icon hiện là icon tạm do `tools/generate_icon.py` vẽ (1024×1024, không alpha). Thay icon thật: ghi đè `Assets.xcassets/AppIcon.appiconset/AppIcon.png`.
 
 ## Lịch sử
+- 2026-11-13 (TestFlight): upload build **1.0 (7)** = commit `5a322ed` (bé sinh động, menu có nền mờ sau status bar) lên **Wrapper Test New**.
 - 2026-11-13 (Build Mac `5a322ed`): build OK không cần sửa gì, 107/108 pass + 1 skip. Chụp lại `screenshots/`.
 - 2026-11-13 (Bé sinh động, **chưa build**): `LivelyBabyView` bọc `BabyAvatarView`: thở nhẹ, chớp mắt (đôi khi 2 lần), thỉnh thoảng lắc lư, ngáp (thường hơn khi thanh ngủ thấp); **bé vỗ tay 👏 và nhảy cẫng** trên thẻ Setup Complete (thay emoji 👶) và trên banner menu khi quay lại sau khi bé lớn thêm. Hình thật không chớp/ngáp được → lắc lư thay chớp mắt, ngáp hiện huy hiệu 🥱. Reduce Motion: không thở/lắc/nhảy. `BabyAvatarView` thêm `eyesClosed`, `yawning`, `hasArt(for:)`. Dùng ở phòng bé, banner, thẻ qua màn.
 - 2026-11-13 (Menu, **chưa build**): thêm dải mờ (`.ultraThinMaterial`) sau thanh trạng thái / Dynamic Island ở `LevelSelectView`, để thẻ Continue khi cuộn không chồng lên giờ (lỗi thấy trong `menu_light` bản 6).
