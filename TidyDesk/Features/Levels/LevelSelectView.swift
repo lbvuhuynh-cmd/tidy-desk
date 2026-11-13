@@ -62,6 +62,11 @@ struct LevelSelectView: View {
                     .padding(.bottom, 32)
                 }
                 .scrollIndicators(.hidden)
+                // Frosted strip behind the status bar / Dynamic Island so scrolled cards don't run under the clock.
+                .safeAreaInset(edge: .top, spacing: 0) {
+                    Color.clear.frame(height: 0)
+                        .background(.ultraThinMaterial, ignoresSafeAreaEdges: .top)
+                }
                 .onAppear {
                     if let id = levelManager.continueLevelId(completedIds: completedIds) {
                         scroller.scrollTo(id, anchor: .center)
