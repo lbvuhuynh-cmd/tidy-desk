@@ -3,18 +3,22 @@
 > Cập nhật: 2026-11-13. Kế hoạch làm hình theo ngày: [ART_PLAN.md](ART_PLAN.md). Làm xong việc nào thì đánh `[x]`. Chi tiết kỹ thuật và lịch sử xem `PROJECT_NOTES.md`.
 
 ## Hiện trạng
-- **Chơi:** 38 màn, 4 chương (First Desks, Office Hours, Gaming Den, Garden Corner), kéo thả, xoay, sao, điểm, mở khóa tuần tự (đang mở hết cho TestFlight).
+- **Chơi:** 38 màn, 4 chương (First Desks, Office Hours, Gaming Den, Garden Corner), kéo thả, xoay, sao, điểm. 4 chương mở từ đầu, trong chương mở lần lượt (đang mở hết cho TestFlight).
 - **Baby Corner:** bé lớn theo tháng (0–36), 6 giai đoạn, 18 cột mốc và Sổ tay em bé; ăn, chơi, tắm, ru ngủ, thay đồ.
-- **Hình:** 22 hình thiết bị và đồ vườn, 1/6 hình em bé; phần còn lại dùng icon iPhone hoặc bé vẽ bằng code.
-- **TestFlight:** đã có bản 5; bản 6 chờ Mac build.
+- **Hình:** 41/41 hình thiết bị và đồ vườn (vài món cần vẽ lại), 3/6 hình em bé; bé ở giai đoạn chưa có hình thì vẽ bằng code.
+- **TestFlight:** bản 6 đã lên app **Wrapper Test New** (`com.powervh.wrapper.test.beta`); bản sau là 7.
 
 ---
 
 ## Giai đoạn 1: Ổn định bản beta (đang làm)
 Mục tiêu: bản TestFlight chơi mượt, không lỗi, có ý kiến người chơi thật (cả trẻ em).
-- [ ] Mac build và upload **TestFlight bản 6** (Baby Corner giai đoạn A, 38 màn, hình vườn)
-- [ ] Hình em bé: `baby_infant` (bỏ gối), `baby_roller`, nhóm `baby_crawler` / `baby_toddler` / `baby_explorer`
-- [ ] Hình thiết bị còn thiếu (19 món, xem `ART_PROMPTS.md`), ưu tiên món ở các màn đầu: `desk_lamp_tall`, `desk_lamp`, `plant`, `notebook`, `phone`, `monitor`, `laptop`
+- [x] Mac build và upload **TestFlight bản 6** (Baby Corner giai đoạn A, 38 màn, hình vườn)
+- [x] Hình em bé: `baby_infant` (bỏ gối), `baby_roller`
+- [ ] Hình em bé: nhóm `baby_crawler` / `baby_toddler` / `baby_explorer` (ART_PLAN ngày 2)
+- [x] Hình thiết bị còn thiếu (19 món)
+- [ ] Vẽ lại món hình yếu: `grow_light`, `monitor`, `monitor_ultrawide`, `power_strip` (ART_PLAN ngày 8)
+- [ ] TestFlight bản 7: sửa thẻ Continue chồng lên giờ ở menu (đã sửa code, chờ build)
+- [ ] Thử thị trường: 3–5 video ngắn cảnh dọn bàn (TikTok / Reels), hỏi người thử có sẵn sàng trả ~3 USD không
 - [ ] Cho 3–5 người thử (có trẻ em), ghi lại: màn nào khó hoặc dễ quá, chỗ nào khó hiểu, bé có hấp dẫn không
 - [ ] Chỉnh cảm giác kéo thả, âm lượng, nhịp thưởng xu (bảng thông số trong `PROJECT_NOTES.md`, mục 4)
 - [ ] Kiểm tra trên iPhone màn nhỏ (SE) và iPad
@@ -58,7 +62,8 @@ Mục tiêu: phát hành dưới tài khoản riêng, đúng quy định.
 ## Các quyết định cần chủ dự án chốt
 | Câu hỏi | Lựa chọn | Ghi chú |
 |---|---|---|
-| Cách kiếm tiền | (a) trả tiền một lần khi tải, (b) miễn phí + mua một lần để mở chương sau, (c) miễn phí hoàn toàn | Game cho trẻ em: nên tránh quảng cáo; (b) phổ biến và thân thiện |
+| Cách kiếm tiền | (a) trả tiền một lần khi tải, (b) miễn phí + mua một lần để mở chương sau, (c) miễn phí hoàn toàn | Game cho trẻ em: nên tránh quảng cáo. **Đề xuất (b):** chương 1 + bé cơ bản miễn phí, mua một lần ~2,99–4,99 USD mở hết; sau này bán thêm gói chương theo mùa 0,99–1,99 USD |
+| Đối tượng chính | Người lớn thích setup / Gia đình có trẻ nhỏ | Quyết định tên, ảnh App Store, cách kiếm tiền và mục Kids |
 | Mục Kids của App Store | Có / Không | Vào Kids thì dễ được phụ huynh tin, nhưng quy định chặt hơn |
 | Ngày phát hành dự kiến | … | Giúp chia nhỏ việc theo tuần |
 | Tài khoản Apple Developer | Cá nhân / Công ty | Cần trước giai đoạn 4 |
