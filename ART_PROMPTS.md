@@ -95,6 +95,36 @@ Flat 2D vector illustration, strictly top-down view (looking straight down from 
 | [ ] | `flower_box` | 4×1 | 2:1 | a long window flower box with colorful flowers in a row, extremely wide horizontal 4:1 shape |
 | [ ] | `soil_bag` | 2×3 | 1:2 | a bag of potting soil lying flat with a leaf picture on it (no text), vertical 2:3 shape |
 
+### Góc làm vườn theo nhóm (Gemini)
+Gửi lần lượt trong cùng một cuộc trò chuyện. Từ nhóm 2 trở đi, thêm ở đầu: *"Same art style as the previous image."* Lưu thành `garden_1.jpeg` … `garden_4.jpeg` trong `Downloads	idy-art\garden`.
+
+| Xong | Hình | Món (theo thứ tự cắt) |
+|---|---|---|
+| [ ] | `garden_1` | seed_packet, succulent_pot, birdhouse, watering_can, monstera_pot |
+| [ ] | `garden_2` | flower_pot, pruning_shears, garden_gloves, grow_light, soil_bag |
+| [ ] | `garden_3` | seedling_tray, herb_planter, garden_basket |
+| [ ] | `garden_4` | flower_box |
+
+**Nhóm 1 (vuông, một hàng):**
+```
+A sprite sheet of 5 separate garden objects in ONE horizontal row, in this exact order from left to right: 1) a paper seed packet with a flower picture on it (no text), 2) a small succulent in a round terracotta pot, 3) a small wooden birdhouse, 4) a watering can with a long spout and handle, 5) a monstera plant in a round pot with big split leaves. Every object has a square shape. Flat 2D vector illustration, strictly top-down view (looking straight down from above), fresh pastel garden palette (sage green, terracotta, cream, soft yellow, lavender), clean soft outlines. Each object stands alone with lots of empty space around it, objects never touch or overlap, no shadows, no text, no labels, no numbers, plain light gray background.
+```
+
+**Nhóm 2 (đứng, một hàng):**
+```
+A sprite sheet of 5 separate tall garden objects standing upright in ONE horizontal row, in this exact order from left to right: 1) a tall flower pot with tulips (shape 1:2, twice as tall as wide), 2) garden pruning shears with closed blades (1:2), 3) a pair of garden gloves lying one on top of the other (1:2), 4) a slim plant grow light bar with a warm glowing strip (very tall and thin, 1:3), 5) a bag of potting soil with a leaf picture on it, no text (2:3). Flat 2D vector illustration, strictly top-down view, fresh pastel garden palette (sage green, terracotta, cream, soft yellow, lavender), clean soft outlines. Each object stands alone with lots of empty space around it, objects never touch or overlap, no shadows, no text, no labels, no numbers, plain light gray background.
+```
+
+**Nhóm 3 (nằm ngang, xếp chồng):**
+```
+A sprite sheet of 3 separate wide garden objects stacked in ONE vertical column, in this exact order from top to bottom: 1) a seedling tray with small cells and tiny green sprouts (shape 2:1, twice as wide as tall), 2) a long rectangular herb planter with basil, mint and parsley (very wide, 3:1), 3) a woven harvest basket full of carrots, tomatoes and lettuce (3:2). Flat 2D vector illustration, strictly top-down view, fresh pastel garden palette (sage green, terracotta, cream, soft yellow, lavender), clean soft outlines. Each object stands alone with lots of empty space around it, objects never touch or overlap, no shadows, no text, no labels, no numbers, plain light gray background.
+```
+
+**Nhóm 4 (hộp hoa, làm riêng):**
+```
+A long window flower box full of colorful flowers in a row, extremely wide horizontal shape (4 times as wide as tall), seen strictly from above. Flat 2D vector illustration, fresh pastel garden palette (sage green, terracotta, cream, soft yellow, lavender), clean soft outlines, single object, no shadow, no text, plain light gray background, the object fills the width of the image.
+```
+
 ---
 
 ## 3. Em bé (Baby Corner)
