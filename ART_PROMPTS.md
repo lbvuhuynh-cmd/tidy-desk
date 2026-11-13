@@ -1,5 +1,7 @@
 # Prompt vẽ hình (Recraft)
 
+> Làm theo từng ngày: xem [ART_PLAN.md](ART_PLAN.md) (đã có sẵn prompt nhóm cho từng buổi).
+
 Mở file này khi cần tạo hình. Làm xong hình nào thì đánh dấu `[x]` ở cột **Xong**. Muốn thêm hình mới thì chép một dòng có sẵn rồi sửa.
 
 ## Cách làm chung

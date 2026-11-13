@@ -1,6 +1,6 @@
 # Lộ trình phát triển: Tidy Desk: Tech & Setup
 
-> Cập nhật: 2026-11-13. Làm xong việc nào thì đánh `[x]`. Chi tiết kỹ thuật và lịch sử xem `PROJECT_NOTES.md`.
+> Cập nhật: 2026-11-13. Kế hoạch làm hình theo ngày: [ART_PLAN.md](ART_PLAN.md). Làm xong việc nào thì đánh `[x]`. Chi tiết kỹ thuật và lịch sử xem `PROJECT_NOTES.md`.
 
 ## Hiện trạng
 - **Chơi:** 38 màn, 4 chương (First Desks, Office Hours, Gaming Den, Garden Corner), kéo thả, xoay, sao, điểm, mở khóa tuần tự (đang mở hết cho TestFlight).
