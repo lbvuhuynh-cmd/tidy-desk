@@ -26,6 +26,7 @@ Game giải đố "dọn dẹp" (Cozy Tidy / Organization Puzzle) cho iOS 17+, c
 Số nước = số lần đặt thành công (đặt món mới, hoặc dời món sang ô khác). Số nước ≤ tổng số món → 3 sao. Thêm tối đa `max(2, số món / 3)` nước → 2 sao. Nhiều hơn → 1 sao.
 
 ## 4. Việc tiếp theo (gợi ý)
+Lộ trình đầy đủ theo giai đoạn: [ROADMAP.md](ROADMAP.md).
 - **TRƯỚC KHI PHÁT HÀNH App Store:** đặt `BetaConfig.unlockAllLevels = false` **và** `BetaConfig.unlockAllBabyContent = false` (`TidyDesk/App/BetaConfig.swift`). Đang bật cho giai đoạn TestFlight: mọi màn mở sẵn, menu hiện dòng "Test build · all levels unlocked".
 1. ~~Build trên Mac~~: xong 2026-11-11, xem mục 5.
 2. **Thử cảm giác trên iPhone thật (TestFlight build 1)** rồi chỉnh các thông số:
