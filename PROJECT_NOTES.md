@@ -59,8 +59,8 @@ Lộ trình đầy đủ theo giai đoạn: [ROADMAP.md](ROADMAP.md).
   - Sổ tay em bé: "9 of 18 pages", thẻ cột mốc dùng hình Gemini (`baby_newborn`, `baby_infant`, `baby_roller`) rất dễ thương. Bé trong phòng và ảnh nhỏ đầu sổ vẫn vẽ bằng code (chưa có hình crawler) nên khác phong cách với các trang sổ.
 
 ## 5b. TestFlight (bản thử, mượn team RETALIX USA, INC)
-- **Bundle ID beta hiện tại: `com.powervh.wrapper.test.beta`** (đổi 2026-11-13 theo yêu cầu người dùng), team `62SFVG2ZD8` (tài khoản Xcode `vu.huynh@ncr.com`). Cần một app trên App Store Connect gắn đúng bundle ID này (tên app tạm đặt gì cũng được, đổi sau được; bundle ID và SKU thì cố định). App cũ **Test Tidy Desk** (Apple ID 6833522226, SKU `testtidydesk`, bundle `com.powervh.tidydesk.beta`) giữ build 1–5, không upload vào nữa. Bundle ID thật `com.powervh.tidydesk` để dành cho tài khoản riêng (đừng tạo app ASC với nó trong Retalix).
-- `project.yml` **không** chứa team/bundle ID beta: truyền qua dòng lệnh khi archive. Tăng build number mỗi lần upload. **Build đã upload gần nhất: 5** (app cũ) → lần sau dùng 6 (app mới nhận số nào cũng được, cứ tăng tiếp cho dễ theo dõi).
+- **Bundle ID beta hiện tại: `com.powervh.wrapper.test.beta`** (đổi 2026-11-13 theo yêu cầu người dùng), team `62SFVG2ZD8` (tài khoản Xcode `vu.huynh@ncr.com`). App trên App Store Connect: **Wrapper Test New** (Apple ID 6834471482, SKU `Wrapper_Test`); tên tạm, đổi sau được; bundle ID và SKU cố định. App cũ **Test Tidy Desk** (Apple ID 6833522226, SKU `testtidydesk`, bundle `com.powervh.tidydesk.beta`) giữ build 1–5, không upload vào nữa. Bundle ID thật `com.powervh.tidydesk` để dành cho tài khoản riêng (đừng tạo app ASC với nó trong Retalix).
+- `project.yml` **không** chứa team/bundle ID beta: truyền qua dòng lệnh khi archive. Tăng build number mỗi lần upload. **Build đã upload gần nhất: 6** (app Wrapper Test New) → lần sau dùng 7.
 ```
 xcodebuild -project TidyDesk.xcodeproj -scheme TidyDesk -configuration Release -destination 'generic/platform=iOS' \
   -archivePath <tmp>/TidyDesk.xcarchive -allowProvisioningUpdates \
@@ -72,6 +72,7 @@ xcodebuild -exportArchive -archivePath <tmp>/TidyDesk.xcarchive -exportOptionsPl
 - Icon hiện là icon tạm do `tools/generate_icon.py` vẽ (1024×1024, không alpha). Thay icon thật: ghi đè `Assets.xcassets/AppIcon.appiconset/AppIcon.png`.
 
 ## Lịch sử
+- 2026-11-13 (TestFlight): Account Holder đã chấp nhận thỏa thuận; upload build **1.0 (6)** = commit `5e1f64b` (38 màn / 4 chương, đủ 41 hình, Baby Corner giai đoạn A) lên app mới **Wrapper Test New** (`com.powervh.wrapper.test.beta`).
 - 2026-11-13 (TestFlight): upload build 6 (`5e1f64b`) **thất bại**: "You do not have required contracts" (team RETALIX có thỏa thuận Apple mới chưa được Account Holder chấp nhận; lỗi theo team, không theo app). Đổi bundle ID beta sang `com.powervh.wrapper.test.beta` (mục 5b); cần tạo app ASC mới với bundle này trước khi upload.
 - 2026-11-13 (Build Mac `5e1f64b`): build OK không cần sửa gì, 107/108 pass + 1 skip. Chụp lại `screenshots/` theo MAC_BUILD mới (thêm `level29/38_light`, `babybook_light`).
 - 2026-11-13 (Mở khóa theo chương, **chưa build**): **cả 4 chương mở ngay từ đầu** (màn đầu của mỗi chương chơi được luôn); trong mỗi chương màn khó mở lần lượt khi qua màn trước **cùng chương** (`LevelManager.prerequisite` / `isUnlocked`). Màn không có `chapter` vẫn mở lần lượt như cũ. Test mới `testEveryChapterStartsOpenAndUnlocksInOrder`, `testShippedChaptersAreAllOpenAtTheStart`.
