@@ -1,6 +1,7 @@
 # Bộ hình thiết bị (2D vector, nhìn từ trên xuống)
 
 Danh sách đầy đủ, tình trạng từng hình, kích thước canvas: chạy `python tools/check_assets.py`.
+Prompt Recraft cho từng hình: [ART_PROMPTS.md](ART_PROMPTS.md).
 
 ## Quy tắc đặt tên
 - Tên file = `imageName` trong file màn, viết **snake_case**, ví dụ `keyboard_mechanical.svg`.

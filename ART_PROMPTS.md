@@ -1,0 +1,105 @@
+# Prompt vẽ hình (Recraft)
+
+Mở file này khi cần tạo hình. Làm xong hình nào thì đánh dấu `[x]` ở cột **Xong**. Muốn thêm hình mới thì chép một dòng có sẵn rồi sửa.
+
+## Cách làm chung
+1. **Style:** Vector illustration (hình phẳng 2D). Mọi hình trong cùng một nhóm phải dùng **cùng một style**.
+2. **Tỉ lệ khung:** theo cột **Khung** trong từng bảng. Recraft chỉ cho tối đa 2:1, nên hình 3:1, 4:1, 5:1 thì chọn khung 2:1 và ghi rõ tỉ lệ trong prompt.
+3. **Tải về:** dạng **PNG**. Đặt tên file đúng cột **Tên file** (ví dụ `desk_lamp_tall.png`), bỏ vào thư mục `Downloads\tidy-art`.
+4. Nếu nền không trong suốt, bấm **Remove background** trước khi tải. Game cũng tự xóa nền trắng khi nhập hình.
+5. Tải xong thì báo Claude để đưa hình vào game: `python tools/check_assets.py --import <thư mục>`.
+
+**Mẹo giữ cùng phong cách:** chọn một hình đẹp nhất làm mẫu, rồi tạo **Custom Style** từ hình đó (hoặc dùng *Use as reference*) cho các hình sau.
+
+---
+
+## 1. Thiết bị trên bàn (nhìn thẳng từ trên xuống)
+
+Mỗi prompt ghép từ hai phần: **đoạn chung** (dán trước) + **mô tả món** (cột Mô tả).
+
+**Đoạn chung (dán trước mô tả):**
+```
+Flat 2D vector illustration, strictly top-down view (looking straight down from above), cozy pastel palette (lavender, soft pink, cream, muted purple), clean outlines, no text, no shadow, plain white background, object fills the whole frame edge to edge,
+```
+
+| Xong | Tên file | Ô | Khung | Mô tả món (dán sau đoạn chung) |
+|---|---|---|---|---|
+| [ ] | `desk_lamp_tall` | 1×3 | 1:2 | a slim LED desk lamp lying along its length, round base at the bottom, long arm, very tall vertical 1:3 shape |
+| [ ] | `desk_lamp` | 1×2 | 1:2 | a small desk lamp seen from above, round base and short bent arm with lamp head, tall vertical 1:2 shape |
+| [ ] | `plant` | 1×1 | 1:1 | a small potted plant seen from above, round pot rim with leafy green leaves spreading out, square composition |
+| [ ] | `webcam` | 1×1 | 1:1 | a small round webcam lying flat, lens in the middle, tiny status light, square composition |
+| [ ] | `notebook` | 1×2 | 1:2 | a closed spiral notebook with a pastel cover and an elastic band, tall vertical 1:2 shape |
+| [ ] | `phone` | 1×2 | 1:2 | a smartphone lying face up, rounded corners, soft glowing screen with simple app icons (no text), tall vertical 1:2 shape |
+| [ ] | `microphone` | 1×2 | 1:2 | a small desktop microphone on a round stand, mesh head at the top, tall vertical 1:2 shape |
+| [ ] | `speaker` | 1×2 | 1:2 | a small bookshelf speaker seen from above, two round drivers, tall vertical 1:2 shape |
+| [ ] | `mic_boom` | 1×3 | 1:2 | a podcast microphone on a long boom arm lying along its length, mic at the top end, clamp at the bottom, very tall vertical 1:3 shape |
+| [ ] | `game_controller` | 2×1 | 2:1 | a gamepad controller lying flat, two thumbsticks, d-pad and four round buttons, wide horizontal 2:1 shape |
+| [ ] | `mouse_on_mat` | 2×1 | 2:1 | a wireless mouse resting on a small rectangular mouse mat, wide horizontal 2:1 shape |
+| [ ] | `desk_mat` | 2×2 | 1:1 | a soft fabric mouse pad / desk mat with rounded corners and a subtle pattern, square composition |
+| [ ] | `tablet` | 2×2 | 1:1 | a tablet lying face up with a slim case, soft glowing screen with a simple drawing app (no text), square composition |
+| [ ] | `wifi_router` | 2×2 | 1:1 | a Wi-Fi router lying flat, rounded square body, two short antennas, small status lights, square composition |
+| [ ] | `laptop_gaming` | 2×2 | 1:1 | a compact gaming laptop opened flat, RGB keyboard and glowing screen, square composition |
+| [ ] | `power_strip` | 3×1 | 2:1 | a power strip with four sockets and a switch, very wide horizontal 3:1 shape |
+| [ ] | `laptop` | 3×2 | 2:1 | an open laptop seen from above, keyboard and trackpad in front, screen folded back, horizontal 3:2 shape |
+| [ ] | `monitor` | 3×2 | 2:1 | a computer monitor seen from above, slim screen edge with a stand base behind it, horizontal 3:2 shape |
+| [ ] | `monitor_ultrawide` | 4×2 | 2:1 | an ultrawide curved monitor seen from above, long gentle curve and a stand base, wide horizontal 2:1 shape |
+
+Đã có hình (không cần làm lại): `keyboard_compact`, `keyboard_mechanical`, `keyboard_fullsize`, `headphones`, `speaker_tower`, `cable_bundle`, `coffee_mug`, `mouse_wireless`.
+
+---
+
+## 2. Góc làm vườn (chương 4)
+
+Vẫn dùng **đoạn chung** ở mục 1, nhưng thay phần màu bằng bảng màu vườn cho tươi hơn:
+```
+Flat 2D vector illustration, strictly top-down view (looking straight down from above), fresh pastel garden palette (sage green, terracotta, cream, soft yellow, lavender), clean outlines, no text, no shadow, plain white background, object fills the whole frame edge to edge,
+```
+
+| Xong | Tên file | Ô | Khung | Mô tả món |
+|---|---|---|---|---|
+| [ ] | `seed_packet` | 1×1 | 1:1 | a paper seed packet with a picture of a flower on it (no text), square composition |
+| [ ] | `succulent_pot` | 1×1 | 1:1 | a small succulent in a round terracotta pot, rosette of plump leaves, square composition |
+| [ ] | `birdhouse` | 1×1 | 1:1 | a small wooden birdhouse seen from above, pitched roof, square composition |
+| [ ] | `flower_pot` | 1×2 | 1:2 | a tall flower pot with tulips seen from above, tall vertical 1:2 shape |
+| [ ] | `pruning_shears` | 1×2 | 1:2 | garden pruning shears lying flat, closed blades, colorful handles, tall vertical 1:2 shape |
+| [ ] | `garden_gloves` | 1×2 | 1:2 | a pair of garden gloves lying flat, one on top of the other, tall vertical 1:2 shape |
+| [ ] | `grow_light` | 1×3 | 1:2 | a slim plant grow light bar lying along its length with a warm glowing strip, very tall vertical 1:3 shape |
+| [ ] | `seedling_tray` | 2×1 | 2:1 | a seedling tray with small cells and tiny green sprouts, wide horizontal 2:1 shape |
+| [ ] | `watering_can` | 2×2 | 1:1 | a watering can seen from above, round body, long spout and handle, square composition |
+| [ ] | `monstera_pot` | 2×2 | 1:1 | a monstera plant in a round pot seen from above, big split leaves spreading out, square composition |
+| [ ] | `herb_planter` | 3×1 | 2:1 | a long rectangular herb planter with basil, mint and parsley, very wide horizontal 3:1 shape |
+| [ ] | `garden_basket` | 3×2 | 2:1 | a woven harvest basket full of vegetables (carrots, tomatoes, lettuce), horizontal 3:2 shape |
+| [ ] | `flower_box` | 4×1 | 2:1 | a long window flower box with colorful flowers in a row, extremely wide horizontal 4:1 shape |
+| [ ] | `soil_bag` | 2×3 | 1:2 | a bag of potting soil lying flat with a leaf picture on it (no text), vertical 2:3 shape |
+
+---
+
+## 3. Em bé (Baby Corner)
+
+Khác với thiết bị: bé **nhìn chính diện** (không nhìn từ trên xuống), **khung 1:1**, **nền trong suốt**. Cả 6 hình phải là **cùng một em bé** lớn dần. Làm `baby_newborn` trước, rồi dùng nó làm mẫu (*Custom Style* / *Use as reference*) cho 5 hình sau.
+
+**Đoạn chung (dán SAU mô tả):**
+```
+cute chibi baby character, same baby in every picture: round head, big round cheeks with soft pink blush, warm peach skin, small dark brown hair curl on top, tiny dark eyes, plain cream-colored onesie, soft pastel flat vector style, clean rounded shapes, thick soft outlines, gentle top-left lighting, front view, full body, centered, fills the frame, transparent background, no floor, no shadow, no text, kawaii, for a kids game
+```
+
+| Xong | Tên file | Tuổi | Mô tả (dán TRƯỚC đoạn chung) |
+|---|---|---|---|
+| [ ] | `baby_newborn` | 0–2 tháng | A sleeping newborn baby swaddled snugly in a cream blanket like a little bean, only the round face showing, eyes peacefully closed as curved lines, tiny content smile, one small hair curl. |
+| [ ] | `baby_infant` | 2–4 tháng | A 3-month-old baby sitting propped up, chubby arms raised happily, big open gummy smile, bright open eyes, two small hair curls, cream onesie with tiny feet showing. |
+| [ ] | `baby_roller` | 4–6 tháng | A 5-month-old baby doing tummy time: lying on its belly facing the viewer, head and chest lifted, hands flat in front, little feet kicking up behind, delighted smile, three small hair curls, cream onesie. |
+| [ ] | `baby_crawler` | 6–9 tháng | A 7-month-old baby crawling toward the viewer on hands and knees, head up, curious happy face with one tiny front tooth, short fluffy brown hair, cream onesie. |
+| [ ] | `baby_toddler` | 9–18 tháng | A 1-year-old toddler standing with wobbly first steps, arms stretched out for balance, big excited smile, short fluffy brown hair with a small fringe, chubby legs, cream onesie, tiny bare feet. |
+| [ ] | `baby_explorer` | 18–36 tháng | A 2-year-old child standing confidently and waving hello with one hand, cheerful open smile, slightly taller and slimmer than a toddler but still chubby-cheeked, fuller brown hair with a soft fringe, cream short-sleeve romper, little sneakers. |
+
+**Khi chọn hình bé, kiểm tra:**
+- Bé nằm giữa khung, **chiếm gần hết khung**.
+- Không có nền, sàn hay bóng.
+- Áo **màu kem trơn**, không họa tiết (trang phục người chơi chọn sẽ hiện bằng một huy hiệu nhỏ).
+- Cả 6 hình cùng màu da, cùng màu tóc, cùng nét vẽ.
+
+---
+
+## Ghi chú
+- Kích thước từng ô và quy tắc vẽ chi tiết: xem [ASSETS.md](ASSETS.md).
+- Xem hình nào đã có, hình nào còn thiếu: `python tools/check_assets.py`.
