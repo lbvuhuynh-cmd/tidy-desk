@@ -6,38 +6,38 @@
   "gridCols": 6,
   "items": [
     {
+      "id": "pruning-shears",
+      "name": "Pruning Shears",
+      "gridWidth": 1,
+      "gridHeight": 2,
+      "initialPosition": {
+        "row": 0,
+        "col": 1
+      },
+      "imageName": "pruning_shears",
+      "symbol": "scissors",
+      "category": "garden"
+    },
+    {
       "id": "monstera-pot",
       "name": "Monstera",
       "gridWidth": 2,
       "gridHeight": 2,
       "initialPosition": {
-        "row": 0,
-        "col": 3
+        "row": 2,
+        "col": 2
       },
       "imageName": "monstera_pot",
       "symbol": "tree.fill",
       "category": "garden"
     },
     {
-      "id": "grow-light",
-      "name": "Grow Light",
-      "gridWidth": 1,
-      "gridHeight": 3,
-      "initialPosition": {
-        "row": 1,
-        "col": 5
-      },
-      "imageName": "grow_light",
-      "symbol": "sun.max.fill",
-      "category": "garden"
-    },
-    {
-      "id": "pruning-shears",
-      "name": "Pruning Shears",
-      "gridWidth": 1,
-      "gridHeight": 2,
-      "imageName": "pruning_shears",
-      "symbol": "scissors",
+      "id": "herb-planter",
+      "name": "Herb Planter",
+      "gridWidth": 3,
+      "gridHeight": 1,
+      "imageName": "herb_planter",
+      "symbol": "leaf.fill",
       "category": "garden"
     },
     {
@@ -50,12 +50,12 @@
       "category": "garden"
     },
     {
-      "id": "seedling-tray-2",
-      "name": "Seedling Tray",
-      "gridWidth": 2,
-      "gridHeight": 1,
-      "imageName": "seedling_tray",
-      "symbol": "leaf.arrow.triangle.circlepath",
+      "id": "grow-light",
+      "name": "Grow Light",
+      "gridWidth": 1,
+      "gridHeight": 3,
+      "imageName": "grow_light",
+      "symbol": "sun.max.fill",
       "category": "garden"
     },
     {
@@ -77,12 +77,12 @@
       "category": "garden"
     },
     {
-      "id": "herb-planter",
-      "name": "Herb Planter",
-      "gridWidth": 3,
-      "gridHeight": 1,
-      "imageName": "herb_planter",
-      "symbol": "leaf.fill",
+      "id": "garden-gloves-2",
+      "name": "Garden Gloves",
+      "gridWidth": 1,
+      "gridHeight": 2,
+      "imageName": "garden_gloves",
+      "symbol": "hand.raised.fill",
       "category": "garden"
     },
     {

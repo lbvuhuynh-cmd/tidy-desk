@@ -19,15 +19,6 @@
       "category": "garden"
     },
     {
-      "id": "watering-can",
-      "name": "Watering Can",
-      "gridWidth": 2,
-      "gridHeight": 2,
-      "imageName": "watering_can",
-      "symbol": "drop.fill",
-      "category": "garden"
-    },
-    {
       "id": "pruning-shears",
       "name": "Pruning Shears",
       "gridWidth": 1,
@@ -43,6 +34,15 @@
       "gridHeight": 3,
       "imageName": "grow_light",
       "symbol": "sun.max.fill",
+      "category": "garden"
+    },
+    {
+      "id": "monstera-pot",
+      "name": "Monstera",
+      "gridWidth": 2,
+      "gridHeight": 2,
+      "imageName": "monstera_pot",
+      "symbol": "tree.fill",
       "category": "garden"
     }
   ]

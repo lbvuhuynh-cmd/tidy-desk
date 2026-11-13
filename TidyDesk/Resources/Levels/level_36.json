@@ -6,42 +6,51 @@
   "gridCols": 7,
   "items": [
     {
-      "id": "grow-light",
-      "name": "Grow Light",
-      "gridWidth": 1,
-      "gridHeight": 3,
-      "initialPosition": {
-        "row": 1,
-        "col": 2
-      },
-      "imageName": "grow_light",
-      "symbol": "sun.max.fill",
-      "category": "garden"
-    },
-    {
-      "id": "grow-light-2",
-      "name": "Grow Light",
-      "gridWidth": 1,
-      "gridHeight": 3,
-      "initialPosition": {
-        "row": 0,
-        "col": 4
-      },
-      "imageName": "grow_light",
-      "symbol": "sun.max.fill",
-      "category": "garden"
-    },
-    {
       "id": "flower-box",
       "name": "Flower Box",
       "gridWidth": 4,
       "gridHeight": 1,
       "initialPosition": {
-        "row": 4,
-        "col": 1
+        "row": 3,
+        "col": 2
       },
       "imageName": "flower_box",
       "symbol": "camera.macro",
+      "category": "garden"
+    },
+    {
+      "id": "monstera-pot",
+      "name": "Monstera",
+      "gridWidth": 2,
+      "gridHeight": 2,
+      "initialPosition": {
+        "row": 0,
+        "col": 1
+      },
+      "imageName": "monstera_pot",
+      "symbol": "tree.fill",
+      "category": "garden"
+    },
+    {
+      "id": "watering-can",
+      "name": "Watering Can",
+      "gridWidth": 2,
+      "gridHeight": 2,
+      "initialPosition": {
+        "row": 1,
+        "col": 5
+      },
+      "imageName": "watering_can",
+      "symbol": "drop.fill",
+      "category": "garden"
+    },
+    {
+      "id": "succulent-pot",
+      "name": "Succulent",
+      "gridWidth": 1,
+      "gridHeight": 1,
+      "imageName": "succulent_pot",
+      "symbol": "leaf.fill",
       "category": "garden"
     },
     {
@@ -54,20 +63,11 @@
       "category": "garden"
     },
     {
-      "id": "monstera-pot",
-      "name": "Monstera",
-      "gridWidth": 2,
-      "gridHeight": 2,
-      "imageName": "monstera_pot",
-      "symbol": "tree.fill",
-      "category": "garden"
-    },
-    {
-      "id": "herb-planter-2",
-      "name": "Herb Planter",
-      "gridWidth": 3,
+      "id": "succulent-pot-2",
+      "name": "Succulent",
+      "gridWidth": 1,
       "gridHeight": 1,
-      "imageName": "herb_planter",
+      "imageName": "succulent_pot",
       "symbol": "leaf.fill",
       "category": "garden"
     },
@@ -81,21 +81,30 @@
       "category": "garden"
     },
     {
-      "id": "plant",
-      "name": "Plant",
+      "id": "grow-light",
+      "name": "Grow Light",
       "gridWidth": 1,
-      "gridHeight": 1,
-      "imageName": "plant",
-      "symbol": "leaf.fill",
-      "category": "cozy"
+      "gridHeight": 3,
+      "imageName": "grow_light",
+      "symbol": "sun.max.fill",
+      "category": "garden"
     },
     {
-      "id": "seedling-tray",
-      "name": "Seedling Tray",
+      "id": "watering-can-2",
+      "name": "Watering Can",
       "gridWidth": 2,
+      "gridHeight": 2,
+      "imageName": "watering_can",
+      "symbol": "drop.fill",
+      "category": "garden"
+    },
+    {
+      "id": "herb-planter-2",
+      "name": "Herb Planter",
+      "gridWidth": 3,
       "gridHeight": 1,
-      "imageName": "seedling_tray",
-      "symbol": "leaf.arrow.triangle.circlepath",
+      "imageName": "herb_planter",
+      "symbol": "leaf.fill",
       "category": "garden"
     },
     {
@@ -105,15 +114,6 @@
       "gridHeight": 1,
       "imageName": "flower_box",
       "symbol": "camera.macro",
-      "category": "garden"
-    },
-    {
-      "id": "watering-can",
-      "name": "Watering Can",
-      "gridWidth": 2,
-      "gridHeight": 2,
-      "imageName": "watering_can",
-      "symbol": "drop.fill",
       "category": "garden"
     }
   ]

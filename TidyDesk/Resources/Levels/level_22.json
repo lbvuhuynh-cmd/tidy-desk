@@ -6,33 +6,33 @@
   "gridCols": 5,
   "items": [
     {
-      "id": "speaker",
-      "name": "Speaker",
-      "gridWidth": 1,
-      "gridHeight": 2,
+      "id": "cable-bundle",
+      "name": "Cable Bundle",
+      "gridWidth": 2,
+      "gridHeight": 1,
       "initialPosition": {
         "row": 2,
-        "col": 0
+        "col": 1
       },
-      "imageName": "speaker",
-      "symbol": "hifispeaker.fill",
-      "category": "audio"
+      "imageName": "cable_bundle",
+      "symbol": "cable.connector",
+      "category": "power"
+    },
+    {
+      "id": "cable-bundle-2",
+      "name": "Cable Bundle",
+      "gridWidth": 2,
+      "gridHeight": 1,
+      "initialPosition": {
+        "row": 1,
+        "col": 3
+      },
+      "imageName": "cable_bundle",
+      "symbol": "cable.connector",
+      "category": "power"
     },
     {
       "id": "speaker-tower",
-      "name": "Tower Speaker",
-      "gridWidth": 1,
-      "gridHeight": 3,
-      "initialPosition": {
-        "row": 0,
-        "col": 3
-      },
-      "imageName": "speaker_tower",
-      "symbol": "hifispeaker.fill",
-      "category": "audio"
-    },
-    {
-      "id": "speaker-tower-2",
       "name": "Tower Speaker",
       "gridWidth": 1,
       "gridHeight": 3,
@@ -50,22 +50,13 @@
       "category": "audio"
     },
     {
-      "id": "keyboard-compact",
-      "name": "Compact Keyboard",
-      "gridWidth": 3,
-      "gridHeight": 1,
-      "imageName": "keyboard_compact",
-      "symbol": "keyboard.fill",
-      "category": "peripheral"
-    },
-    {
-      "id": "keyboard-compact-2",
-      "name": "Compact Keyboard",
-      "gridWidth": 3,
-      "gridHeight": 1,
-      "imageName": "keyboard_compact",
-      "symbol": "keyboard.fill",
-      "category": "peripheral"
+      "id": "desk-lamp",
+      "name": "Desk Lamp",
+      "gridWidth": 1,
+      "gridHeight": 2,
+      "imageName": "desk_lamp",
+      "symbol": "lamp.desk.fill",
+      "category": "cozy"
     },
     {
       "id": "mic-boom-2",
@@ -75,6 +66,24 @@
       "imageName": "mic_boom",
       "symbol": "mic.fill",
       "category": "audio"
+    },
+    {
+      "id": "speaker-tower-2",
+      "name": "Tower Speaker",
+      "gridWidth": 1,
+      "gridHeight": 3,
+      "imageName": "speaker_tower",
+      "symbol": "hifispeaker.fill",
+      "category": "audio"
+    },
+    {
+      "id": "desk-lamp-2",
+      "name": "Desk Lamp",
+      "gridWidth": 1,
+      "gridHeight": 2,
+      "imageName": "desk_lamp",
+      "symbol": "lamp.desk.fill",
+      "category": "cozy"
     }
   ]
 }

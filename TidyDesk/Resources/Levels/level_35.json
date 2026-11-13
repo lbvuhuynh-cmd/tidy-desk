@@ -6,38 +6,47 @@
   "gridCols": 6,
   "items": [
     {
+      "id": "grow-light",
+      "name": "Grow Light",
+      "gridWidth": 1,
+      "gridHeight": 3,
+      "initialPosition": {
+        "row": 0,
+        "col": 1
+      },
+      "imageName": "grow_light",
+      "symbol": "sun.max.fill",
+      "category": "garden"
+    },
+    {
+      "id": "garden-basket",
+      "name": "Harvest Basket",
+      "gridWidth": 3,
+      "gridHeight": 2,
+      "initialPosition": {
+        "row": 1,
+        "col": 2
+      },
+      "imageName": "garden_basket",
+      "symbol": "basket.fill",
+      "category": "garden"
+    },
+    {
+      "id": "garden-basket-2",
+      "name": "Harvest Basket",
+      "gridWidth": 3,
+      "gridHeight": 2,
+      "imageName": "garden_basket",
+      "symbol": "basket.fill",
+      "category": "garden"
+    },
+    {
       "id": "herb-planter",
       "name": "Herb Planter",
       "gridWidth": 3,
       "gridHeight": 1,
-      "initialPosition": {
-        "row": 3,
-        "col": 3
-      },
       "imageName": "herb_planter",
       "symbol": "leaf.fill",
-      "category": "garden"
-    },
-    {
-      "id": "herb-planter-2",
-      "name": "Herb Planter",
-      "gridWidth": 3,
-      "gridHeight": 1,
-      "initialPosition": {
-        "row": 1,
-        "col": 0
-      },
-      "imageName": "herb_planter",
-      "symbol": "leaf.fill",
-      "category": "garden"
-    },
-    {
-      "id": "monstera-pot",
-      "name": "Monstera",
-      "gridWidth": 2,
-      "gridHeight": 2,
-      "imageName": "monstera_pot",
-      "symbol": "tree.fill",
       "category": "garden"
     },
     {
@@ -50,57 +59,48 @@
       "category": "garden"
     },
     {
-      "id": "grow-light",
-      "name": "Grow Light",
-      "gridWidth": 1,
-      "gridHeight": 3,
-      "imageName": "grow_light",
-      "symbol": "sun.max.fill",
-      "category": "garden"
-    },
-    {
-      "id": "notebook",
-      "name": "Notebook",
-      "gridWidth": 1,
-      "gridHeight": 2,
-      "imageName": "notebook",
-      "symbol": "book.closed.fill",
-      "category": "cozy"
-    },
-    {
-      "id": "grow-light-2",
-      "name": "Grow Light",
-      "gridWidth": 1,
-      "gridHeight": 3,
-      "imageName": "grow_light",
-      "symbol": "sun.max.fill",
-      "category": "garden"
-    },
-    {
-      "id": "seedling-tray",
-      "name": "Seedling Tray",
+      "id": "monstera-pot",
+      "name": "Monstera",
       "gridWidth": 2,
+      "gridHeight": 2,
+      "imageName": "monstera_pot",
+      "symbol": "tree.fill",
+      "category": "garden"
+    },
+    {
+      "id": "birdhouse",
+      "name": "Birdhouse",
+      "gridWidth": 1,
       "gridHeight": 1,
-      "imageName": "seedling_tray",
-      "symbol": "leaf.arrow.triangle.circlepath",
+      "imageName": "birdhouse",
+      "symbol": "bird.fill",
       "category": "garden"
     },
     {
-      "id": "watering-can-2",
-      "name": "Watering Can",
-      "gridWidth": 2,
-      "gridHeight": 2,
-      "imageName": "watering_can",
-      "symbol": "drop.fill",
-      "category": "garden"
-    },
-    {
-      "id": "garden-gloves",
-      "name": "Garden Gloves",
+      "id": "seed-packet",
+      "name": "Seed Packet",
       "gridWidth": 1,
-      "gridHeight": 2,
-      "imageName": "garden_gloves",
-      "symbol": "hand.raised.fill",
+      "gridHeight": 1,
+      "imageName": "seed_packet",
+      "symbol": "leaf.circle.fill",
+      "category": "garden"
+    },
+    {
+      "id": "seed-packet-2",
+      "name": "Seed Packet",
+      "gridWidth": 1,
+      "gridHeight": 1,
+      "imageName": "seed_packet",
+      "symbol": "leaf.circle.fill",
+      "category": "garden"
+    },
+    {
+      "id": "birdhouse-2",
+      "name": "Birdhouse",
+      "gridWidth": 1,
+      "gridHeight": 1,
+      "imageName": "birdhouse",
+      "symbol": "bird.fill",
       "category": "garden"
     }
   ]

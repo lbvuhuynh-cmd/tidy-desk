@@ -6,61 +6,61 @@
   "gridCols": 4,
   "items": [
     {
-      "id": "microphone",
-      "name": "Microphone",
-      "gridWidth": 1,
+      "id": "desk-mat",
+      "name": "Mouse Pad",
+      "gridWidth": 2,
       "gridHeight": 2,
       "initialPosition": {
-        "row": 0,
+        "row": 1,
         "col": 1
       },
-      "imageName": "microphone",
-      "symbol": "mic.fill",
-      "category": "audio"
+      "imageName": "desk_mat",
+      "symbol": "rectangle.fill",
+      "category": "peripheral"
     },
     {
-      "id": "power-strip",
-      "name": "Power Strip",
-      "gridWidth": 3,
-      "gridHeight": 1,
-      "imageName": "power_strip",
-      "symbol": "powerplug.fill",
-      "category": "power"
-    },
-    {
-      "id": "speaker-tower",
-      "name": "Tower Speaker",
-      "gridWidth": 1,
-      "gridHeight": 3,
-      "imageName": "speaker_tower",
-      "symbol": "hifispeaker.fill",
-      "category": "audio"
-    },
-    {
-      "id": "mouse-on-mat",
-      "name": "Mouse on Mat",
+      "id": "game-controller",
+      "name": "Controller",
       "gridWidth": 2,
       "gridHeight": 1,
-      "imageName": "mouse_on_mat",
+      "imageName": "game_controller",
+      "symbol": "gamecontroller.fill",
+      "category": "peripheral"
+    },
+    {
+      "id": "mouse-wireless",
+      "name": "Mouse",
+      "gridWidth": 1,
+      "gridHeight": 1,
+      "imageName": "mouse_wireless",
       "symbol": "computermouse.fill",
       "category": "peripheral"
     },
     {
-      "id": "speaker-tower-2",
-      "name": "Tower Speaker",
-      "gridWidth": 1,
-      "gridHeight": 3,
-      "imageName": "speaker_tower",
-      "symbol": "hifispeaker.fill",
-      "category": "audio"
+      "id": "keyboard-mechanical",
+      "name": "Mechanical Keyboard",
+      "gridWidth": 4,
+      "gridHeight": 1,
+      "imageName": "keyboard_mechanical",
+      "symbol": "keyboard.fill",
+      "category": "peripheral"
     },
     {
-      "id": "keyboard-compact",
-      "name": "Compact Keyboard",
-      "gridWidth": 3,
+      "id": "webcam",
+      "name": "Webcam",
+      "gridWidth": 1,
       "gridHeight": 1,
-      "imageName": "keyboard_compact",
-      "symbol": "keyboard.fill",
+      "imageName": "webcam",
+      "symbol": "web.camera.fill",
+      "category": "mobile"
+    },
+    {
+      "id": "desk-mat-2",
+      "name": "Mouse Pad",
+      "gridWidth": 2,
+      "gridHeight": 2,
+      "imageName": "desk_mat",
+      "symbol": "rectangle.fill",
       "category": "peripheral"
     }
   ]

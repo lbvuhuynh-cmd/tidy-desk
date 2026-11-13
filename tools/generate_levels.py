@@ -99,8 +99,9 @@ CHAPTERS = [
 FIRST_CHAPTER = "First Desks"  # levels 1-8 (hand-made)
 
 
-def random_tiling(rng, cols, rows, pool, target):
-    """Random exact cover of the desk with pool items (each at most twice). Returns [(name, r, c, rotated)]."""
+def random_tiling(rng, cols, rows, pool, target, prefer=frozenset()):
+    """Random exact cover of the desk with pool items (each at most twice). Returns [(name, r, c, rotated)].
+    Items in `prefer` (not used yet in this chapter) are tried first, so every chapter item shows up somewhere."""
     grid = [[False] * cols for _ in range(rows)]
     placed, uses = [], {}
 
@@ -134,7 +135,7 @@ def random_tiling(rng, cols, rows, pool, target):
         r, c = cell
         names = pool[:]
         rng.shuffle(names)
-        names.sort(key=lambda n: abs(ITEMS[n][0] * ITEMS[n][1] - avg) + rng.random() * 2.5)
+        names.sort(key=lambda n: abs(ITEMS[n][0] * ITEMS[n][1] - avg) + rng.random() * 2.5 - (2.5 if n in prefer and rng.random() < 0.6 else 0))
         for name in names:
             if uses.get(name, 0) >= 2:
                 continue
@@ -185,9 +186,10 @@ def choose_mess(rng, cols, rows, sizes, solution, k):
     return None
 
 
-def build_level(rng, level_id, name, chapter, pool, cols, rows, target, messy):
-    for _ in range(300):
-        tiling = random_tiling(rng, cols, rows, pool, target)
+def build_level(rng, level_id, name, chapter, pool, cols, rows, target, messy, prefer=frozenset()):
+    for attempt in range(300):
+        # Preferring unused items can skew the item count; after 150 tries fall back to a plain random tiling.
+        tiling = random_tiling(rng, cols, rows, pool, target, prefer if attempt < 150 else frozenset())
         if not tiling or abs(len(tiling) - target) > 1:
             continue
         rng.shuffle(tiling)  # drawer order != board order
@@ -218,14 +220,21 @@ def main():
     write = "--write" in sys.argv
     rng = random.Random(SEED)
     for chapter, first_id, pool, names in CHAPTERS:
+        used = set()
         for step, ((cols, rows, target, messy), name) in enumerate(zip(CURVE, names)):
             level_id = first_id + step
-            level = build_level(rng, level_id, name, chapter, pool, cols, rows, target, messy)
+            # Every chapter item should show up at least once (e.g. monitors in the office chapter).
+            prefer = frozenset(n for n in pool if n not in used)
+            level = build_level(rng, level_id, name, chapter, pool, cols, rows, target, messy, prefer)
+            used.update(it["imageName"] for it in level["items"])
             print(f"#{level_id:<3} {chapter:<14} {name:<20} {cols}x{rows} items={len(level['items']):<2} "
                   f"messy={sum(1 for it in level['items'] if 'initialPosition' in it)}")
             if write:
                 path = LEVEL_DIR / f"level_{level_id}.json"
                 path.write_text(json.dumps(level, indent=2) + "\n", encoding="utf-8")
+        missing = [n for n in pool if n not in used]
+        if missing:
+            print(f"   note: {chapter} never uses {', '.join(missing)}")
     if write:
         # Hand-made levels 1-8 belong to the first chapter.
         for level_id in range(1, 9):

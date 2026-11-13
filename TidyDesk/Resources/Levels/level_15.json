@@ -6,30 +6,48 @@
   "gridCols": 6,
   "items": [
     {
-      "id": "cable-bundle",
-      "name": "Cable Bundle",
-      "gridWidth": 2,
+      "id": "power-strip",
+      "name": "Power Strip",
+      "gridWidth": 3,
       "gridHeight": 1,
       "initialPosition": {
-        "row": 0,
+        "row": 3,
         "col": 2
       },
-      "imageName": "cable_bundle",
-      "symbol": "cable.connector",
+      "imageName": "power_strip",
+      "symbol": "powerplug.fill",
       "category": "power"
     },
     {
-      "id": "keyboard-mechanical",
-      "name": "Mechanical Keyboard",
-      "gridWidth": 4,
+      "id": "power-strip-2",
+      "name": "Power Strip",
+      "gridWidth": 3,
       "gridHeight": 1,
       "initialPosition": {
-        "row": 2,
-        "col": 2
+        "row": 1,
+        "col": 0
       },
-      "imageName": "keyboard_mechanical",
-      "symbol": "keyboard.fill",
-      "category": "peripheral"
+      "imageName": "power_strip",
+      "symbol": "powerplug.fill",
+      "category": "power"
+    },
+    {
+      "id": "webcam",
+      "name": "Webcam",
+      "gridWidth": 1,
+      "gridHeight": 1,
+      "imageName": "webcam",
+      "symbol": "web.camera.fill",
+      "category": "mobile"
+    },
+    {
+      "id": "laptop",
+      "name": "Laptop",
+      "gridWidth": 3,
+      "gridHeight": 2,
+      "imageName": "laptop",
+      "symbol": "laptopcomputer",
+      "category": "display"
     },
     {
       "id": "keyboard-compact",
@@ -50,58 +68,31 @@
       "category": "peripheral"
     },
     {
-      "id": "wifi-router",
-      "name": "Wi-Fi Router",
-      "gridWidth": 2,
+      "id": "phone",
+      "name": "Phone",
+      "gridWidth": 1,
       "gridHeight": 2,
-      "imageName": "wifi_router",
-      "symbol": "wifi.router.fill",
+      "imageName": "phone",
+      "symbol": "iphone",
+      "category": "mobile"
+    },
+    {
+      "id": "cable-bundle",
+      "name": "Cable Bundle",
+      "gridWidth": 2,
+      "gridHeight": 1,
+      "imageName": "cable_bundle",
+      "symbol": "cable.connector",
       "category": "power"
     },
     {
-      "id": "desk-lamp-tall",
-      "name": "Tall Desk Lamp",
-      "gridWidth": 1,
-      "gridHeight": 3,
-      "imageName": "desk_lamp_tall",
-      "symbol": "lamp.desk.fill",
-      "category": "cozy"
-    },
-    {
-      "id": "desk-lamp-tall-2",
-      "name": "Tall Desk Lamp",
-      "gridWidth": 1,
-      "gridHeight": 3,
-      "imageName": "desk_lamp_tall",
-      "symbol": "lamp.desk.fill",
-      "category": "cozy"
-    },
-    {
-      "id": "power-strip",
-      "name": "Power Strip",
+      "id": "laptop-2",
+      "name": "Laptop",
       "gridWidth": 3,
-      "gridHeight": 1,
-      "imageName": "power_strip",
-      "symbol": "powerplug.fill",
-      "category": "power"
-    },
-    {
-      "id": "power-strip-2",
-      "name": "Power Strip",
-      "gridWidth": 3,
-      "gridHeight": 1,
-      "imageName": "power_strip",
-      "symbol": "powerplug.fill",
-      "category": "power"
-    },
-    {
-      "id": "coffee-mug",
-      "name": "Coffee Mug",
-      "gridWidth": 1,
-      "gridHeight": 1,
-      "imageName": "coffee_mug",
-      "symbol": "cup.and.saucer.fill",
-      "category": "cozy"
+      "gridHeight": 2,
+      "imageName": "laptop",
+      "symbol": "laptopcomputer",
+      "category": "display"
     }
   ]
 }

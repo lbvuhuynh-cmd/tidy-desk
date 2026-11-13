@@ -6,15 +6,41 @@
   "gridCols": 7,
   "items": [
     {
+      "id": "power-strip",
+      "name": "Power Strip",
+      "gridWidth": 3,
+      "gridHeight": 1,
+      "initialPosition": {
+        "row": 0,
+        "col": 2
+      },
+      "imageName": "power_strip",
+      "symbol": "powerplug.fill",
+      "category": "power"
+    },
+    {
       "id": "keyboard-mechanical",
       "name": "Mechanical Keyboard",
       "gridWidth": 4,
       "gridHeight": 1,
       "initialPosition": {
         "row": 1,
-        "col": 3
+        "col": 2
       },
       "imageName": "keyboard_mechanical",
+      "symbol": "keyboard.fill",
+      "category": "peripheral"
+    },
+    {
+      "id": "keyboard-compact",
+      "name": "Compact Keyboard",
+      "gridWidth": 3,
+      "gridHeight": 1,
+      "initialPosition": {
+        "row": 2,
+        "col": 4
+      },
+      "imageName": "keyboard_compact",
       "symbol": "keyboard.fill",
       "category": "peripheral"
     },
@@ -23,23 +49,60 @@
       "name": "Tablet",
       "gridWidth": 2,
       "gridHeight": 2,
-      "initialPosition": {
-        "row": 3,
-        "col": 0
-      },
       "imageName": "tablet",
       "symbol": "ipad.landscape",
       "category": "display"
+    },
+    {
+      "id": "phone",
+      "name": "Phone",
+      "gridWidth": 1,
+      "gridHeight": 2,
+      "imageName": "phone",
+      "symbol": "iphone",
+      "category": "mobile"
+    },
+    {
+      "id": "power-strip-2",
+      "name": "Power Strip",
+      "gridWidth": 3,
+      "gridHeight": 1,
+      "imageName": "power_strip",
+      "symbol": "powerplug.fill",
+      "category": "power"
+    },
+    {
+      "id": "cable-bundle",
+      "name": "Cable Bundle",
+      "gridWidth": 2,
+      "gridHeight": 1,
+      "imageName": "cable_bundle",
+      "symbol": "cable.connector",
+      "category": "power"
     },
     {
       "id": "desk-lamp-tall",
       "name": "Tall Desk Lamp",
       "gridWidth": 1,
       "gridHeight": 3,
-      "initialPosition": {
-        "row": 3,
-        "col": 6
-      },
+      "imageName": "desk_lamp_tall",
+      "symbol": "lamp.desk.fill",
+      "category": "cozy"
+    },
+    {
+      "id": "keyboard-compact-2",
+      "name": "Compact Keyboard",
+      "gridWidth": 3,
+      "gridHeight": 1,
+      "imageName": "keyboard_compact",
+      "symbol": "keyboard.fill",
+      "category": "peripheral"
+    },
+    {
+      "id": "desk-lamp-tall-2",
+      "name": "Tall Desk Lamp",
+      "gridWidth": 1,
+      "gridHeight": 3,
       "imageName": "desk_lamp_tall",
       "symbol": "lamp.desk.fill",
       "category": "cozy"
@@ -54,51 +117,6 @@
       "category": "peripheral"
     },
     {
-      "id": "power-strip",
-      "name": "Power Strip",
-      "gridWidth": 3,
-      "gridHeight": 1,
-      "imageName": "power_strip",
-      "symbol": "powerplug.fill",
-      "category": "power"
-    },
-    {
-      "id": "desk-lamp-tall-2",
-      "name": "Tall Desk Lamp",
-      "gridWidth": 1,
-      "gridHeight": 3,
-      "imageName": "desk_lamp_tall",
-      "symbol": "lamp.desk.fill",
-      "category": "cozy"
-    },
-    {
-      "id": "desk-mat",
-      "name": "Mouse Pad",
-      "gridWidth": 2,
-      "gridHeight": 2,
-      "imageName": "desk_mat",
-      "symbol": "rectangle.fill",
-      "category": "peripheral"
-    },
-    {
-      "id": "tablet-2",
-      "name": "Tablet",
-      "gridWidth": 2,
-      "gridHeight": 2,
-      "imageName": "tablet",
-      "symbol": "ipad.landscape",
-      "category": "display"
-    },
-    {
-      "id": "keyboard-compact",
-      "name": "Compact Keyboard",
-      "gridWidth": 3,
-      "gridHeight": 1,
-      "imageName": "keyboard_compact",
-      "symbol": "keyboard.fill",
-      "category": "peripheral"
-    },
-    {
       "id": "wifi-router",
       "name": "Wi-Fi Router",
       "gridWidth": 2,
@@ -108,22 +126,13 @@
       "category": "power"
     },
     {
-      "id": "cable-bundle",
-      "name": "Cable Bundle",
-      "gridWidth": 2,
-      "gridHeight": 1,
-      "imageName": "cable_bundle",
-      "symbol": "cable.connector",
-      "category": "power"
-    },
-    {
-      "id": "desk-mat-2",
-      "name": "Mouse Pad",
+      "id": "wifi-router-2",
+      "name": "Wi-Fi Router",
       "gridWidth": 2,
       "gridHeight": 2,
-      "imageName": "desk_mat",
-      "symbol": "rectangle.fill",
-      "category": "peripheral"
+      "imageName": "wifi_router",
+      "symbol": "wifi.router.fill",
+      "category": "power"
     }
   ]
 }

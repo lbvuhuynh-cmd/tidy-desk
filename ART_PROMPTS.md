@@ -71,7 +71,7 @@ Flat 2D vector illustration, strictly top-down view (looking straight down from 
 
 ---
 
-## 2. Góc làm vườn (chương 4)
+## 2. Góc làm vườn (chương 4): ✅ đã có đủ 14 hình (Gemini, 13/11)
 
 Vẫn dùng **đoạn chung** ở mục 1, nhưng thay phần màu bằng bảng màu vườn cho tươi hơn:
 ```
@@ -80,30 +80,30 @@ Flat 2D vector illustration, strictly top-down view (looking straight down from 
 
 | Xong | Tên file | Ô | Khung | Mô tả món |
 |---|---|---|---|---|
-| [ ] | `seed_packet` | 1×1 | 1:1 | a paper seed packet with a picture of a flower on it (no text), square composition |
-| [ ] | `succulent_pot` | 1×1 | 1:1 | a small succulent in a round terracotta pot, rosette of plump leaves, square composition |
-| [ ] | `birdhouse` | 1×1 | 1:1 | a small wooden birdhouse seen from above, pitched roof, square composition |
-| [ ] | `flower_pot` | 1×2 | 1:2 | a tall flower pot with tulips seen from above, tall vertical 1:2 shape |
-| [ ] | `pruning_shears` | 1×2 | 1:2 | garden pruning shears lying flat, closed blades, colorful handles, tall vertical 1:2 shape |
-| [ ] | `garden_gloves` | 1×2 | 1:2 | a pair of garden gloves lying flat, one on top of the other, tall vertical 1:2 shape |
-| [ ] | `grow_light` | 1×3 | 1:2 | a slim plant grow light bar lying along its length with a warm glowing strip, very tall vertical 1:3 shape |
-| [ ] | `seedling_tray` | 2×1 | 2:1 | a seedling tray with small cells and tiny green sprouts, wide horizontal 2:1 shape |
-| [ ] | `watering_can` | 2×2 | 1:1 | a watering can seen from above, round body, long spout and handle, square composition |
-| [ ] | `monstera_pot` | 2×2 | 1:1 | a monstera plant in a round pot seen from above, big split leaves spreading out, square composition |
-| [ ] | `herb_planter` | 3×1 | 2:1 | a long rectangular herb planter with basil, mint and parsley, very wide horizontal 3:1 shape |
-| [ ] | `garden_basket` | 3×2 | 2:1 | a woven harvest basket full of vegetables (carrots, tomatoes, lettuce), horizontal 3:2 shape |
-| [ ] | `flower_box` | 4×1 | 2:1 | a long window flower box with colorful flowers in a row, extremely wide horizontal 4:1 shape |
-| [ ] | `soil_bag` | 2×3 | 1:2 | a bag of potting soil lying flat with a leaf picture on it (no text), vertical 2:3 shape |
+| [x] | `seed_packet` | 1×1 | 1:1 | a paper seed packet with a picture of a flower on it (no text), square composition |
+| [x] | `succulent_pot` | 1×1 | 1:1 | a small succulent in a round terracotta pot, rosette of plump leaves, square composition |
+| [x] | `birdhouse` | 1×1 | 1:1 | a small wooden birdhouse seen from above, pitched roof, square composition |
+| [x] | `flower_pot` | 1×2 | 1:2 | a tall flower pot with tulips seen from above, tall vertical 1:2 shape |
+| [x] | `pruning_shears` | 1×2 | 1:2 | garden pruning shears lying flat, closed blades, colorful handles, tall vertical 1:2 shape |
+| [x] | `garden_gloves` | 1×2 | 1:2 | a pair of garden gloves lying flat, one on top of the other, tall vertical 1:2 shape |
+| [x] | `grow_light` | 1×3 | 1:2 | a slim plant grow light bar lying along its length with a warm glowing strip, very tall vertical 1:3 shape |
+| [x] | `seedling_tray` | 2×1 | 2:1 | a seedling tray with small cells and tiny green sprouts, wide horizontal 2:1 shape |
+| [x] | `watering_can` | 2×2 | 1:1 | a watering can seen from above, round body, long spout and handle, square composition |
+| [x] | `monstera_pot` | 2×2 | 1:1 | a monstera plant in a round pot seen from above, big split leaves spreading out, square composition |
+| [x] | `herb_planter` | 3×1 | 2:1 | a long rectangular herb planter with basil, mint and parsley, very wide horizontal 3:1 shape |
+| [x] | `garden_basket` | 3×2 | 2:1 | a woven harvest basket full of vegetables (carrots, tomatoes, lettuce), horizontal 3:2 shape |
+| [x] | `flower_box` | 4×1 | 2:1 | a long window flower box with colorful flowers in a row, extremely wide horizontal 4:1 shape |
+| [x] | `soil_bag` | 2×3 | 1:2 | a bag of potting soil lying flat with a leaf picture on it (no text), vertical 2:3 shape |
 
 ### Góc làm vườn theo nhóm (Gemini)
 Gửi lần lượt trong cùng một cuộc trò chuyện. Từ nhóm 2 trở đi, thêm ở đầu: *"Same art style as the previous image."* Lưu thành `garden_1.jpeg` … `garden_4.jpeg` trong `Downloads\tidy-art\garden`.
 
 | Xong | Hình | Món (theo thứ tự cắt) |
 |---|---|---|
-| [ ] | `garden_1` | seed_packet, succulent_pot, birdhouse, watering_can, monstera_pot |
-| [ ] | `garden_2` | flower_pot, pruning_shears, garden_gloves, grow_light, soil_bag |
-| [ ] | `garden_3` | seedling_tray, herb_planter, garden_basket |
-| [ ] | `garden_4` | flower_box |
+| [x] | `garden_1` | seed_packet, succulent_pot, birdhouse, watering_can, monstera_pot |
+| [x] | `garden_2` | flower_pot, pruning_shears, garden_gloves, grow_light, soil_bag |
+| [x] | `garden_3` | seedling_tray, herb_planter, garden_basket |
+| [x] | `garden_4` | flower_box |
 
 **Nhóm 1 (vuông, một hàng):**
 ```
