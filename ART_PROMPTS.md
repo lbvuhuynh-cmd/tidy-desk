@@ -92,6 +92,18 @@ cute chibi baby character, same baby in every picture: round head, big round che
 | [ ] | `baby_toddler` | 9–18 tháng | A 1-year-old toddler standing with wobbly first steps, arms stretched out for balance, big excited smile, short fluffy brown hair with a small fringe, chubby legs, cream onesie, tiny bare feet. |
 | [ ] | `baby_explorer` | 18–36 tháng | A 2-year-old child standing confidently and waving hello with one hand, cheerful open smile, slightly taller and slimmer than a toddler but still chubby-cheeked, fuller brown hair with a soft fringe, cream short-sleeve romper, little sneakers. |
 
+### Làm bằng Gemini (đang dùng)
+`baby_newborn` đã làm bằng Gemini. Muốn 5 hình sau giống **đúng em bé đó**, gõ tiếp **trong cùng cuộc trò chuyện** với Gemini, mỗi lần một câu dưới đây. Tải về dạng `.jpeg` hay `.png` đều được: công cụ nhập hình tự xóa nền xám và cắt sát vào bé.
+
+| Xong | Tên file | Câu gửi Gemini |
+|---|---|---|
+| [x] | `baby_newborn` | (prompt ở bảng trên) |
+| [ ] | `baby_infant` | Same baby, exact same art style, colors, outlines and plain light gray background. Now 3 months old: sitting propped up, chubby arms raised happily, big open gummy smile, bright open eyes, two small hair curls, plain cream onesie, tiny bare feet. Square image, the baby fills most of the image. |
+| [ ] | `baby_roller` | Same baby, exact same art style, colors, outlines and plain light gray background. Now 5 months old: tummy time, lying on its belly facing the viewer, head and chest lifted, hands flat in front, little feet kicking up behind, delighted smile, plain cream onesie. Square image, the baby fills most of the image. |
+| [ ] | `baby_crawler` | Same baby, exact same art style, colors, outlines and plain light gray background. Now 7 months old: crawling toward the viewer on hands and knees, head up, curious happy face with one tiny front tooth, short fluffy brown hair, plain cream onesie. Square image, the baby fills most of the image. |
+| [ ] | `baby_toddler` | Same baby, exact same art style, colors, outlines and plain light gray background. Now 1 year old: standing with wobbly first steps, arms stretched out for balance, big excited smile, short fluffy brown hair with a small fringe, plain cream onesie, tiny bare feet. Square image, the baby fills most of the image. |
+| [ ] | `baby_explorer` | Same baby, exact same art style, colors, outlines and plain light gray background. Now 2 years old: standing confidently and waving hello with one hand, cheerful open smile, a little taller but still chubby-cheeked, fuller brown hair with a soft fringe, plain cream short-sleeve romper, little sneakers. Square image, the baby fills most of the image. |
+
 **Khi chọn hình bé, kiểm tra:**
 - Bé nằm giữa khung, **chiếm gần hết khung**.
 - Không có nền, sàn hay bóng.
