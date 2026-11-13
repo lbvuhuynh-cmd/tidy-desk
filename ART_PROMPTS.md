@@ -96,7 +96,7 @@ Flat 2D vector illustration, strictly top-down view (looking straight down from 
 | [ ] | `soil_bag` | 2×3 | 1:2 | a bag of potting soil lying flat with a leaf picture on it (no text), vertical 2:3 shape |
 
 ### Góc làm vườn theo nhóm (Gemini)
-Gửi lần lượt trong cùng một cuộc trò chuyện. Từ nhóm 2 trở đi, thêm ở đầu: *"Same art style as the previous image."* Lưu thành `garden_1.jpeg` … `garden_4.jpeg` trong `Downloads	idy-art\garden`.
+Gửi lần lượt trong cùng một cuộc trò chuyện. Từ nhóm 2 trở đi, thêm ở đầu: *"Same art style as the previous image."* Lưu thành `garden_1.jpeg` … `garden_4.jpeg` trong `Downloads\tidy-art\garden`.
 
 | Xong | Hình | Món (theo thứ tự cắt) |
 |---|---|---|
