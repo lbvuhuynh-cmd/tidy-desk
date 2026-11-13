@@ -85,7 +85,7 @@ cute chibi baby character, same baby in every picture: round head, big round che
 
 | Xong | Tên file | Tuổi | Mô tả (dán TRƯỚC đoạn chung) |
 |---|---|---|---|
-| [ ] | `baby_newborn` | 0–2 tháng | A sleeping newborn baby swaddled snugly in a cream blanket like a little bean, only the round face showing, eyes peacefully closed as curved lines, tiny content smile, one small hair curl. |
+| [x] | `baby_newborn` | 0–2 tháng | A sleeping newborn baby swaddled snugly in a cream blanket like a little bean, only the round face showing, eyes peacefully closed as curved lines, tiny content smile, one small hair curl. |
 | [ ] | `baby_infant` | 2–4 tháng | A 3-month-old baby sitting propped up, chubby arms raised happily, big open gummy smile, bright open eyes, two small hair curls, cream onesie with tiny feet showing. |
 | [ ] | `baby_roller` | 4–6 tháng | A 5-month-old baby doing tummy time: lying on its belly facing the viewer, head and chest lifted, hands flat in front, little feet kicking up behind, delighted smile, three small hair curls, cream onesie. |
 | [ ] | `baby_crawler` | 6–9 tháng | A 7-month-old baby crawling toward the viewer on hands and knees, head up, curious happy face with one tiny front tooth, short fluffy brown hair, cream onesie. |

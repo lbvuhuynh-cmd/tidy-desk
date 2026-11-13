@@ -147,6 +147,8 @@ def clean_png(src: Path, dst: Path):
     try:
         from PIL import Image
     except ImportError:
+        if src.suffix.lower() != ".png":
+            sys.exit(f"{src.name}: JPEG import needs Pillow (pip install pillow)")
         shutil.copy2(src, dst)
         return ["copied as is (install Pillow to auto-remove a PNG background)"]
     from collections import deque
@@ -157,8 +159,9 @@ def clean_png(src: Path, dst: Path):
     corners = [px[0, 0], px[w - 1, 0], px[0, h - 1], px[w - 1, h - 1]]
     bg = corners[0]
     dist = lambda c: max(abs(c[i] - bg[i]) for i in range(3))  # noqa: E731
-    if bg[3] == 255 and all(c[3] == 255 and dist(c) <= 12 for c in corners):
-        tol = 22
+    noisy = src.suffix.lower() in (".jpg", ".jpeg")
+    if bg[3] == 255 and all(c[3] == 255 and dist(c) <= (20 if noisy else 12) for c in corners):
+        tol = 30 if noisy else 22
         seen = bytearray(w * h)
         queue = deque([(x, 0) for x in range(w)] + [(x, h - 1) for x in range(w)]
                       + [(0, y) for y in range(h)] + [(w - 1, y) for y in range(h)])
@@ -219,10 +222,11 @@ def aspect_issue(imageset: Path, size):
 
 
 def import_folder(folder: Path, assets):
-    """<name>.svg / .pdf / .png -> Assets.xcassets/<name>.imageset (single scale, vector data preserved)."""
+    """<name>.svg / .pdf / .png / .jpg -> Assets.xcassets/<name>.imageset (single scale, vector data preserved).
+    JPEGs (e.g. from Gemini / ChatGPT) are converted to PNG with the flat background removed."""
     if not folder.is_dir():
         sys.exit(f"--import: '{folder}' is not a folder")
-    preference = {".svg": 0, ".pdf": 1, ".png": 2}
+    preference = {".svg": 0, ".pdf": 1, ".png": 2, ".jpg": 3, ".jpeg": 3}
     chosen = {}
     for f in folder.iterdir():
         ext = f.suffix.lower()
@@ -239,7 +243,8 @@ def import_folder(folder: Path, assets):
         if target.exists():
             shutil.rmtree(target)
         target.mkdir(parents=True)
-        out = name + src.suffix.lower()
+        is_raster = src.suffix.lower() in (".png", ".jpg", ".jpeg")
+        out = name + (".png" if is_raster else src.suffix.lower())
         notes = []
         if src.suffix.lower() == ".svg":
             text, notes = clean_svg(src.read_text(encoding="utf-8"))
@@ -247,7 +252,7 @@ def import_folder(folder: Path, assets):
             aspect = aspect_note(text, assets[name]["size"])
             if aspect:
                 notes.append("WARNING " + aspect)
-        elif src.suffix.lower() == ".png":
+        elif is_raster:
             notes = clean_png(src, target / out)
             dims = png_size(target / out)
             aspect = ratio_note(dims[0] / dims[1], assets[name]["size"]) if dims else None
