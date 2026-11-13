@@ -3,10 +3,12 @@ import UIKit
 
 /// The baby, drawn in code until real artwork exists.
 ///
-/// * Real art: when `Assets.xcassets` has `baby_newborn` / `baby_infant` / `baby_crawler` / `baby_toddler`
+/// * Real art: when `Assets.xcassets` has `baby_newborn` / `baby_infant` / `baby_roller` / `baby_crawler` /
+///   `baby_toddler` / `baby_explorer`
 ///   (see `BabyStage.assetName`), that picture is shown instead and the outfit appears as a small badge.
 /// * Drawn placeholder: round head, rosy cheeks, outfit-coloured body that changes shape with the stage
-///   (swaddled newborn → sitting infant → crawler with tiny hands → standing toddler), plus the outfit's emoji
+///   (swaddled newborn → sitting infant → tummy-time roller → crawler → standing toddler → taller explorer),
+///   plus the outfit's emoji
 ///   as a little hat. `mood` changes the face.
 struct BabyAvatarView: View {
     enum Mood: Equatable {
@@ -16,6 +18,8 @@ struct BabyAvatarView: View {
         case delighted
         /// Sleepy closed eyes (newborn resting).
         case sleepy
+        /// Fast asleep (after a lullaby): closed eyes, small "z" bubbles.
+        case asleep
     }
 
     let stage: BabyStage
@@ -55,9 +59,11 @@ struct BabyAvatarView: View {
     private var scale: CGFloat {
         switch stage {
         case .newborn: 0.82
-        case .infant: 0.9
+        case .infant: 0.88
+        case .roller: 0.92
         case .crawler: 0.96
         case .toddler: 1.0
+        case .explorer: 1.0
         }
     }
 
@@ -84,6 +90,13 @@ struct BabyAvatarView: View {
             .frame(width: head, height: head)
             .offset(y: headOffset(s: s))
 
+            if mood == .asleep {
+                Text("z z")
+                    .font(.system(size: head * 0.22, weight: .heavy, design: .rounded))
+                    .foregroundStyle(Color(red: 0.55, green: 0.6, blue: 0.85))
+                    .offset(x: head * 0.55, y: headOffset(s: s) - head * 0.5)
+            }
+
             // Outfit "hat" (emoji) for anything but the plain onesie.
             if let outfit, outfit.id != BabyCatalog.defaultOutfitId {
                 Text(outfit.emoji)
@@ -99,8 +112,10 @@ struct BabyAvatarView: View {
         switch stage {
         case .newborn: -s * 0.1
         case .infant: -s * 0.14
+        case .roller: -s * 0.02
         case .crawler: -s * 0.1
         case .toddler: -s * 0.2
+        case .explorer: -s * 0.24
         }
     }
 
@@ -130,6 +145,16 @@ struct BabyAvatarView: View {
                 foot(s: s).offset(x: -s * 0.14, y: s * 0.4)
                 foot(s: s).offset(x: s * 0.14, y: s * 0.4)
             }
+        case .roller:
+            // Tummy time: lying flat, head lifted, hands on the rug, feet kicking behind.
+            ZStack {
+                foot(s: s).offset(x: -s * 0.36, y: s * 0.26)
+                foot(s: s).offset(x: s * 0.36, y: s * 0.26)
+                Capsule().fill(fill).overlay(Capsule().strokeBorder(edge, lineWidth: s * 0.015))
+                    .frame(width: s * 0.78, height: s * 0.3).offset(y: s * 0.3)
+                hand(s: s).offset(x: -s * 0.22, y: s * 0.4)
+                hand(s: s).offset(x: s * 0.22, y: s * 0.4)
+            }
         case .crawler:
             // On hands and knees: wide body, hands in front.
             ZStack {
@@ -138,8 +163,8 @@ struct BabyAvatarView: View {
                 hand(s: s).offset(x: -s * 0.2, y: s * 0.4)
                 hand(s: s).offset(x: s * 0.2, y: s * 0.4)
             }
-        case .toddler:
-            // Standing: body, arms out a bit, two legs.
+        case .toddler, .explorer:
+            // Standing: body, arms out a bit, two legs (the explorer is a little taller).
             ZStack {
                 limb(w: s * 0.13, h: s * 0.26).rotationEffect(.degrees(25)).offset(x: -s * 0.25, y: s * 0.06)
                 limb(w: s * 0.13, h: s * 0.26).rotationEffect(.degrees(-25)).offset(x: s * 0.25, y: s * 0.06)
@@ -151,6 +176,7 @@ struct BabyAvatarView: View {
                 foot(s: s).offset(x: -s * 0.11, y: s * 0.47)
                 foot(s: s).offset(x: s * 0.11, y: s * 0.47)
             }
+            .scaleEffect(x: 1, y: stage == .explorer ? 1.1 : 1, anchor: .top)
         }
     }
 
@@ -179,7 +205,7 @@ struct BabyAvatarView: View {
 
     /// More hair as the baby grows: one curl → two → a little fringe.
     private func hairTufts(head: CGFloat) -> some View {
-        let count = stage.rawValue + 1
+        let count = min(stage.rawValue + 1, 5)
         return HStack(spacing: -head * 0.04) {
             ForEach(0..<count, id: \.self) { i in
                 Circle()
@@ -218,6 +244,10 @@ struct BabyAvatarView: View {
     private func eye(head: CGFloat) -> some View {
         let effective: Mood = (stage == .newborn && mood == .content) ? .sleepy : mood
         switch effective {
+        case .asleep:
+            HappyEye().stroke(Self.ink, style: StrokeStyle(lineWidth: head * 0.03, lineCap: .round))
+                .frame(width: head * 0.12, height: head * 0.05)
+                .rotationEffect(.degrees(180))
         case .content:
             Circle().fill(Self.ink).frame(width: head * 0.1, height: head * 0.11)
                 .overlay(alignment: .topLeading) { Circle().fill(.white).frame(width: head * 0.035).offset(x: head * 0.015, y: head * 0.015) }
@@ -239,7 +269,7 @@ struct BabyAvatarView: View {
         case .delighted:
             Smile().fill(Color(red: 0.85, green: 0.38, blue: 0.42))
                 .frame(width: head * 0.2, height: head * 0.11)
-        case .content, .sleepy:
+        case .content, .sleepy, .asleep:
             Smile().stroke(Self.ink, style: StrokeStyle(lineWidth: head * 0.028, lineCap: .round))
                 .frame(width: head * 0.13, height: head * 0.05)
         }

@@ -117,8 +117,18 @@ final class FeedbackEngine: GameFeedback {
 /// | change outfit                            | `playSelectionChanged()`      | `.pickup`    |
 /// | baby reaches a new stage                 | `playSuccess()`               | `.complete`  |
 /// | not now (full, too few coins, too young) | `playSoftImpact(0.3)`         | `.drop`      |
+/// | pop a bath bubble                        | `playSoftImpact(0.4)`         | `.pickup`    |
+/// | bath finished                            | `playLightImpact()`           | `.squeak`    |
+/// | rocking the cradle (each swing)          | `playSelectionChanged()`      | none         |
+/// | baby falls asleep                        | `playSoftImpact(0.6)`         | `.coo`       |
+/// | milestone reached (Baby Book page)       | `playSuccess()`               | `.complete`  |
 @MainActor
 protocol BabyFeedback: AnyObject {
+    func bubblePopped()
+    func babyBathed()
+    func cradleRocked()
+    func babyFellAsleep()
+    func milestoneReached()
     func coinsEarned()
     func babyTapped()
     func babyFed()
@@ -130,6 +140,30 @@ protocol BabyFeedback: AnyObject {
 }
 
 extension FeedbackEngine: BabyFeedback {
+    func bubblePopped() {
+        haptics.playSoftImpact(intensity: 0.4)
+        sounds.play(sound: .pickup)
+    }
+
+    func babyBathed() {
+        haptics.playLightImpact()
+        sounds.play(sound: .squeak)
+    }
+
+    func cradleRocked() {
+        haptics.playSelectionChanged()
+    }
+
+    func babyFellAsleep() {
+        haptics.playSoftImpact(intensity: 0.6)
+        sounds.play(sound: .coo)
+    }
+
+    func milestoneReached() {
+        haptics.playSuccess()
+        sounds.play(sound: .complete)
+    }
+
     func coinsEarned() {
         haptics.playLightImpact()
         sounds.play(sound: .coin)
@@ -174,6 +208,11 @@ extension FeedbackEngine: BabyFeedback {
 /// No-op feedback for previews and tests.
 @MainActor
 final class SilentFeedback: GameFeedback, BabyFeedback {
+    func bubblePopped() {}
+    func babyBathed() {}
+    func cradleRocked() {}
+    func babyFellAsleep() {}
+    func milestoneReached() {}
     func coinsEarned() {}
     func babyTapped() {}
     func babyFed() {}

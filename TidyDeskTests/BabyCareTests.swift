@@ -3,14 +3,43 @@ import SwiftData
 @testable import TidyDesk
 
 final class BabyStageTests: XCTestCase {
-    func testStagesFollowGrowthThresholds() {
-        XCTAssertEqual(BabyStage.stage(for: 0), .newborn)
-        XCTAssertEqual(BabyStage.stage(for: 59), .newborn)
-        XCTAssertEqual(BabyStage.stage(for: 60), .infant)
-        XCTAssertEqual(BabyStage.stage(for: 180), .crawler)
-        XCTAssertEqual(BabyStage.stage(for: 359), .crawler)
-        XCTAssertEqual(BabyStage.stage(for: 360), .toddler)
-        XCTAssertEqual(BabyStage.stage(for: 10_000), .toddler)
+    func testMonthsFollowTheGrowthCurve() {
+        XCTAssertEqual(BabyGrowth.threshold(month: 0), 0)
+        XCTAssertEqual(BabyGrowth.threshold(month: 2), 40)
+        XCTAssertEqual(BabyGrowth.threshold(month: 12), 240)
+        XCTAssertEqual(BabyGrowth.threshold(month: 24), 660)
+        XCTAssertEqual(BabyGrowth.threshold(month: 36), 1260)
+        XCTAssertEqual(BabyGrowth.months(for: 0), 0)
+        XCTAssertEqual(BabyGrowth.months(for: 39), 1)
+        XCTAssertEqual(BabyGrowth.months(for: 40), 2)
+        XCTAssertEqual(BabyGrowth.months(for: 240), 12)
+        XCTAssertEqual(BabyGrowth.months(for: 100_000), BabyGrowth.maxMonths)
+        XCTAssertEqual(BabyGrowth.monthProgress(for: 10), 0.5, accuracy: 0.001)   // halfway through month 0 (20 pts)
+        XCTAssertEqual(BabyGrowth.monthProgress(for: 100_000), 1)
+    }
+
+    /// Each month takes at least as long as the one before (early "firsts" come quickly).
+    func testMonthsNeverGetShorter() {
+        var previous = 0
+        for month in 0..<BabyGrowth.maxMonths {
+            XCTAssertGreaterThanOrEqual(BabyGrowth.pointsPerMonth(month), previous)
+            previous = BabyGrowth.pointsPerMonth(month)
+        }
+    }
+
+    func testSixStagesByAge() {
+        XCTAssertEqual(BabyStage.allCases.count, 6)
+        XCTAssertEqual(BabyStage.stage(forMonths: 0), .newborn)
+        XCTAssertEqual(BabyStage.stage(forMonths: 1), .newborn)
+        XCTAssertEqual(BabyStage.stage(forMonths: 2), .infant)
+        XCTAssertEqual(BabyStage.stage(forMonths: 5), .roller)
+        XCTAssertEqual(BabyStage.stage(forMonths: 6), .crawler)
+        XCTAssertEqual(BabyStage.stage(forMonths: 9), .toddler)
+        XCTAssertEqual(BabyStage.stage(forMonths: 17), .toddler)
+        XCTAssertEqual(BabyStage.stage(forMonths: 18), .explorer)
+        XCTAssertEqual(BabyStage.stage(forMonths: 36), .explorer)
+        XCTAssertEqual(BabyStage.stage(for: BabyStage.crawler.threshold), .crawler)
+        XCTAssertEqual(BabyStage.stage(for: BabyStage.crawler.threshold - 1), .roller)
     }
 
     func testThresholdsGrowAndProgressStaysInRange() {
@@ -18,9 +47,77 @@ final class BabyStageTests: XCTestCase {
         XCTAssertEqual(thresholds, thresholds.sorted())
         XCTAssertEqual(Set(thresholds).count, thresholds.count)
         XCTAssertEqual(BabyStage.progress(for: 0), 0)
-        XCTAssertEqual(BabyStage.progress(for: 30), 0.5, accuracy: 0.001)   // halfway newborn -> infant (0…60)
-        XCTAssertEqual(BabyStage.progress(for: 120), 0.5, accuracy: 0.001)  // halfway infant -> crawler (60…180)
-        XCTAssertEqual(BabyStage.progress(for: 999), 1)                     // last stage
+        XCTAssertEqual(BabyStage.progress(for: 20), 0.5, accuracy: 0.001)   // halfway newborn -> infant (0…40)
+        XCTAssertEqual(BabyStage.progress(for: 100_000), 1)
+        for points in stride(from: 0, through: 1400, by: 7) {
+            XCTAssertTrue((0...1).contains(BabyStage.progress(for: points)), "\(points)")
+        }
+    }
+
+    func testAgeText() {
+        XCTAssertEqual(BabyGrowth.ageText(months: 0), "Just born")
+        XCTAssertEqual(BabyGrowth.ageText(months: 1), "1 month")
+        XCTAssertEqual(BabyGrowth.ageText(months: 5), "5 months")
+        XCTAssertEqual(BabyGrowth.ageText(months: 24), "2 years")
+        XCTAssertEqual(BabyGrowth.ageText(months: 30), "2½ years")
+        XCTAssertEqual(BabyGrowth.ageText(months: 36), "3 years")
+    }
+}
+
+final class BabyMilestoneTests: XCTestCase {
+    func testCatalogIsOrderedUniqueAndCoversEveryStage() {
+        let ids = BabyMilestones.all.map(\.id)
+        XCTAssertEqual(Set(ids).count, ids.count)
+        let months = BabyMilestones.all.map(\.month)
+        XCTAssertEqual(months, months.sorted())
+        XCTAssertEqual(months.first, 0)
+        XCTAssertEqual(months.last, BabyGrowth.maxMonths)
+        XCTAssertEqual(Set(BabyMilestones.all.map(\.stage)), Set(BabyStage.allCases), "every stage has a page")
+        XCTAssertNotNil(BabyMilestones.milestone(id: BabyMilestones.firstWordId))
+    }
+
+    func testMilestonesAreRecordedAsTheBabyGrows() {
+        var state = BabyState()
+        XCTAssertTrue(state.reachedMilestones.isEmpty)
+        XCTAssertEqual(state.recordMilestones().map(\.id), ["hello"])
+        XCTAssertEqual(state.recordMilestones(), [], "recorded once")
+
+        state.growthPoints = BabyGrowth.threshold(month: 2) - 5
+        state.recordMilestones()
+        let reward = state.applyClear(stars: 1, isFirstClear: true) // +10 -> month 2
+        XCTAssertEqual(reward.grewTo, .infant)
+        XCTAssertEqual(reward.newMilestones.map(\.id), ["first_smile"])
+        XCTAssertNotNil(state.milestoneDates["first_smile"])
+        XCTAssertEqual(state.applyClear(stars: 1, isFirstClear: false).newMilestones, [])
+    }
+
+    func testCareCanReachAMilestone() {
+        var state = BabyState()
+        state.growthPoints = BabyGrowth.threshold(month: 1) - 1
+        XCTAssertTrue(state.sleep().isDone)
+        XCTAssertNotNil(state.milestoneDates["first_gaze"])
+    }
+
+    func testTestingAgeJumpsBothWays() {
+        var state = BabyState()
+        let reached = state.setAgeForTesting(months: 12)
+        XCTAssertEqual(state.months, 12)
+        XCTAssertEqual(state.stage, .toddler)
+        XCTAssertTrue(reached.contains { $0.id == "birthday_1" })
+        XCTAssertEqual(state.reachedMilestones.count, BabyMilestones.all.filter { $0.month <= 12 }.count)
+
+        state.setAgeForTesting(months: 3)
+        XCTAssertEqual(state.months, 3)
+        XCTAssertNil(state.milestoneDates["birthday_1"], "pages past the new age are removed")
+        XCTAssertNotNil(state.milestoneDates["first_giggle"])
+        XCTAssertEqual(state.setAgeForTesting(months: 99).last?.id, "birthday_3")
+        XCTAssertEqual(state.months, BabyGrowth.maxMonths)
+    }
+
+    func testCaptionFillsNameAndFirstWord() throws {
+        let word = try XCTUnwrap(BabyMilestones.milestone(id: BabyMilestones.firstWordId))
+        XCTAssertEqual(word.caption(name: "Bean", firstWord: "Duck!"), "Bean said “Duck!”!")
+        XCTAssertEqual(word.caption(name: "Bean", firstWord: ""), "Bean said “Mama”!")
     }
 }
 
@@ -52,20 +149,23 @@ final class BabyRewardTests: XCTestCase {
         XCTAssertEqual(state.growthPoints, reward.growth)
         XCTAssertEqual(state.tummy, 50 - BabyState.needsPerClear)
         XCTAssertEqual(state.joy, 50 - BabyState.needsPerClear)
+        XCTAssertEqual(state.clean, 70 - BabyState.slowNeedsPerClear)
+        XCTAssertEqual(state.rest, 70 - BabyState.slowNeedsPerClear)
     }
 
     /// Kid-friendly: needs never drop below the floor, however many desks are cleared in a row.
     func testNeedsNeverDropBelowTheFloor() {
         var state = BabyState()
         for _ in 0..<20 { state.applyClear(stars: 1, isFirstClear: false) }
-        XCTAssertEqual(state.tummy, BabyState.needsFloor)
-        XCTAssertEqual(state.joy, BabyState.needsFloor)
+        for need in BabyNeed.allCases {
+            XCTAssertEqual(state.value(of: need), BabyState.needsFloor, "\(need)")
+        }
     }
 
     func testClearReportsTheNewStage() {
         var state = BabyState()
-        state.growthPoints = 50
-        let reward = state.applyClear(stars: 1, isFirstClear: true) // +10 -> 60 = infant
+        state.growthPoints = BabyStage.infant.threshold - 10
+        let reward = state.applyClear(stars: 1, isFirstClear: true) // +10 -> infant
         XCTAssertEqual(reward.grewTo, .infant)
         XCTAssertNil(state.applyClear(stars: 1, isFirstClear: false).grewTo)
     }
@@ -109,8 +209,8 @@ final class BabyCareTests: XCTestCase {
 
     func testFoodForOlderBabiesIsLocked() {
         var state = BabyState()
-        XCTAssertEqual(state.feed(item("food.porridge")), .tooYoung(needs: .infant))
-        state.growthPoints = BabyStage.infant.threshold
+        XCTAssertEqual(state.feed(item("food.porridge")), .tooYoung(needs: .roller))
+        state.growthPoints = BabyStage.roller.threshold
         XCTAssertTrue(state.feed(item("food.porridge")).isDone)
     }
 
@@ -157,6 +257,59 @@ final class BabyCareTests: XCTestCase {
         state.coins = 10
         XCTAssertEqual(state.buy(item("outfit.bear")), .notEnoughCoins(missing: 30))
         XCTAssertFalse(state.unlockedItemIds.contains("outfit.bear"))
+    }
+
+    func testBathIsFreeCleansAndCheersUp() {
+        var state = BabyState()
+        state.clean = 40
+        XCTAssertEqual(state.bathe(), .done(grewTo: nil))
+        XCTAssertEqual(state.clean, BabyState.maxNeed)
+        XCTAssertEqual(state.joy, 50 + BabyState.bathJoy)
+        XCTAssertEqual(state.coins, BabyState.startingCoins, "baths are free")
+        XCTAssertEqual(state.growthPoints, BabyState.bathGrowth)
+        XCTAssertEqual(state.bathe(), .alreadyFull, "no second bath until a desk is cleared")
+        XCTAssertEqual(state.growthPoints, BabyState.bathGrowth)
+    }
+
+    func testSleepIsFreeAndRests() {
+        var state = BabyState()
+        XCTAssertTrue(state.sleep().isDone)
+        XCTAssertEqual(state.rest, BabyState.maxNeed)
+        XCTAssertEqual(state.coins, BabyState.startingCoins)
+        XCTAssertEqual(state.sleep(), .alreadyFull)
+        state.applyClear(stars: 1, isFirstClear: false)
+        XCTAssertTrue(state.sleep().isDone, "sleepy again after tidying a desk")
+    }
+
+    func testWishPrefersFoodThenSleepThenBathThenPlay() {
+        var state = BabyState()
+        state.tummy = 100
+        state.joy = 100
+        state.clean = 100
+        state.rest = 100
+        XCTAssertNil(state.wish)
+        state.joy = 30
+        XCTAssertEqual(state.wish, .joy)
+        state.clean = 30
+        XCTAssertEqual(state.wish, .clean)
+        state.rest = 30
+        XCTAssertEqual(state.wish, .rest)
+        state.tummy = 30
+        XCTAssertEqual(state.wish, .tummy)
+    }
+
+    /// TestFlight switch: everything owned, no age locks, but coins and full needs still apply.
+    func testUnlockEverythingOpensAllItems() {
+        var state = BabyState()
+        state.unlockEverything = true
+        XCTAssertTrue(BabyCatalog.items.allSatisfy { state.owns($0) && state.isOldEnough(for: $0) })
+        XCTAssertTrue(state.feed(item("food.pasta")).isDone, "explorer food for a newborn")
+        XCTAssertTrue(state.play(with: item("toy.crayons")).isDone)
+        XCTAssertTrue(state.wear(item("outfit.dino")).isDone)
+        XCTAssertEqual(state.buy(item("toy.duck")), .alreadyOwned)
+        state.coins = 0
+        state.tummy = 50
+        XCTAssertEqual(state.feed(item("food.milk")), .notEnoughCoins(missing: 4))
     }
 
     func testWrongKindIsRejected() {
@@ -206,7 +359,12 @@ final class BabyStoreTests: XCTestCase {
         let profile = BabyStore.profile(in: context)
         XCTAssertTrue(BabyStore.profile(in: context) === profile)
         XCTAssertEqual(try context.fetchCount(FetchDescriptor<BabyProfile>()), 1)
-        XCTAssertEqual(profile.state, BabyState())
+        let state = profile.state
+        XCTAssertEqual(state.coins, BabyState.startingCoins)
+        XCTAssertEqual(state.growthPoints, 0)
+        XCTAssertEqual(state.equippedOutfitId, BabyCatalog.defaultOutfitId)
+        XCTAssertEqual(state.reachedMilestones.map(\.id), ["hello"], "a new baby gets its first Baby Book page")
+        XCTAssertEqual(state.unlockEverything, BetaConfig.unlockAllBabyContent)
         XCTAssertEqual(profile.displayName, "Baby")
     }
 
@@ -221,10 +379,42 @@ final class BabyStoreTests: XCTestCase {
     func testUpdateWritesTheRuleResultBack() throws {
         let context = try makeContext()
         let profile = BabyStore.profile(in: context)
-        let duck = try XCTUnwrap(BabyCatalog.item(id: "toy.duck"))
-        XCTAssertTrue(profile.update { $0.buy(duck) }.isDone)
-        XCTAssertTrue(profile.unlockedItemIds.contains("toy.duck"))
-        XCTAssertEqual(profile.coins, BabyState.startingCoins - duck.price)
+        let milk = try XCTUnwrap(BabyCatalog.item(id: "food.milk"))
+        XCTAssertTrue(profile.update { $0.feed(milk) }.isDone)
+        XCTAssertEqual(profile.coins, BabyState.startingCoins - milk.price)
+        XCTAssertEqual(profile.hunger, 50 + milk.fill)
+        XCTAssertTrue(profile.update { $0.bathe() }.isDone)
+        XCTAssertEqual(profile.cleanliness, BabyState.maxNeed)
+    }
+
+    func testMilestonesAndFirstWordRoundTrip() throws {
+        let context = try makeContext()
+        let profile = BabyStore.profile(in: context)
+        profile.update { (state: inout BabyState) -> Void in
+            state.setAgeForTesting(months: 12)
+            state.firstWord = "Duck!"
+        }
+        try context.save()
+        let reloaded = BabyStore.profile(in: context).state
+        XCTAssertEqual(reloaded.months, 12)
+        XCTAssertEqual(reloaded.firstWord, "Duck!")
+        XCTAssertEqual(Set(reloaded.reachedMilestones.map(\.id)),
+                       Set(BabyMilestones.all.filter { $0.month <= 12 }.map(\.id)))
+        XCTAssertEqual(profile.milestoneIds.count, profile.milestoneDates.count)
+    }
+
+    /// Saves made before months / milestones existed catch up on load, without losing anything.
+    func testOldSaveCatchesUpOnMilestones() throws {
+        let context = try makeContext()
+        let old = BabyProfile(name: "Bean")
+        old.growthPoints = BabyGrowth.threshold(month: 7)
+        old.milestoneIds = []
+        old.milestoneDates = []
+        context.insert(old)
+        try context.save()
+        let profile = BabyStore.profile(in: context)
+        XCTAssertTrue(profile === old)
+        XCTAssertEqual(profile.state.reachedMilestones.count, BabyMilestones.all.filter { $0.month <= 7 }.count)
     }
 
     func testFirstClearIsToldApartFromAReplay() throws {

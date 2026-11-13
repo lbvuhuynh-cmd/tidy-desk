@@ -156,6 +156,12 @@ private struct BabyRewardRow: View {
                     .font(.caption.weight(.semibold))
                     .foregroundStyle(Theme.accent)
             }
+            if let first = reward.newMilestones.last {
+                // The newest "first" (e.g. "📖 New page: 😊 First Smile"); more than one → "+N".
+                Text("📖 New page: \(first.emoji) \(first.title)" + (reward.newMilestones.count > 1 ? " +\(reward.newMilestones.count - 1)" : ""))
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(Theme.accent)
+            }
         }
         .padding(.horizontal, 14)
         .padding(.vertical, 8)

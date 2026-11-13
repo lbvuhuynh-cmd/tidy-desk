@@ -43,10 +43,12 @@ mkdir -p screenshots/app
 xcrun simctl boot "iPhone 17" 2>/dev/null || true
 xcrun simctl install booted build/DD/Build/Products/Debug-iphonesimulator/TidyDesk.app
 
-shoot() {  # shoot <tên file> <light|dark> [level id | nursery]
+shoot() {  # shoot <tên file> <light|dark> [level id | nursery | book]
   xcrun simctl ui booted appearance "$2"
   if [ "$3" = "nursery" ]; then
-    xcrun simctl launch --terminate-running-process booted com.powervh.tidydesk -openNursery YES -babyName Bean
+    xcrun simctl launch --terminate-running-process booted com.powervh.tidydesk -openNursery YES -babyName Bean -babyMonths 8
+  elif [ "$3" = "book" ]; then
+    xcrun simctl launch --terminate-running-process booted com.powervh.tidydesk -openNursery YES -babyName Bean -babyMonths 8 -openBabyBook YES
   elif [ -n "$3" ]; then
     xcrun simctl launch --terminate-running-process booted com.powervh.tidydesk -openLevel "$3"
   else
@@ -63,9 +65,10 @@ shoot level29_light    light 29   # chương 4 Garden Corner (màn đầu)
 shoot level38_light    light 38   # màn vườn lớn nhất 8x6
 shoot nursery_light    light nursery   # Baby Corner (phòng bé)
 shoot nursery_dark     dark  nursery
+shoot babybook_light   light book      # Sổ tay em bé (bé 8 tháng)
 xcrun simctl ui booted appearance light
 ```
-`-openLevel <id>` là cờ chỉ có ở bản Debug: mở thẳng màn đó, bỏ qua khóa. `-openNursery YES -babyName Bean` (cũng chỉ Debug) mở thẳng Baby Corner và đặt tên bé để bỏ qua bảng đặt tên. Nếu ảnh chụp ra trống hoặc vẫn ở menu thì tăng `sleep`.
+`-openLevel <id>` là cờ chỉ có ở bản Debug: mở thẳng màn đó, bỏ qua khóa. `-openNursery YES -babyName Bean` (cũng chỉ Debug) mở thẳng Baby Corner và đặt tên bé để bỏ qua bảng đặt tên; `-babyMonths 8` đặt tuổi bé, `-openBabyBook YES` mở Sổ tay em bé. Nếu ảnh chụp ra trống hoặc vẫn ở menu thì tăng `sleep`.
 
 **Xem lại các ảnh vừa chụp** (đọc file PNG) và nhận xét ngắn: hình có rõ không, có bị nhòe hay méo không, bóng đổ có hợp lý không, hình có quá nhỏ trong ô không.
 

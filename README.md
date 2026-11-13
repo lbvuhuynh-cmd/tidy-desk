@@ -24,13 +24,13 @@ TidyDesk/
   App/                 TidyDeskApp (SwiftData container: LevelProgress + BabyProfile; LevelManager vào environment), BetaConfig
   Data/                LevelManager (đọc level_<n>.json, availableLevels, isUnlocked, loadLevel, nextLevel)
   Domain/Models/       TechItem (+ ItemCategory), ItemTraits (chất liệu + hiệu ứng theo tên asset), DeskGrid, LevelData (Decodable theo schema), LevelProgress (@Model), BabyProfile (@Model, Baby Corner) + BabyStore, GridPoint
-  Domain/Baby/         BabyStage (4 giai đoạn), BabyCatalog (đồ ăn / đồ chơi / quần áo), BabyState (luật chăm bé, thưởng qua màn)
+  Domain/Baby/         BabyStage + BabyGrowth (tháng tuổi 0–36, 6 giai đoạn), BabyMilestone (18 cột mốc), BabyCatalog (đồ ăn / đồ chơi / quần áo), BabyState (luật chăm bé: ăn, chơi, tắm, ngủ, thưởng qua màn)
   Domain/Logic/        SnapMath (hít vào ô), TilingSolver (kiểm tra màn giải được), LevelValidator, StarRating
   Features/Desk/       DeskDragViewModel (engine kéo thả), DeskGameplayView, DeskSurfaceView, AccessoryDrawerView,
                        FloatingItemLayer, DraggableItemView, ItemTileView, SetupCompleteView (+ confetti),
                        ItemLifeEffects (đồ "sống dậy" trên bàn, vệt sáng khi xếp xong)
   Features/Levels/     LevelSelectView (chọn bàn, sao, mở khóa tuần tự, banner Baby Corner)
-  Features/Baby/       BabyNurseryView (phòng bé: cho ăn / chơi / thay đồ, đặt tên), BabyAvatarView (bé vẽ bằng code), BabyBannerView
+  Features/Baby/       BabyNurseryView (phòng bé: ăn / chơi / tắm / ru ngủ / thay đồ, đặt tên, bảng test beta), BabyBookView (Sổ tay em bé), BabyAvatarView (bé vẽ bằng code), BabyBannerView
   Services/Audio/      SoundManager (singleton, AVAudioPlayer, preload), ToneSynth (âm thanh dự phòng tổng hợp trong bộ nhớ)
   Services/Haptics/    HapticManager (singleton: light / selection / rigid / soft / warning / success)
   Services/Feedback/   GameFeedback + BabyFeedback (protocol) + FeedbackEngine (nối mỗi khoảnh khắc chơi → 1 haptic + 1 âm thanh)

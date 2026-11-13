@@ -31,7 +31,7 @@ CATALOG = ROOT / "TidyDesk" / "Resources" / "Assets.xcassets"
 POINTS_PER_CELL = 128  # suggested artboard size per grid cell (see ASSETS.md)
 SYSTEM_SETS = {"AppIcon", "AccentColor"}
 # Baby Corner pictures (BabyStage.assetName): not desk items, square, optional (the app draws the baby until they exist).
-BABY_ASSETS = ["baby_newborn", "baby_infant", "baby_crawler", "baby_toddler"]
+BABY_ASSETS = ["baby_newborn", "baby_infant", "baby_roller", "baby_crawler", "baby_toddler", "baby_explorer"]
 
 
 def level_assets():

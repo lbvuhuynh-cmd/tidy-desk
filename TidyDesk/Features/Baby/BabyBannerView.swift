@@ -14,8 +14,8 @@ struct BabyBannerView: View {
                                          startPoint: .top, endPoint: .bottom))
                 BabyAvatarView(stage: state.stage, outfit: state.equippedOutfit,
                                mood: profile == nil ? .sleepy : .content, size: 60)
-                if profile != nil && (state.wantsFood || state.wantsPlay) {
-                    Text(state.wantsFood ? "🍼" : "🧸")
+                if profile != nil, let wish = state.wish {
+                    Text(wish.emoji)
                         .font(.system(size: 14))
                         .padding(4)
                         .background(Circle().fill(.white).shadow(color: .black.opacity(0.12), radius: 2, y: 1))
@@ -29,15 +29,19 @@ struct BabyBannerView: View {
                     .font(.caption.weight(.semibold))
                     .foregroundStyle(.secondary)
                 if let profile {
-                    Text("\(profile.displayName) · \(state.stage.title)")
+                    Text("\(profile.displayName) · \(BabyGrowth.ageText(months: state.months))")
                         .font(.headline)
                         .lineLimit(1)
-                    ProgressView(value: state.stageProgress)
+                    Text("\(state.stage.title) · 📖 \(state.reachedMilestones.count)/\(BabyMilestones.all.count)")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .lineLimit(1)
+                    ProgressView(value: state.monthProgress)
                         .tint(Theme.accent)
                 } else {
                     Text("Meet your baby!")
                         .font(.headline)
-                    Text("Tidy desks to earn 🪙 for milk, toys and outfits")
+                    Text("Tidy desks to earn 🪙, watch your baby grow month by month")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                         .lineLimit(2)
