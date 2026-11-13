@@ -17,11 +17,11 @@
 ## Giai đoạn 1: Bản beta (làm trước)
 Thứ tự theo **màn xuất hiện sớm nhất** và **số màn có món đó**: món ở màn 2–6 làm trước, vì người chơi gặp ngay.
 
-### Ngày 1: Em bé 2 và 3 · thư mục `tidy-art\baby`
+### ✅ Ngày 1: Em bé 2 và 3 · thư mục `tidy-art\baby`
 | Xong | Lưu thành | Nội dung |
 |---|---|---|
-| [ ] | `baby_infant.jpeg` | Làm lại, bỏ gối |
-| [ ] | `baby_roller.jpeg` | Bé nằm sấp ngẩng đầu |
+| [x] | `baby_infant.jpeg` | Làm lại, bỏ gối |
+| [x] | `baby_roller.jpeg` | Bé nằm sấp ngẩng đầu |
 
 Gửi trong **cuộc trò chuyện đã làm `baby_newborn`**:
 ```
