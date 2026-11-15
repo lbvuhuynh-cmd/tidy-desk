@@ -550,7 +550,7 @@ private struct ProgressSummaryView: View {
 // MARK: - Interaction helpers
 
 /// Cards sink a little under the finger.
-private struct PressableCardStyle: ButtonStyle {
+struct PressableCardStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .scaleEffect(configuration.isPressed ? 0.96 : 1)

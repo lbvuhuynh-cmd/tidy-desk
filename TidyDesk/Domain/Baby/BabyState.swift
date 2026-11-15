@@ -82,6 +82,8 @@ struct BabyState: Equatable {
     static let bathGrowth = 6
     static let bathJoy = 10.0
     static let sleepGrowth = 8
+    /// A grown-up-confirmed good deed also cheers the baby up a little (`logGoodDeed`).
+    static let goodDeedJoy = 10.0
 
     var coins = BabyState.startingCoins
     var growthPoints = 0
@@ -96,6 +98,8 @@ struct BabyState: Equatable {
     var milestoneDates: [String: Date] = [:]
     /// What the baby said at the "First Word" milestone (empty until the player picks).
     var firstWord = ""
+    /// Real-world good deeds ticked off (see `GoodDeed.swift`), last `GoodDeeds.historyDays` days.
+    var goodDeeds: [GoodDeedEntry] = []
     /// TestFlight (`BetaConfig.unlockAllBabyContent`): every item is owned and no age locks apply.
     /// Not saved; `BabyProfile.state` sets it.
     var unlockEverything = false
@@ -144,15 +148,22 @@ struct BabyState: Equatable {
     /// Pays the desk-clear reward and uses up a bit of every need.
     @discardableResult
     mutating func applyClear(stars: Int, isFirstClear: Bool, now: Date = .now) -> BabyReward {
-        var reward = BabyReward.forClear(stars: stars, isFirstClear: isFirstClear)
-        coins += reward.coins
-        let before = Set(milestoneDates.keys)
-        reward.grewTo = grow(by: reward.growth, now: now)
-        reward.newMilestones = BabyMilestones.all.filter { milestoneDates[$0.id] != nil && !before.contains($0.id) }
+        let base = BabyReward.forClear(stars: stars, isFirstClear: isFirstClear)
+        let reward = pay(coins: base.coins, growth: base.growth, now: now)
         tummy = max(Self.needsFloor, tummy - Self.needsPerClear)
         joy = max(Self.needsFloor, joy - Self.needsPerClear)
         clean = max(Self.needsFloor, clean - Self.slowNeedsPerClear)
         rest = max(Self.needsFloor, rest - Self.slowNeedsPerClear)
+        return reward
+    }
+
+    /// Adds coins and growth; the reward says whether a new stage and which Baby Book pages were reached.
+    mutating func pay(coins earned: Int, growth points: Int, now: Date = .now) -> BabyReward {
+        var reward = BabyReward(coins: earned, growth: points)
+        coins += max(0, earned)
+        let before = Set(milestoneDates.keys)
+        reward.grewTo = grow(by: points, now: now)
+        reward.newMilestones = BabyMilestones.all.filter { milestoneDates[$0.id] != nil && !before.contains($0.id) }
         return reward
     }
 

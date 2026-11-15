@@ -122,6 +122,7 @@ final class FeedbackEngine: GameFeedback {
 /// | rocking the cradle (each swing)          | `playSelectionChanged()`      | none         |
 /// | baby falls asleep                        | `playSoftImpact(0.6)`         | `.coo`       |
 /// | milestone reached (Baby Book page)       | `playSuccess()`               | `.complete`  |
+/// | good deed approved by a grown-up         | `playSuccess()`               | `.coin`      |
 @MainActor
 protocol BabyFeedback: AnyObject {
     func bubblePopped()
@@ -130,6 +131,7 @@ protocol BabyFeedback: AnyObject {
     func babyFellAsleep()
     func milestoneReached()
     func coinsEarned()
+    func goodDeedLogged()
     func babyTapped()
     func babyFed()
     func babyPlayed()
@@ -166,6 +168,11 @@ extension FeedbackEngine: BabyFeedback {
 
     func coinsEarned() {
         haptics.playLightImpact()
+        sounds.play(sound: .coin)
+    }
+
+    func goodDeedLogged() {
+        haptics.playSuccess()
         sounds.play(sound: .coin)
     }
 
@@ -214,6 +221,7 @@ final class SilentFeedback: GameFeedback, BabyFeedback {
     func babyFellAsleep() {}
     func milestoneReached() {}
     func coinsEarned() {}
+    func goodDeedLogged() {}
     func babyTapped() {}
     func babyFed() {}
     func babyPlayed() {}

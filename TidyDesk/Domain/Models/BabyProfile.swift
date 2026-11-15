@@ -25,6 +25,9 @@ final class BabyProfile {
     var milestoneIds: [String] = []
     var milestoneDates: [Date] = []
     var firstWord: String = ""
+    // Added with Good Deeds: which deed and when, at the same index (defaults → lightweight migration).
+    var goodDeedIds: [String] = []
+    var goodDeedDates: [Date] = []
 
     init(name: String = "", state: BabyState = BabyState(), createdAt: Date = .now) {
         self.name = name
@@ -41,6 +44,8 @@ final class BabyProfile {
         self.milestoneIds = log.ids
         self.milestoneDates = log.dates
         self.firstWord = state.firstWord
+        self.goodDeedIds = state.goodDeeds.map { $0.deedId }
+        self.goodDeedDates = state.goodDeeds.map { $0.date }
     }
 
     /// Dictionary → two parallel arrays (plain arrays store reliably in SwiftData), sorted by date then id.
@@ -67,6 +72,7 @@ final class BabyProfile {
             value.unlockedItemIds = Set(unlockedItemIds).union(BabyCatalog.starterItemIds)
             value.milestoneDates = dates
             value.firstWord = firstWord
+            value.goodDeeds = zip(goodDeedIds, goodDeedDates).map { GoodDeedEntry(deedId: $0.0, date: $0.1) }
             value.unlockEverything = BetaConfig.unlockAllBabyContent
             return value
         }
@@ -85,6 +91,12 @@ final class BabyProfile {
                 milestoneDates = log.dates
             }
             firstWord = newValue.firstWord
+            let deedIds = newValue.goodDeeds.map { $0.deedId }
+            let deedDates = newValue.goodDeeds.map { $0.date }
+            if deedIds != goodDeedIds || deedDates != goodDeedDates {
+                goodDeedIds = deedIds
+                goodDeedDates = deedDates
+            }
         }
     }
 
@@ -128,5 +140,15 @@ enum BabyStore {
         let reward = profile.update { $0.applyClear(stars: stars, isFirstClear: isFirstClear) }
         try? context.save()
         return reward
+    }
+
+    /// Ticks off a good deed a grown-up confirmed, and saves.
+    @MainActor
+    @discardableResult
+    static func logGoodDeed(_ deed: GoodDeed, in context: ModelContext, now: Date = .now) -> GoodDeedResult {
+        let profile = profile(in: context)
+        let result = profile.update { $0.logGoodDeed(deed, now: now) }
+        if result.isDone { try? context.save() }
+        return result
     }
 }

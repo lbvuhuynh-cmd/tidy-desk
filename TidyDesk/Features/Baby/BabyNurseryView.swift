@@ -89,6 +89,7 @@ struct BabyNurseryView: View {
     @State private var showNaming = false
     @State private var didAskName = false
     @State private var showBook = false
+    @State private var showDeeds = false
     // Bath
     @State private var bubbles: [Bubble] = []
     // Sleep
@@ -119,7 +120,8 @@ struct BabyNurseryView: View {
                 profile.name = debugName
                 try? modelContext.save()
             }
-            // `-babyMonths 8` sets the age (once per launch), `-openBabyBook YES` opens the Baby Book.
+            // `-babyMonths 8` sets the age (once per launch), `-openBabyBook YES` opens the Baby Book,
+            // `-openGoodDeeds YES` opens Good Deeds.
             let debugMonths = UserDefaults.standard.integer(forKey: "babyMonths")
             if debugMonths > 0, profile.state.months != debugMonths {
                 profile.update { $0.setAgeForTesting(months: debugMonths) }
@@ -127,6 +129,9 @@ struct BabyNurseryView: View {
             }
             if UserDefaults.standard.bool(forKey: "openBabyBook") {
                 showBook = true
+            }
+            if UserDefaults.standard.bool(forKey: "openGoodDeeds") {
+                showDeeds = true
             }
             #endif
             if profile.name.isEmpty && !didAskName {
@@ -148,6 +153,9 @@ struct BabyNurseryView: View {
             if let profile = profiles.first {
                 BabyBookView(state: profile.state, name: profile.displayName)
             }
+        }
+        .sheet(isPresented: $showDeeds) {
+            GoodDeedsView(feedback: feedback)
         }
         .overlay {
             if let celebration, let profile = profiles.first {
@@ -213,6 +221,13 @@ struct BabyNurseryView: View {
                 .lineLimit(1)
                 .minimumScaleFactor(0.8)
             Spacer(minLength: 4)
+            Button { showDeeds = true } label: {
+                Text("💛")
+                    .font(.system(size: 22))
+                    .frame(width: 40, height: 40)
+                    .background(Circle().fill(Theme.card))
+            }
+            .accessibilityLabel(Text("Good Deeds"))
             Button { showBook = true } label: {
                 Text("📖")
                     .font(.system(size: 22))
@@ -1005,7 +1020,7 @@ private struct BetaBabyPanel: View {
 }
 
 /// A heart / food emoji that floats up from the baby and fades.
-private struct FloatingEmoji: View {
+struct FloatingEmoji: View {
     let emoji: String
     let x: CGFloat
     let reduceMotion: Bool

@@ -25,6 +25,7 @@ Mục tiêu: bản TestFlight chơi mượt, không lỗi, có ý kiến ngườ
 
 ## Giai đoạn 2: Baby Corner giai đoạn B và C
 Mục tiêu: người chơi muốn quay lại mỗi ngày, nhưng không bị phạt khi vắng mặt.
+- [x] **Việc tốt ngoài đời (Good Deeds):** bảng sticker, phụ huynh xác nhận, 1 lần/ngày, thưởng xu (chờ build)
 - [x] **Bé sinh động:** thở, chớp mắt, ngáp, lắc lư; vỗ tay reo hò khi vừa qua màn (chờ build)
 - [ ] **Bưu thiếp sau khi qua màn:** ảnh bàn vừa dọn + bé ở góc + sao, chia sẻ bằng ShareLink (cần cổng phụ huynh nếu vào mục Kids)
 - [ ] Rà âm thanh / rung Tắm và Ru ngủ (làm cùng đợt thay âm thanh thật, thử trên iPhone thật)
