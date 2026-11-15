@@ -17,6 +17,9 @@ struct BabyNurseryView: View {
 
     /// `nil` = `FeedbackEngine.shared` (resolved on the main actor; tests and previews pass `SilentFeedback`).
     var feedback: BabyFeedback?
+    /// Shown as the "Baby" tab (`RootTabView`): no back button, and Good Deeds has its own tab.
+    /// `false` = pushed from somewhere (previews, older flows): back button + 💛 shortcut.
+    var isTab = false
 
     private var fx: BabyFeedback { feedback ?? FeedbackEngine.shared }
 
@@ -115,22 +118,13 @@ struct BabyNurseryView: View {
         .onAppear {
             let profile = BabyStore.profile(in: modelContext)
             #if DEBUG
-            // Screenshot helper (MAC_BUILD.md): `-babyName Bean` names the baby so the naming sheet is skipped.
-            if profile.name.isEmpty, let debugName = UserDefaults.standard.string(forKey: "babyName"), !debugName.isEmpty {
-                profile.name = debugName
-                try? modelContext.save()
-            }
-            // `-babyMonths 8` sets the age (once per launch), `-openBabyBook YES` opens the Baby Book,
-            // `-openGoodDeeds YES` opens Good Deeds.
-            let debugMonths = UserDefaults.standard.integer(forKey: "babyMonths")
-            if debugMonths > 0, profile.state.months != debugMonths {
-                profile.update { $0.setAgeForTesting(months: debugMonths) }
-                try? modelContext.save()
-            }
+            // Screenshot helpers (MAC_BUILD.md): `-babyName` / `-babyMonths` (see `DebugLaunch`),
+            // `-openBabyBook YES` opens the Baby Book.
+            DebugLaunch.prepareBaby(profile, in: modelContext)
             if UserDefaults.standard.bool(forKey: "openBabyBook") {
                 showBook = true
             }
-            if UserDefaults.standard.bool(forKey: "openGoodDeeds") {
+            if !isTab, UserDefaults.standard.bool(forKey: "openGoodDeeds") {
                 showDeeds = true
             }
             #endif
@@ -209,25 +203,29 @@ struct BabyNurseryView: View {
 
     private func topBar(state: BabyState) -> some View {
         HStack(spacing: 10) {
-            Button { dismiss() } label: {
-                Image(systemName: "chevron.left")
-                    .font(.headline)
-                    .frame(width: 40, height: 40)
-                    .background(Circle().fill(Theme.card))
+            if !isTab {
+                Button { dismiss() } label: {
+                    Image(systemName: "chevron.left")
+                        .font(.headline)
+                        .frame(width: 40, height: 40)
+                        .background(Circle().fill(Theme.card))
+                }
+                .accessibilityLabel(Text("Back to desks"))
             }
-            .accessibilityLabel(Text("Back to desks"))
             Text("Baby Corner")
                 .font(.title2.bold())
                 .lineLimit(1)
                 .minimumScaleFactor(0.8)
             Spacer(minLength: 4)
-            Button { showDeeds = true } label: {
-                Text("💛")
-                    .font(.system(size: 22))
-                    .frame(width: 40, height: 40)
-                    .background(Circle().fill(Theme.card))
+            if !isTab {
+                Button { showDeeds = true } label: {
+                    Text("💛")
+                        .font(.system(size: 22))
+                        .frame(width: 40, height: 40)
+                        .background(Circle().fill(Theme.card))
+                }
+                .accessibilityLabel(Text("Good Deeds"))
             }
-            .accessibilityLabel(Text("Good Deeds"))
             Button { showBook = true } label: {
                 Text("📖")
                     .font(.system(size: 22))

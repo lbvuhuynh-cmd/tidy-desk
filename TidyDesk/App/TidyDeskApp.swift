@@ -12,7 +12,7 @@ struct TidyDeskApp: App {
 
     var body: some Scene {
         WindowGroup {
-            LevelSelectView()
+            RootTabView()
                 .environment(levelManager)
                 // Decode every SFX and wake the audio hardware while the player is still on the level list,
                 // so the very first pick-up / snap plays instantly.

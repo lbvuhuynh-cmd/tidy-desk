@@ -15,6 +15,8 @@ struct LevelSelectView: View {
     @Query private var progress: [LevelProgress]
     @Query(sort: \BabyProfile.createdAt) private var babies: [BabyProfile]
     @State private var showNursery = false
+    /// Switches to the Baby tab (`RootTabView`). `nil` (previews): the banner pushes Baby Corner instead.
+    var onOpenBaby: (() -> Void)? = nil
 
     @State private var path: [LevelRoute] = []
     /// Per-card shake counters (locked taps).
@@ -47,7 +49,7 @@ struct LevelSelectView: View {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 18) {
                         header
-                        Button { showNursery = true } label: { BabyBannerView(profile: babies.first) }
+                        Button { openBaby() } label: { BabyBannerView(profile: babies.first) }
                             .buttonStyle(PressableCardStyle())
                         if !levelManager.availableLevels.isEmpty {
                             ProgressSummaryView(cleared: completedIds.intersection(Set(levelManager.availableLevels.map(\.levelId))).count,
@@ -96,8 +98,8 @@ struct LevelSelectView: View {
                 didOpenDebugLevel = true   // only on launch, not every time the menu reappears
                 path = [LevelRoute(levelId: debugLevel)]
             }
-            // `-openNursery YES` opens Baby Corner (screenshots).
-            if UserDefaults.standard.bool(forKey: "openNursery"), !didOpenDebugLevel {
+            // `-openNursery YES` opens Baby Corner (screenshots); with tabs, `RootTabView` handles it.
+            if onOpenBaby == nil, UserDefaults.standard.bool(forKey: "openNursery"), !didOpenDebugLevel {
                 didOpenDebugLevel = true
                 showNursery = true
             }
@@ -111,6 +113,10 @@ struct LevelSelectView: View {
                 detectNewUnlocks(animated: true)
             }
         }
+    }
+
+    private func openBaby() {
+        if let onOpenBaby { onOpenBaby() } else { showNursery = true }
     }
 
     // MARK: Sections

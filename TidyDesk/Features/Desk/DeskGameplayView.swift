@@ -39,9 +39,12 @@ struct DeskGameplayView: View {
             ZStack {
                 VStack(spacing: 12) {
                     header
+                    // Spare height goes above the desk, so desk and drawer sit together near the thumb
+                    // (wide 8-column desks are width-limited and used to leave a big gap between them).
                     Spacer(minLength: 4)
                     DeskSurfaceView(vm: vm, cellSize: cell)
                     Spacer(minLength: 4)
+                        .frame(maxHeight: 20)
                     AccessoryDrawerView(vm: vm, cellSize: drawerCell)
                 }
                 .padding(.horizontal, 16)
@@ -84,6 +87,7 @@ struct DeskGameplayView: View {
             .ignoresSafeArea()
         }
         .toolbar(.hidden, for: .navigationBar)
+        .toolbar(.hidden, for: .tabBar)   // the whole screen is the desk
         .onAppear {
             levelManager.loadLevel(id: vm.level.levelId)
             // Warm up audio + Taptic Engine before the first touch on this desk.
@@ -135,13 +139,11 @@ struct DeskGameplayView: View {
                 Text("Level \(levelManager.displayNumber(of: vm.level.levelId))")
                     .font(.caption.weight(.semibold))
                     .foregroundStyle(.secondary)
-                // Long names ("Streamer Corner", "Gaming Battlestation") wrap to a second line
-                // instead of truncating next to the clock / moves / menu pills.
+                // One line: long names ("Gaming Battlestation") shrink to fit next to the clock / moves / menu.
                 Text(vm.level.levelName)
                     .font(.headline)
-                    .lineLimit(2)
-                    .minimumScaleFactor(0.85)
-                    .fixedSize(horizontal: false, vertical: true)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.6)
             }
             .layoutPriority(1)
 
@@ -151,7 +153,7 @@ struct DeskGameplayView: View {
             TimelineView(.periodic(from: .now, by: 1)) { context in
                 Label(ScoreCalculator.formatTime(vm.elapsed(at: context.date)), systemImage: "timer")
                     .font(.subheadline.monospacedDigit().weight(.semibold))
-                    .padding(.horizontal, 10)
+                    .padding(.horizontal, 8)
                     .padding(.vertical, 8)
                     .background(Capsule().fill(Theme.card))
                     .fixedSize()  // never squeezed by the (higher-priority) title
@@ -162,7 +164,7 @@ struct DeskGameplayView: View {
                 .font(.subheadline.monospacedDigit().weight(.semibold))
                 .contentTransition(.numericText())
                 .animation(.snappy, value: vm.moves)
-                .padding(.horizontal, 10)
+                .padding(.horizontal, 8)
                 .padding(.vertical, 8)
                 .background(Capsule().fill(Theme.card))
                 .fixedSize()

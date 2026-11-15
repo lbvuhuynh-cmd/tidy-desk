@@ -9,6 +9,8 @@ import SwiftData
 struct GoodDeedsView: View {
     /// `nil` = `FeedbackEngine.shared` (previews and tests pass `SilentFeedback`).
     var feedback: BabyFeedback?
+    /// Shown as the "Deeds" tab (`RootTabView`): no Done button. `false` = presented as a sheet.
+    var isTab = false
 
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
@@ -60,8 +62,10 @@ struct GoodDeedsView: View {
             .navigationTitle("Good Deeds")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .confirmationAction) {
-                    Button("Done") { dismiss() }
+                if !isTab {
+                    ToolbarItem(placement: .confirmationAction) {
+                        Button("Done") { dismiss() }
+                    }
                 }
             }
             .overlay(alignment: .bottom) { noteToast }
@@ -69,7 +73,12 @@ struct GoodDeedsView: View {
         .sheet(item: $gateDeed) { deed in
             ParentGateView(deed: deed) { approve(deed, name: name) }
         }
-        .onAppear { _ = BabyStore.profile(in: modelContext) }
+        .onAppear {
+            let profile = BabyStore.profile(in: modelContext)
+            #if DEBUG
+            DebugLaunch.prepareBaby(profile, in: modelContext)
+            #endif
+        }
     }
 
     private func header(state: BabyState, name: String) -> some View {

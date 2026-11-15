@@ -39,6 +39,7 @@ struct BabyAvatarView: View {
     private static let hair = Color(red: 0.45, green: 0.32, blue: 0.24)
     private static let cheek = Color(red: 1.0, green: 0.6, blue: 0.62)
     private static let ink = Color(red: 0.3, green: 0.22, blue: 0.2)
+    private static let outline = Color(red: 0.55, green: 0.4, blue: 0.32).opacity(0.55)
 
     var body: some View {
         Group {
@@ -129,13 +130,15 @@ struct BabyAvatarView: View {
     @ViewBuilder
     private func bodyShape(s: CGFloat) -> some View {
         let fill = outfitColor
-        let edge = fill.opacity(0.6)
+        // A warm, see-through brown outline: visible on any outfit colour, including the cream onesie on the
+        // cream nursery wall (it used to be a lighter shade of the fill and the body disappeared).
+        let edge = Self.outline
         switch stage {
         case .newborn:
             // Swaddle: a soft bean wrapped around the body.
             Capsule()
                 .fill(fill)
-                .overlay(Capsule().strokeBorder(edge, lineWidth: s * 0.015))
+                .overlay(Capsule().strokeBorder(edge, lineWidth: s * 0.02))
                 .overlay(
                     // Wrap fold.
                     Capsule().fill(.white.opacity(0.35)).frame(width: s * 0.5, height: s * 0.06).rotationEffect(.degrees(-18))
@@ -147,7 +150,7 @@ struct BabyAvatarView: View {
             ZStack {
                 limb(w: s * 0.13, h: s * 0.24).rotationEffect(.degrees(30)).offset(x: -s * 0.27, y: s * 0.12)
                 limb(w: s * 0.13, h: s * 0.24).rotationEffect(.degrees(-30)).offset(x: s * 0.27, y: s * 0.12)
-                Ellipse().fill(fill).overlay(Ellipse().strokeBorder(edge, lineWidth: s * 0.015))
+                Ellipse().fill(fill).overlay(Ellipse().strokeBorder(edge, lineWidth: s * 0.02))
                     .frame(width: s * 0.52, height: s * 0.48).offset(y: s * 0.18)
                 foot(s: s).offset(x: -s * 0.14, y: s * 0.4)
                 foot(s: s).offset(x: s * 0.14, y: s * 0.4)
@@ -157,7 +160,7 @@ struct BabyAvatarView: View {
             ZStack {
                 foot(s: s).offset(x: -s * 0.36, y: s * 0.26)
                 foot(s: s).offset(x: s * 0.36, y: s * 0.26)
-                Capsule().fill(fill).overlay(Capsule().strokeBorder(edge, lineWidth: s * 0.015))
+                Capsule().fill(fill).overlay(Capsule().strokeBorder(edge, lineWidth: s * 0.02))
                     .frame(width: s * 0.78, height: s * 0.3).offset(y: s * 0.3)
                 hand(s: s).offset(x: -s * 0.22, y: s * 0.4)
                 hand(s: s).offset(x: s * 0.22, y: s * 0.4)
@@ -165,7 +168,7 @@ struct BabyAvatarView: View {
         case .crawler:
             // On hands and knees: wide body, hands in front.
             ZStack {
-                Ellipse().fill(fill).overlay(Ellipse().strokeBorder(edge, lineWidth: s * 0.015))
+                Ellipse().fill(fill).overlay(Ellipse().strokeBorder(edge, lineWidth: s * 0.02))
                     .frame(width: s * 0.74, height: s * 0.42).offset(y: s * 0.2)
                 hand(s: s).offset(x: -s * 0.2, y: s * 0.4)
                 hand(s: s).offset(x: s * 0.2, y: s * 0.4)
@@ -175,10 +178,10 @@ struct BabyAvatarView: View {
             ZStack {
                 limb(w: s * 0.13, h: s * 0.26).rotationEffect(.degrees(25)).offset(x: -s * 0.25, y: s * 0.06)
                 limb(w: s * 0.13, h: s * 0.26).rotationEffect(.degrees(-25)).offset(x: s * 0.25, y: s * 0.06)
-                Capsule().fill(fill).frame(width: s * 0.15, height: s * 0.26).offset(x: -s * 0.1, y: s * 0.34)
-                Capsule().fill(fill).frame(width: s * 0.15, height: s * 0.26).offset(x: s * 0.1, y: s * 0.34)
+                Capsule().fill(fill).overlay(Capsule().strokeBorder(edge, lineWidth: s * 0.02)).frame(width: s * 0.15, height: s * 0.26).offset(x: -s * 0.1, y: s * 0.34)
+                Capsule().fill(fill).overlay(Capsule().strokeBorder(edge, lineWidth: s * 0.02)).frame(width: s * 0.15, height: s * 0.26).offset(x: s * 0.1, y: s * 0.34)
                 RoundedRectangle(cornerRadius: s * 0.16, style: .continuous).fill(fill)
-                    .overlay(RoundedRectangle(cornerRadius: s * 0.16, style: .continuous).strokeBorder(edge, lineWidth: s * 0.015))
+                    .overlay(RoundedRectangle(cornerRadius: s * 0.16, style: .continuous).strokeBorder(edge, lineWidth: s * 0.02))
                     .frame(width: s * 0.44, height: s * 0.4).offset(y: s * 0.12)
                 foot(s: s).offset(x: -s * 0.11, y: s * 0.47)
                 foot(s: s).offset(x: s * 0.11, y: s * 0.47)
@@ -188,7 +191,9 @@ struct BabyAvatarView: View {
     }
 
     private func limb(w: CGFloat, h: CGFloat) -> some View {
-        Capsule().fill(outfitColor).frame(width: w, height: h)
+        Capsule().fill(outfitColor)
+            .overlay(Capsule().strokeBorder(Self.outline, lineWidth: max(1, w * 0.12)))
+            .frame(width: w, height: h)
             .overlay(alignment: .bottom) { Circle().fill(Self.skin).frame(width: w * 0.9, height: w * 0.9).offset(y: w * 0.2) }
     }
 
