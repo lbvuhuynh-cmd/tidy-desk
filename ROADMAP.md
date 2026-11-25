@@ -6,7 +6,7 @@
 - **Chơi:** 38 màn, 4 chương (First Desks, Office Hours, Gaming Den, Garden Corner), kéo thả, xoay, sao, điểm. 4 chương mở từ đầu, trong chương mở lần lượt (đang mở hết cho TestFlight).
 - **Baby Corner:** bé lớn theo tháng (0–36), 6 giai đoạn, 18 cột mốc và Sổ tay em bé; ăn, chơi, tắm, ru ngủ, thay đồ.
 - **Hình:** 41/41 hình thiết bị và đồ vườn (vài món cần vẽ lại), 3/6 hình em bé; bé ở giai đoạn chưa có hình thì vẽ bằng code.
-- **TestFlight:** bản 6 đã lên app **Wrapper Test New** (`com.powervh.wrapper.test.beta`); bản sau là 7.
+- **TestFlight:** bản 6–7 trên app **Wrapper Test New** (`com.powervh.wrapper.test.beta`); từ bản 8 dùng bundle mới `com.powervh.wrapper.test.beta1` (cần app ASC mới, xem PROJECT_NOTES mục 5b).
 
 ---
 
