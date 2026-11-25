@@ -1,6 +1,6 @@
 # Tidy Desk: Tech & Setup — Ghi chú dự án
 
-> Cập nhật: 2026-11-15 · Trạng thái: build OK + 107/108 test pass, 1 skip (ArtPreviewTests, đúng thiết kế) trên Mac ở commit `5a322ed` (38 màn / 4 chương, Baby Corner giai đoạn A, bé sinh động). **Chưa build:** Việc tốt (`31b700d`), 3 tab + chỉnh giao diện (`760771f`) → TestFlight bản 8 (bundle mới `com.powervh.wrapper.test.beta1`, mục 5b). `tools/check_levels.py`: 38/38 OK · `tools/check_assets.py`: 41/41 hình (16 WARN tỉ lệ). Ảnh: `screenshots/`.
+> Cập nhật: 2026-11-24 · Trạng thái: build OK + 117/118 test pass, 1 skip (ArtPreviewTests, đúng thiết kế) trên Mac ở commit `775f01d` (3 tab, Good Deeds + ParentGate). `tools/check_levels.py`: 38/38 OK · `tools/check_assets.py`: 41/41 hình (16 WARN tỉ lệ). Ảnh: `screenshots/`.
 
 ## 1. App này là gì
 Game giải đố "dọn dẹp" (Cozy Tidy / Organization Puzzle) cho iOS 17+, chủ đề **bàn làm việc / góc setup công nghệ**. Mỗi màn bắt đầu với một bàn bừa bộn: vài món đã nằm sẵn sai chỗ trên bàn, các món còn lại ở **ngăn kéo phụ kiện** (Accessory Drawer) phía dưới. Người chơi kéo thả để mọi thứ vừa khít mặt bàn, không đè nhau, không tràn viền. Xếp đủ là qua màn ("Setup Complete!"). Giao diện tiếng Anh, nhắm thị trường toàn cầu.
@@ -49,15 +49,16 @@ Lộ trình đầy đủ theo giai đoạn: [ROADMAP.md](ROADMAP.md).
 8. **Kiếm tiền (chưa chốt, xem `ROADMAP.md`):** đề xuất tải miễn phí + mua một lần mở toàn bộ (~2,99–4,99 USD), không quảng cáo; kiểm chứng trước bằng ý kiến người thử TestFlight và vài video ngắn cảnh dọn bàn.
 
 ## 5. Kết quả build/test trên Mac
-- **Ngày:** 2026-11-13 · **Commit đã build:** `5a322ed` (bé sinh động, thanh mờ sau status bar ở menu) · **Xcode:** 26.5 (17F42), iOS Simulator 26.5, iPhone 17. Làm theo `MAC_BUILD.md`.
-- **Build app:** OK ngay lần đầu, không lỗi, không warning trong code dự án hay asset catalog. **Không phải sửa file nào.**
-- **Test:** 108 test: **107 pass, 0 fail, 1 skip** (`ArtPreviewTests`, chỉ chạy khi bật `TEST_RUNNER_TIDY_SNAPSHOTS=1`). Dòng log "level_7.json: duplicate levelId 1" là do `LevelManagerTests` cố tình tạo file hỏng.
-- **Dữ liệu:** `check_levels.py` **38/38 OK**. `check_assets.py`: **41/41** hình (16 WARN tỉ lệ, không đổi: nặng nhất `grow_light` ~31%, `monitor` ~40%, `monitor_ultrawide` ~45%, `power_strip` ~63%).
-- **Ảnh từng hình (`screenshots/art/`):** 41 file + 2 tấm tổng hợp, không đổi so với `5e1f64b`.
-- **Ảnh app (`screenshots/app/`):** đủ 9 ảnh theo MAC_BUILD. Nhận xét:
-  - Menu: lần này mở ở đầu danh sách: tiêu đề "Tidy Desk", dòng "Test build · all levels unlocked", banner Baby Corner (bé 8 tháng, 9/18 trang, 20 xu), thẻ tổng "2 / 38 desks · 4 / 114 sao", Continue, tiêu đề chương 1. Thanh trạng thái có dải nền mờ riêng (`b8cf1d3`); không còn cảnh thẻ chạy dưới đồng hồ.
-  - Phòng bé: ảnh chụp đúng lúc bé đang chớp mắt (mắt khép hờ), tức hoạt ảnh `LivelyBabyView` chạy. Thở / ngáp / vỗ tay chỉ thấy được khi xem trên máy.
-  - Các màn chơi, phòng bé tối, Sổ tay em bé: như lần trước, không có gì vỡ.
+- **Ngày:** 2026-11-24 · **Commit đã build:** `775f01d` (gồm `31b700d` Good Deeds + ParentGate, `760771f` 3 tab Desks/Baby/Deeds) · **Xcode:** 26.5 (17F42), iOS Simulator 26.5, iPhone 17. Làm theo `MAC_BUILD.md`.
+- **Build app:** OK ngay lần đầu (đã `xcodegen generate` cho file mới), không lỗi, không warning trong code dự án hay asset catalog. **Không phải sửa file nào.**
+- **Test:** **118 test** (đúng kỳ vọng): **117 pass, 0 fail, 1 skip** (`ArtPreviewTests`, chỉ chạy khi bật `TEST_RUNNER_TIDY_SNAPSHOTS=1`). `GoodDeedTests` mới pass hết.
+- **Dữ liệu:** `check_levels.py` **38/38 OK**. `check_assets.py`: **41/41** hình (16 WARN tỉ lệ, không đổi).
+- **Ảnh từng hình (`screenshots/art/`):** 41 file + 2 tấm tổng hợp, không đổi.
+- **Ảnh app (`screenshots/app/`):** đủ 10 ảnh theo MAC_BUILD (mới: `gooddeeds_light`). Nhận xét:
+  - Thanh tab nổi Desks / Baby / Deeds hiện ở menu, phòng bé và Good Deeds; ẩn trong màn chơi (đúng).
+  - Màn chơi: tiêu đề một dòng "Streamer Corner" vừa khít cạnh đồng hồ / số nước; khoảng cách bàn – ngăn kéo cân đối.
+  - Phòng bé: bé có viền nâu nhạt, tách rõ khỏi nền pastel.
+  - Good Deeds: thẻ bé + 20 xu, 4 việc tốt (Exercise +10, Helped at home +15, School +20, Kind +10 · 0/2 today), "This week 0 ⭐". **Lỗi nhỏ:** dòng chữ hồng nhạt "Test build · … daily …" ở cuối danh sách nằm **dưới thanh tab**, chữ lộ qua nền mờ của tab → cần thêm khoảng đệm dưới (`safeAreaInset`/padding bằng chiều cao thanh tab) cho ScrollView của Good Deeds (có thể cả menu và phòng bé).
 
 ## 5b. TestFlight (bản thử, mượn team RETALIX USA, INC)
 - **Bundle ID beta hiện tại: `com.powervh.wrapper.test.beta1`** (đổi 2026-11-24 theo yêu cầu người dùng, áp dụng từ build 8), team `62SFVG2ZD8` (tài khoản Xcode `vu.huynh@ncr.com`). **Trước khi upload lần đầu với bundle này:** phải có app trên App Store Connect gắn bundle `com.powervh.wrapper.test.beta1` (Apps › + › New App; nếu bundle chưa có trong danh sách thì đăng ký ở Certificates, Identifiers & Profiles › Identifiers, hoặc để `xcodebuild -allowProvisioningUpdates` tự đăng ký khi archive rồi tạo app ASC). Chưa có app thì upload báo lỗi không tìm thấy app: báo người dùng, đừng tự đổi sang bundle khác. Ghi tên app / Apple ID / SKU mới vào đây khi tạo xong.
@@ -74,6 +75,7 @@ xcodebuild -exportArchive -archivePath <tmp>/TidyDesk.xcarchive -exportOptionsPl
 - Icon hiện là icon tạm do `tools/generate_icon.py` vẽ (1024×1024, không alpha). Thay icon thật: ghi đè `Assets.xcassets/AppIcon.appiconset/AppIcon.png`.
 
 ## Lịch sử
+- 2026-11-24 (Build Mac `775f01d`): Good Deeds + 3 tab build OK không cần sửa gì, 117/118 pass + 1 skip. Chụp lại `screenshots/` (thêm `gooddeeds_light`).
 - 2026-11-24 (TestFlight): đổi bundle ID beta sang **`com.powervh.wrapper.test.beta1`** theo yêu cầu người dùng, áp dụng từ build 8 (mục 5b). Cần app App Store Connect mới gắn bundle này trước khi upload. App Wrapper Test New (`com.powervh.wrapper.test.beta`) dừng ở build 7.
 - 2026-11-15 (Thanh tab + chỉnh giao diện, **chưa build**): app chia **3 tab** (`RootTabView`): **Desks** (menu màn chơi; banner bé giờ chuyển sang tab Baby), **Baby** (phòng bé, không còn nút Back / nút 💛), **Deeds** (Việc tốt, không còn nút Done). Thanh tab ẩn khi đang chơi một màn. Cờ Debug `-openNursery` / `-openGoodDeeds` mở thẳng tab tương ứng; `-babyName` / `-babyMonths` gom vào `DebugLaunch.prepareBaby`. Sửa từ ảnh bản 7: (1) bé vẽ bằng code có **viền nâu ấm** (cả tay, chân) nên thân bé không còn chìm vào nền kem; (2) màn chơi: khoảng trống dư dồn lên trên bàn, bàn và ngăn kéo nằm sát nhau (≤ 20 pt); (3) tên màn **1 dòng** (tự thu nhỏ tới 60%), viên đồng hồ / số nước hẹp hơn.
 - 2026-11-15 (Việc tốt / Good Deeds, **chưa build**): bảng sticker việc tốt ngoài đời, mở bằng nút 💛 trong phòng bé (`GoodDeedsView`). 4 việc mặc định (`GoodDeeds`): 🏃 Exercise +10, 🧹 Helped at home +15, 📚 Good job at school +20, 💛 Kind or shared +10. Mỗi việc **1 lần/ngày** (Kindness 2 lần); **cổng phụ huynh** (`ParentGateView`): nhập kết quả phép nhân (đáp số 2 chữ số) rồi giữ nút 2 giây. Điểm → xu 1:1 + nửa số điểm thành điểm lớn, +10 vui; bé vỗ tay, tim/xu bay, có thể ra trang Sổ tay. Dòng "This week" hiện sticker 7 ngày. Chỉ lưu id việc + ngày trên máy (`BabyProfile.goodDeedIds/Dates`, mặc định rỗng → migrate tự động; giữ 60 ngày). Beta (`unlockAllBabyContent`): bỏ giới hạn mỗi ngày để test. Luật ở `BabyState.logGoodDeed` (+ helper `pay`), rung/âm `BabyFeedback.goodDeedLogged`. Test mới `GoodDeedTests` (10). Cờ Debug `-openGoodDeeds YES`, MAC_BUILD chụp thêm `gooddeeds_light`.
